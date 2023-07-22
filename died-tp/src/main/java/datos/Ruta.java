@@ -5,4 +5,7 @@ public class Ruta {
 	private Sucursal destino;
 	private Operatividad estado;
 	private Integer duracion; //Unidad: minutos
+	
+	public Sucursal getOrigen() {return this.origen;}
+	public Sucursal getDestino() {return this.destino;}
 }
