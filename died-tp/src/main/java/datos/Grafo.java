@@ -1,6 +1,7 @@
 package datos;
 
 import java.util.*;
+import java.util.stream.*;
 
 public class Grafo {
 	private List<Sucursal> vertices;
@@ -12,11 +13,15 @@ public class Grafo {
 	}
 	
 	public List<Sucursal> getAdyacentes(Sucursal suc) {
-		ArrayList<Sucursal> sol = new ArrayList<Sucursal>();
-		for(Ruta rut : this.aristas) {
-			if(rut.getOrigen().equals(suc))
-				sol.add(rut.getDestino());
-		}
-		return sol;
+		return this.aristas.stream().
+							filter(rut -> rut.getOrigen().equals(suc)).
+							map(rut -> rut.getDestino()).
+							collect(Collectors.toList());
+	}
+	
+	public long gradoSalida(Sucursal suc) {
+		return this.aristas.stream().
+							filter(rut -> rut.getOrigen().equals(suc)).
+							count();
 	}
 }
