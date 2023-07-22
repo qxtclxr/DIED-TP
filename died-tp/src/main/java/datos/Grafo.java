@@ -12,16 +12,53 @@ public class Grafo {
 		this.aristas = new ArrayList<Ruta>();
 	}
 	
-	public List<Sucursal> getAdyacentes(Sucursal suc) {
+	public List<Ruta> rutasSalientes(Sucursal suc) {
 		return this.aristas.stream().
 							filter(rut -> rut.getOrigen().equals(suc)).
-							map(rut -> rut.getDestino()).
 							collect(Collectors.toList());
 	}
 	
-	public long gradoSalida(Sucursal suc) {
-		return this.aristas.stream().
-							filter(rut -> rut.getOrigen().equals(suc)).
-							count();
+	public Integer gradoSalida(Sucursal suc) {
+		Integer sol = 0;
+		for(Ruta rut : this.aristas) {
+			if(rut.getOrigen().equals(suc))
+				sol++;
+		}
+		return sol;
+	}
+	
+	public Integer gradoEntrada(Sucursal suc) {
+		Integer sol = 0;
+		for(Ruta rut : this.aristas) {
+			if(rut.getDestino().equals(suc))
+				sol++;
+		}
+		return sol;
+	}
+	
+	public Map<List<Sucursal>,Integer> caminosEntreDosSucursales(Sucursal ini, Sucursal fin){
+		Map<List<Sucursal>,Integer> sol = new HashMap<List<Sucursal>,Integer>();
+		caminosEntreDosSucursales(ini,fin,new ArrayList<Sucursal>(),0,sol);
+		return sol;
+	}
+	
+	private void caminosEntreDosSucursales
+	(Sucursal actual,Sucursal fin, List<Sucursal> caminoActual, Integer duracion, Map<List<Sucursal>,Integer> sol) {
+		caminoActual.add(actual);
+		if(actual.equals(fin)) {
+			sol.put(caminoActual,duracion);
+			return;
+		}
+		for(Ruta rut : this.rutasSalientes(actual)) {
+			if(!caminoActual.contains(rut.getDestino())) {
+				caminosEntreDosSucursales(
+						rut.getDestino(),
+						fin,
+						caminoActual.stream().collect(Collectors.toList()),
+						duracion+rut.getDuracion(),
+						sol);
+			}
+		}
+		return;
 	}
 }
