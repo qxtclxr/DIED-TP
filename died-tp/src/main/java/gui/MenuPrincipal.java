@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,6 +7,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JSeparator;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTabbedPane;
@@ -33,15 +32,21 @@ public class MenuPrincipal extends JFrame {
 	 */
 	public MenuPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		inicializarComponentes();
+		
+		setTitle("SGL (Sistema de Gestion Logistico)");
+		setLocationRelativeTo(null);
+		setResizable(false);
+	}
+	
+	public void inicializarComponentes() {
 		setBounds(100, 100, 800, 500);
 		panelPrincipal = new JPanel();
 		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(panelPrincipal);
 		panelPrincipal.setLayout(null);
-		
-		setTitle("SGL (Sistema de Gestion Logistico)");
-		setLocationRelativeTo(null);
 		
 		JLabel tituloSiglas = new JLabel("SGL");
 		tituloSiglas.setVerticalAlignment(SwingConstants.TOP);
@@ -69,11 +74,7 @@ public class MenuPrincipal extends JFrame {
 		menuSucursal.setLayout(null);
 		
 		JButton btnAltaDeSucursales = new JButton("Alta de sucursales");
-		btnAltaDeSucursales.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
+		btnAltaDeSucursales.addActionListener(action -> altaDeSucursales());
 		btnAltaDeSucursales.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 		btnAltaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnAltaDeSucursales.setBounds(10, 21, 739, 23);
@@ -86,10 +87,6 @@ public class MenuPrincipal extends JFrame {
 		menuSucursal.add(lblAltaDeSucursales);
 		
 		JButton btnConsultaDeSucursales = new JButton("Consulta de sucursales");
-		btnConsultaDeSucursales.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnConsultaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeSucursales.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 		btnConsultaDeSucursales.setBounds(10, 79, 739, 23);
@@ -133,5 +130,10 @@ public class MenuPrincipal extends JFrame {
 		
 		JPanel menuOrdenesDeProvision = new JPanel();
 		opcionesEntidades.addTab("Ordenes de provision", null, menuOrdenesDeProvision, null);
+	}
+	
+	private void altaDeSucursales() {
+		this.setVisible(false);
+		this.setVisible(true);
 	}
 }
