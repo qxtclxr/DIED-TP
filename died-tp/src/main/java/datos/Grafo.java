@@ -1,5 +1,5 @@
 package datos;
-/*hola*/
+
 import java.util.*;
 import java.util.stream.*;
 
@@ -14,8 +14,8 @@ public class Grafo {
 	
 	public List<Ruta> rutasSalientes(Sucursal suc) {
 		return this.aristas.stream().
-							filter(rut -> rut.getOrigen().equals(suc)).
-							collect(Collectors.toList());
+			   filter(rut -> rut.getOrigen().equals(suc)).
+			   collect(Collectors.toList());
 	}
 	
 	public Integer gradoSalida(Sucursal suc) {
