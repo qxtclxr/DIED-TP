@@ -31,31 +31,26 @@ public class AltaSucursal extends JPanel {
 	public void inicializarComponentes() {
 		setLayout(null);
 		
-		JLabel lblAltaDeSucursales = new JLabel("Alta de sucursales");
-		lblAltaDeSucursales.setBounds(10, 11, 780, 30);
-		lblAltaDeSucursales.setVerticalAlignment(SwingConstants.TOP);
-		lblAltaDeSucursales.setFont(new Font("Roboto Black", Font.PLAIN, 32));
-		add(lblAltaDeSucursales);
-		
 		JSeparator separadorTituloContenido = new JSeparator();
 		separadorTituloContenido.setBounds(10, 77, 780, 2);
 		add(separadorTituloContenido);
 		
 		JLabel lblDescripcion = new JLabel("Completa el formulario y presiona \"Continuar\" para guardar los datos ingresados. Los datos obligatorios estan marcados con");
-		lblDescripcion.setBounds(10, 52, 626, 14);
+		lblDescripcion.setBounds(10, 52, 717, 14);
 		lblDescripcion.setForeground(new Color(128, 128, 128));
-		lblDescripcion.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescripcion);
 		
 		JLabel lblDescripcionAsterisco = new JLabel("(*)");
-		lblDescripcionAsterisco.setBounds(637, 52, 13, 14);
+		lblDescripcionAsterisco.setBounds(609, 52, 17, 14);
 		lblDescripcionAsterisco.setForeground(new Color(255, 0, 0));
-		lblDescripcionAsterisco.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblDescripcionAsterisco.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescripcionAsterisco);
 		
 		JLabel lblIDSucursal = new JLabel("ID de sucursal");
-		lblIDSucursal.setBounds(30, 113, 355, 14);
-		lblIDSucursal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblIDSucursal.setVerticalAlignment(SwingConstants.TOP);
+		lblIDSucursal.setBounds(30, 110, 355, 20);
+		lblIDSucursal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblIDSucursal);
 		
 		txtIDSucursal = new JTextField();
@@ -66,12 +61,13 @@ public class AltaSucursal extends JPanel {
 		JLabel lblDescIDSucursal = new JLabel("Debe ser un numero de 5 (cinco) digitos.");
 		lblDescIDSucursal.setBounds(30, 160, 250, 14);
 		lblDescIDSucursal.setForeground(Color.GRAY);
-		lblDescIDSucursal.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblDescIDSucursal.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescIDSucursal);
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(415, 113, 355, 14);
-		lblNombre.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblNombre.setVerticalAlignment(SwingConstants.TOP);
+		lblNombre.setBounds(415, 110, 355, 20);
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblNombre);
 		
 		txtNombre = new JTextField();
@@ -82,12 +78,13 @@ public class AltaSucursal extends JPanel {
 		JLabel lblDescNombre = new JLabel("Admite hasta 265 caracteres.");
 		lblDescNombre.setBounds(415, 160, 355, 14);
 		lblDescNombre.setForeground(Color.GRAY);
-		lblDescNombre.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblDescNombre.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescNombre);
 		
 		JLabel lblTipoSucursal = new JLabel("Tipo de sucursal");
-		lblTipoSucursal.setBounds(30, 217, 250, 14);
-		lblTipoSucursal.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblTipoSucursal.setVerticalAlignment(SwingConstants.TOP);
+		lblTipoSucursal.setBounds(30, 214, 250, 20);
+		lblTipoSucursal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblTipoSucursal);
 		
 		cmbTipoSucursal = new JComboBox<ComboItem<TipoSucursal>>();
@@ -104,8 +101,9 @@ public class AltaSucursal extends JPanel {
 		cmbOperatividad.addItem(new ComboItem<Operatividad>("No operativa",Operatividad.NO_OPERATIVA));
 		
 		JLabel lblHorarioDeApertura = new JLabel("Horario de apertura");
-		lblHorarioDeApertura.setBounds(30, 320, 226, 14);
-		lblHorarioDeApertura.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblHorarioDeApertura.setVerticalAlignment(SwingConstants.TOP);
+		lblHorarioDeApertura.setBounds(30, 317, 226, 20);
+		lblHorarioDeApertura.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblHorarioDeApertura);
 		
 		txtHorarioAperturaHora = new JTextField();
@@ -119,19 +117,21 @@ public class AltaSucursal extends JPanel {
 		add(txtHorarioAperturaMinutos);
 		
 		JLabel lblSeparadorHorarioApertura = new JLabel(":");
-		lblSeparadorHorarioApertura.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
-		lblSeparadorHorarioApertura.setBounds(85, 342, 5, 22);
+		lblSeparadorHorarioApertura.setVerticalAlignment(SwingConstants.TOP);
+		lblSeparadorHorarioApertura.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSeparadorHorarioApertura.setBounds(84, 342, 7, 22);
 		add(lblSeparadorHorarioApertura);
 		
 		JLabel lblDescHorarioApertura = new JLabel("Se utiliza formato de 24 horas.");
-		lblDescHorarioApertura.setBounds(30, 367, 158, 14);
+		lblDescHorarioApertura.setBounds(30, 367, 177, 14);
 		lblDescHorarioApertura.setForeground(Color.GRAY);
-		lblDescHorarioApertura.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblDescHorarioApertura.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescHorarioApertura);
 		
 		JLabel lblHorarioDeCierre = new JLabel("Horario de cierre");
-		lblHorarioDeCierre.setBounds(286, 320, 226, 14);
-		lblHorarioDeCierre.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblHorarioDeCierre.setVerticalAlignment(SwingConstants.TOP);
+		lblHorarioDeCierre.setBounds(286, 317, 226, 20);
+		lblHorarioDeCierre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblHorarioDeCierre);		
 		
 		txtHorarioCierreMinutos = new JTextField();
@@ -145,42 +145,51 @@ public class AltaSucursal extends JPanel {
 		add(txtHorarioCierreHora);
 		
 		JLabel lblSeparadorHorarioCierre = new JLabel(":");
-		lblSeparadorHorarioCierre.setBounds(341, 342, 5, 22);
-		lblSeparadorHorarioCierre.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblSeparadorHorarioCierre.setVerticalAlignment(SwingConstants.TOP);
+		lblSeparadorHorarioCierre.setBounds(340, 342, 7, 22);
+		lblSeparadorHorarioCierre.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(lblSeparadorHorarioCierre);
 		
 		JLabel lblDescHorarioCierre = new JLabel("Se utiliza formato de 24 horas.");
-		lblDescHorarioCierre.setBounds(286, 367, 158, 14);
+		lblDescHorarioCierre.setBounds(286, 367, 177, 14);
 		lblDescHorarioCierre.setForeground(Color.GRAY);
-		lblDescHorarioCierre.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblDescHorarioCierre.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescHorarioCierre);
 		
 		JLabel lblEstadoDeOperatividad = new JLabel("Estado de operatividad");
-		lblEstadoDeOperatividad.setBounds(415, 217, 250, 14);
-		lblEstadoDeOperatividad.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblEstadoDeOperatividad.setVerticalAlignment(SwingConstants.TOP);
+		lblEstadoDeOperatividad.setBounds(415, 214, 250, 20);
+		lblEstadoDeOperatividad.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblEstadoDeOperatividad);
 		
 		JLabel lblProductosEnStock = new JLabel("Productos en stock");
-		lblProductosEnStock.setBounds(544, 320, 226, 14);
-		lblProductosEnStock.setFont(new Font("Roboto Medium", Font.PLAIN, 15));
+		lblProductosEnStock.setVerticalAlignment(SwingConstants.TOP);
+		lblProductosEnStock.setBounds(544, 317, 226, 20);
+		lblProductosEnStock.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblProductosEnStock);
 		
 		JButton btnProductosEnStock = new JButton("Editar stock de productos");
 		btnProductosEnStock.setBounds(544, 342, 226, 23);
 		btnProductosEnStock.setHorizontalAlignment(SwingConstants.LEFT);
-		btnProductosEnStock.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnProductosEnStock.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		add(btnProductosEnStock);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(580, 467, 100, 23);
 		btnCancelar.addActionListener(act -> this.actionCancelar());
-		btnCancelar.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		add(btnCancelar);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setBounds(690, 467, 100, 23);
-		btnConfirmar.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		add(btnConfirmar);
+		
+		JLabel lblAltaDeProductos = new JLabel("Alta de sucursal");
+		lblAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
+		lblAltaDeProductos.setFont(new Font("Tahoma", Font.BOLD, 32));
+		lblAltaDeProductos.setBounds(10, 13, 780, 30);
+		add(lblAltaDeProductos);
 	}
 	
 	public void actionCancelar() {

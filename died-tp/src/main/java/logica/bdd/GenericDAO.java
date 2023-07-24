@@ -118,62 +118,61 @@ public class GenericDAO<T> {
         
     }
 
-    
-public void delete(Object id, String nombrecampopk) throws SQLException {
-    	
-        String query = "DELETE FROM " + tableName + " WHERE "+ nombrecampopk +"= ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-        
-        // Especifica el tipo SQL correspondiente al objeto 'id'
-        if (id instanceof Integer) {
-            preparedStatement.setInt(1, (Integer) id);
-        } else if (id instanceof Long) {
-            preparedStatement.setLong(1, (Long) id);
-        } else if (id instanceof String) {
-            preparedStatement.setString(1, (String) id);
-        } else {
-            // Si el tipo de 'id' no es reconocido, usa Types.OTHER
-            preparedStatement.setObject(1, id, Types.OTHER);
-        }
-
-        int filasafectadas = preparedStatement.executeUpdate();
-        
-        if(filasafectadas > 0) {
-        	JOptionPane.showMessageDialog(null, "Se ha borrado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else {
-        	JOptionPane.showMessageDialog(null, "La fila a borrar no ha sido encontrada, porfavor revisa los datos ingresados", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        }
-        
-        
-    }
-    
-public T getById(Object id, String nombrecampopk) throws Exception {
-    String query = "SELECT * FROM " + tableName + " WHERE "+ nombrecampopk + "= ?";
-    PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-    preparedStatement.setObject(1, id);
-
-    ResultSet resultSet = preparedStatement.executeQuery();
-
-    if (resultSet.next()) {
-        T entity = entityClass.getDeclaredConstructor().newInstance();
-        Field[] fields = entityClass.getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            String fieldName = field.getName();
-            Object value = resultSet.getObject(fieldName);
-            field.set(entity, value);
-        }
-        
-        return entity;
-    }
-    JOptionPane.showMessageDialog(null, "No ha sido encontrada una entidad con este id", "Información", JOptionPane.INFORMATION_MESSAGE);
-    return null;
-}
-
-public List<T> searchByAttributes(Map<String, Object> attributes) throws Exception {
+	public void delete(Object id, String nombrecampopk) throws SQLException {
+	    	
+	        String query = "DELETE FROM " + tableName + " WHERE "+ nombrecampopk +"= ?";
+	        PreparedStatement preparedStatement = connection.prepareStatement(query);
+	
+	        
+	        // Especifica el tipo SQL correspondiente al objeto 'id'
+	        if (id instanceof Integer) {
+	            preparedStatement.setInt(1, (Integer) id);
+	        } else if (id instanceof Long) {
+	            preparedStatement.setLong(1, (Long) id);
+	        } else if (id instanceof String) {
+	            preparedStatement.setString(1, (String) id);
+	        } else {
+	            // Si el tipo de 'id' no es reconocido, usa Types.OTHER
+	            preparedStatement.setObject(1, id, Types.OTHER);
+	        }
+	
+	        int filasafectadas = preparedStatement.executeUpdate();
+	        
+	        if(filasafectadas > 0) {
+	        	JOptionPane.showMessageDialog(null, "Se ha borrado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+	        }
+	        else {
+	        	JOptionPane.showMessageDialog(null, "La fila a borrar no ha sido encontrada, porfavor revisa los datos ingresados", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+	        }
+	        
+	        
+	    }
+	    
+	public T getById(Object id, String nombrecampopk) throws Exception {
+	    String query = "SELECT * FROM " + tableName + " WHERE "+ nombrecampopk + "= ?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	
+	    preparedStatement.setObject(1, id);
+	
+	    ResultSet resultSet = preparedStatement.executeQuery();
+	
+	    if (resultSet.next()) {
+	        T entity = entityClass.getDeclaredConstructor().newInstance();
+	        Field[] fields = entityClass.getDeclaredFields();
+	        for (Field field : fields) {
+	            field.setAccessible(true);
+	            String fieldName = field.getName();
+	            Object value = resultSet.getObject(fieldName);
+	            field.set(entity, value);
+	        }
+	        
+	        return entity;
+	    }
+	    JOptionPane.showMessageDialog(null, "No ha sido encontrada una entidad con este id", "Información", JOptionPane.INFORMATION_MESSAGE);
+	    return null;
+	}
+	
+	public List<T> searchByAttributes(Map<String, Object> attributes) throws Exception {
     StringBuilder query = new StringBuilder("SELECT * FROM " + tableName + " WHERE ");
     List<Object> fieldValues = new ArrayList<>();
 
@@ -219,9 +218,6 @@ public List<T> searchByAttributes(Map<String, Object> attributes) throws Excepti
     
     return resultEntities;
 }
-
-
-
 
 }
 
