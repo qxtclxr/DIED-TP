@@ -1,7 +1,8 @@
-package datos;
+package logica;
 
 import java.util.*;
 import java.util.stream.*;
+import datos.*;
 
 public class Grafo {
 	private List<Sucursal> vertices;

@@ -1,139 +1,198 @@
 package gui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JSeparator;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.JMenu;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollBar;
-import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
-import javax.swing.JTextArea;
-import java.awt.Component;
-import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
-public class MenuPrincipal extends JFrame {
-
-	private JPanel panelPrincipal;
-
-	/**
-	 * Create the frame.
-	 */
-	public MenuPrincipal() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+public class MenuPrincipal extends JPanel {
+	
+	private JFrame frame;
+	
+	public MenuPrincipal(JFrame frame) {
+		this.frame = frame;
 		inicializarComponentes();
-		
-		setTitle("SGL (Sistema de Gestion Logistico)");
-		setLocationRelativeTo(null);
-		setResizable(false);
 	}
 	
 	public void inicializarComponentes() {
-		setBounds(100, 100, 800, 500);
-		panelPrincipal = new JPanel();
-		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(panelPrincipal);
-		panelPrincipal.setLayout(null);
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		setLayout(null);
 		
 		JLabel tituloSiglas = new JLabel("SGL");
 		tituloSiglas.setVerticalAlignment(SwingConstants.TOP);
 		tituloSiglas.setFont(new Font("Roboto Black", Font.PLAIN, 32));
 		tituloSiglas.setBounds(10, 11, 59, 30);
-		panelPrincipal.add(tituloSiglas);
+		add(tituloSiglas);
 		
 		JLabel tituloNombre = new JLabel("(Sistema de Gestion Logistico)");
 		tituloNombre.setVerticalAlignment(SwingConstants.BOTTOM);
 		tituloNombre.setFont(new Font("Roboto", Font.PLAIN, 16));
 		tituloNombre.setBounds(79, 11, 224, 31);
-		panelPrincipal.add(tituloNombre);
+		add(tituloNombre);
 		
 		JSeparator separadorTituloContenido = new JSeparator();
-		separadorTituloContenido.setBounds(10, 52, 764, 2);
-		panelPrincipal.add(separadorTituloContenido);
+		separadorTituloContenido.setBounds(10, 52, 780, 2);
+		add(separadorTituloContenido);
 		
 		JTabbedPane opcionesEntidades = new JTabbedPane(JTabbedPane.TOP);
 		opcionesEntidades.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		opcionesEntidades.setBounds(10, 75, 764, 284);
-		panelPrincipal.add(opcionesEntidades);
+		opcionesEntidades.setBounds(10, 75, 780, 380);
+		add(opcionesEntidades);
 		
 		JPanel menuSucursal = new JPanel();
 		opcionesEntidades.addTab("Sucursales", null, menuSucursal, null);
 		menuSucursal.setLayout(null);
 		
 		JButton btnAltaDeSucursales = new JButton("Alta de sucursales");
-		btnAltaDeSucursales.addActionListener(action -> altaDeSucursales());
+		btnAltaDeSucursales.addActionListener(act -> this.actionAltaSucursal());
 		btnAltaDeSucursales.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 		btnAltaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
-		btnAltaDeSucursales.setBounds(10, 21, 739, 23);
+		btnAltaDeSucursales.setBounds(10, 21, 755, 23);
 		menuSucursal.add(btnAltaDeSucursales);
 		
 		JLabel lblAltaDeSucursales = new JLabel("Carga una nueva sucursal al sistema.");
 		lblAltaDeSucursales.setForeground(new Color(128, 128, 128));
 		lblAltaDeSucursales.setFont(new Font("Roboto", Font.PLAIN, 11));
-		lblAltaDeSucursales.setBounds(10, 45, 715, 14);
+		lblAltaDeSucursales.setBounds(10, 45, 755, 14);
 		menuSucursal.add(lblAltaDeSucursales);
 		
 		JButton btnConsultaDeSucursales = new JButton("Consulta de sucursales");
 		btnConsultaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeSucursales.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
-		btnConsultaDeSucursales.setBounds(10, 79, 739, 23);
+		btnConsultaDeSucursales.setBounds(10, 79, 755, 23);
 		menuSucursal.add(btnConsultaDeSucursales);
 		
-		JLabel lblRealizaUnaBusqueda = new JLabel("Realiza una busqueda entre todas las sucursales, pudiendo luego editar, eliminar y/o consultar el stock de productos en cualquiera de ellas.");
-		lblRealizaUnaBusqueda.setForeground(new Color(128, 128, 128));
-		lblRealizaUnaBusqueda.setFont(new Font("Roboto", Font.PLAIN, 11));
-		lblRealizaUnaBusqueda.setBounds(10, 103, 715, 14);
-		menuSucursal.add(lblRealizaUnaBusqueda);
+		JLabel lblConsultaDeSucursales = new JLabel("Realiza una busqueda entre todas las sucursales, pudiendo luego editar, eliminar y/o consultar el stock de productos en cualquiera de ellas.");
+		lblConsultaDeSucursales.setForeground(new Color(128, 128, 128));
+		lblConsultaDeSucursales.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblConsultaDeSucursales.setBounds(10, 103, 755, 14);
+		menuSucursal.add(lblConsultaDeSucursales);
 		
 		JButton btnFlujoMaximo = new JButton("Flujo maximo");
 		btnFlujoMaximo.setHorizontalAlignment(SwingConstants.LEFT);
 		btnFlujoMaximo.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
-		btnFlujoMaximo.setBounds(10, 137, 739, 23);
+		btnFlujoMaximo.setBounds(10, 137, 755, 23);
 		menuSucursal.add(btnFlujoMaximo);
 		
-		JLabel lblConsultaElMaximo = new JLabel("Consulta el maximo envio (en kilos) que puede realizarse desde una sucursal fuente y una sucursal sumidero.");
-		lblConsultaElMaximo.setForeground(new Color(128, 128, 128));
-		lblConsultaElMaximo.setFont(new Font("Roboto", Font.PLAIN, 11));
-		lblConsultaElMaximo.setBounds(10, 162, 715, 14);
-		menuSucursal.add(lblConsultaElMaximo);
+		JLabel lblFlujoMaximo = new JLabel("Consulta el maximo envio (en kilos) que puede realizarse desde una sucursal fuente y una sucursal sumidero.");
+		lblFlujoMaximo.setForeground(new Color(128, 128, 128));
+		lblFlujoMaximo.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblFlujoMaximo.setBounds(10, 162, 755, 14);
+		menuSucursal.add(lblFlujoMaximo);
 		
 		JButton btnRankingDeSucursales = new JButton("Ranking de sucursales");
 		btnRankingDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRankingDeSucursales.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
-		btnRankingDeSucursales.setBounds(10, 196, 739, 23);
+		btnRankingDeSucursales.setBounds(10, 196, 755, 23);
 		menuSucursal.add(btnRankingDeSucursales);
 		
-		JLabel lblConsultaElRanking = new JLabel("Consulta el ranking de sucursales (ordenado segun cuantas rutas llegan a cada una de ellas).");
-		lblConsultaElRanking.setForeground(new Color(128, 128, 128));
-		lblConsultaElRanking.setFont(new Font("Roboto", Font.PLAIN, 11));
-		lblConsultaElRanking.setBounds(10, 221, 715, 14);
-		menuSucursal.add(lblConsultaElRanking);
+		JLabel lblRankingDeSucursales = new JLabel("Consulta el ranking de sucursales (ordenado segun cuantas rutas llegan a cada una de ellas).");
+		lblRankingDeSucursales.setForeground(new Color(128, 128, 128));
+		lblRankingDeSucursales.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblRankingDeSucursales.setBounds(10, 221, 755, 14);
+		menuSucursal.add(lblRankingDeSucursales);
 		
 		JPanel menuRutas = new JPanel();
 		opcionesEntidades.addTab("Rutas", null, menuRutas, null);
+		menuRutas.setLayout(null);
+		
+		JButton btnAltaDeRutas = new JButton("Alta de rutas");
+		btnAltaDeRutas.setHorizontalAlignment(SwingConstants.LEFT);
+		btnAltaDeRutas.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnAltaDeRutas.setBounds(10, 21, 755, 23);
+		menuRutas.add(btnAltaDeRutas);
+		
+		JLabel lblAltaDeRutas = new JLabel("Carga una nueva ruta al sistema. Las rutas conectan dos sucursales.");
+		lblAltaDeRutas.setForeground(Color.GRAY);
+		lblAltaDeRutas.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblAltaDeRutas.setBounds(10, 45, 755, 14);
+		menuRutas.add(lblAltaDeRutas);
+		
+		JButton btnConsultaDeRutas = new JButton("Consulta de rutas");
+		btnConsultaDeRutas.setHorizontalAlignment(SwingConstants.LEFT);
+		btnConsultaDeRutas.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnConsultaDeRutas.setBounds(10, 79, 755, 23);
+		menuRutas.add(btnConsultaDeRutas);
+		
+		JLabel lblConsultaDeRutas = new JLabel("Realiza una busqueda entre todas las rutas, pudiendo luego editar y/o cualquiera de ellas.");
+		lblConsultaDeRutas.setForeground(Color.GRAY);
+		lblConsultaDeRutas.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblConsultaDeRutas.setBounds(10, 103, 755, 14);
+		menuRutas.add(lblConsultaDeRutas);
 		
 		JPanel menuProductos = new JPanel();
 		opcionesEntidades.addTab("Productos", null, menuProductos, null);
+		menuProductos.setLayout(null);
+		
+		JButton btnAltaDeProductos = new JButton("Alta de productos");
+		btnAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
+		btnAltaDeProductos.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnAltaDeProductos.setBounds(10, 21, 755, 23);
+		menuProductos.add(btnAltaDeProductos);
+		
+		JLabel lblAltaDeProductos = new JLabel("Carga una nueva producto al sistema.");
+		lblAltaDeProductos.setForeground(Color.GRAY);
+		lblAltaDeProductos.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblAltaDeProductos.setBounds(10, 45, 755, 14);
+		menuProductos.add(lblAltaDeProductos);
+		
+		JButton btnConsultaDeProductos = new JButton("Consulta de productos");
+		btnConsultaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
+		btnConsultaDeProductos.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnConsultaDeProductos.setBounds(10, 79, 755, 23);
+		menuProductos.add(btnConsultaDeProductos);
+		
+		JLabel lblConsultaDeProductos = new JLabel("Realiza una busqueda entre todos los productos a la venta, pudiendo luego editar y/o cualquiera de ellos.");
+		lblConsultaDeProductos.setForeground(Color.GRAY);
+		lblConsultaDeProductos.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblConsultaDeProductos.setBounds(10, 103, 755, 14);
+		menuProductos.add(lblConsultaDeProductos);
 		
 		JPanel menuOrdenesDeProvision = new JPanel();
-		opcionesEntidades.addTab("Ordenes de provision", null, menuOrdenesDeProvision, null);
+		opcionesEntidades.addTab("Ordenes de Provision", null, menuOrdenesDeProvision, null);
+		menuOrdenesDeProvision.setLayout(null);
+		
+		JButton btnGenerarUnaOrden = new JButton("Generar una orden de provision");
+		btnGenerarUnaOrden.setHorizontalAlignment(SwingConstants.LEFT);
+		btnGenerarUnaOrden.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnGenerarUnaOrden.setBounds(10, 21, 755, 23);
+		menuOrdenesDeProvision.add(btnGenerarUnaOrden);
+		
+		JLabel lblGenerarUnaOrden = new JLabel("Genera una Orden de Provision para solicitar el abastecimiento de productos de una Sucursal.");
+		lblGenerarUnaOrden.setForeground(Color.GRAY);
+		lblGenerarUnaOrden.setFont(new Font("Roboto", Font.PLAIN, 11));
+		lblGenerarUnaOrden.setBounds(10, 45, 755, 14);
+		menuOrdenesDeProvision.add(lblGenerarUnaOrden);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(act -> actionSalir());
+		btnSalir.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
+		btnSalir.setBounds(701, 466, 89, 23);
+		add(btnSalir);
 	}
 	
-	private void altaDeSucursales() {
+	public void actionSalir() {
+		int result = JOptionPane.showConfirmDialog(frame,"¿Seguro que quieres salir de la aplicacion?","Salir",JOptionPane.YES_NO_OPTION);
+		if(result==JOptionPane.YES_OPTION)
+			frame.dispose();
+	}
+	
+	public void actionAltaSucursal() {
+		AltaSucursal altaSucursal = new AltaSucursal(frame,this);
 		this.setVisible(false);
-		this.setVisible(true);
+		frame.setContentPane(altaSucursal);
 	}
 }
