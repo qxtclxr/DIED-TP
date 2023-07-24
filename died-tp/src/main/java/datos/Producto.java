@@ -1,7 +1,7 @@
 package datos;
 
 public class Producto {
-	private String id;
+	private String idProducto;
 	private String nombre;
 	private String descripcion;
 	private Double precioUnitario;

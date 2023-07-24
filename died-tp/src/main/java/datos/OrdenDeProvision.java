@@ -7,5 +7,6 @@ public class OrdenDeProvision {
 	private Sucursal sucursalDestino;
 	private Integer tiempoMaximo; //Unidad: minutos
 	private EstadoOrden estado;
+	private String idOrden;
 	private Map<Producto,Integer> productos;
 }

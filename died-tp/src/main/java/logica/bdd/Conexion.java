@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 
 public class Conexion {
 
-	private String url = "jdbc:postgresql://localhost:5432/tpdied";
-	private String username = "tpdied";
-	private String password = "tpdied";
+	private String url = "jdbc:postgresql://localhost:5432/bdtpdied";
+	private String username = "usertpdied";
+	private String password = "user";
 	private boolean estado = false;
 	private Connection con;
 	

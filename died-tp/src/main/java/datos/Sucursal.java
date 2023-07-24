@@ -3,7 +3,7 @@ package datos;
 import java.util.*;
 
 public class Sucursal implements Comparable<Sucursal>{
-	private String id;
+	private String idSucursal;
 	private String nombre;
 	private Operatividad estado;
 	private TipoSucursal tipo;
@@ -12,11 +12,11 @@ public class Sucursal implements Comparable<Sucursal>{
 	//private Time horarioCierre;
 	
 	
-	public int compareTo(Sucursal suc) {return this.id.compareTo(suc.id);}
+	public int compareTo(Sucursal suc) {return this.idSucursal.compareTo(suc.idSucursal);}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(estado, id, nombre, productos, tipo);
+		return Objects.hash(estado, idSucursal, nombre, productos, tipo);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Sucursal implements Comparable<Sucursal>{
 		if (getClass() != obj.getClass())
 			return false;
 		Sucursal other = (Sucursal) obj;
-		return estado == other.estado && Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre)
+		return estado == other.estado && Objects.equals(idSucursal, other.idSucursal) && Objects.equals(nombre, other.nombre)
 				&& Objects.equals(productos, other.productos) && tipo == other.tipo;
 	}
 }
