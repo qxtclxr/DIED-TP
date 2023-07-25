@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class GenericDAO<T> {
+	
     private Connection connection;
     private String tableName;
     private Class<T> entityClass;
