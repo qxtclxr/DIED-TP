@@ -10,7 +10,8 @@ public class Conexion {
 	private boolean estado = false;
 	private Connection con;	
 	
-	public Connection conectar() throws SQLException { 
+	public Connection conectar() throws SQLException, ClassNotFoundException {
+		Class.forName("org.postgresql.Driver");
 		this.con = DriverManager.getConnection(url, username, password);
 		this.estado = true;
 		return this.con;

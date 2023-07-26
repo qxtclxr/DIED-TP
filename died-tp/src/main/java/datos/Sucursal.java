@@ -1,16 +1,45 @@
 package datos;
 
 import java.util.*;
+import java.sql.Time;
 
 public class Sucursal implements Comparable<Sucursal>{
 	private String idSucursal;
 	private String nombre;
 	private Operatividad estado;
 	private TipoSucursal tipo;
-	private Map<Producto,Integer> productos;
-	//private Time horarioApertura;
-	//private Time horarioCierre;
+	private Map<Producto,Integer> stock;
+	private Time horarioApertura;
+	private Time horarioCierre;
 	
+	
+	public String getID() {
+		return idSucursal;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public Operatividad getEstado() {
+		return estado;
+	}
+
+	public TipoSucursal getTipo() {
+		return tipo;
+	}
+
+	public Map<Producto, Integer> getStock() {
+		return stock;
+	}
+
+	public Time getHorarioApertura() {
+		return horarioApertura;
+	}
+
+	public Time getHorarioCierre() {
+		return horarioCierre;
+	}
 	
 	public int compareTo(Sucursal suc) {
 		return this.idSucursal.compareTo(suc.idSucursal);
@@ -18,7 +47,7 @@ public class Sucursal implements Comparable<Sucursal>{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(estado, idSucursal, nombre, productos, tipo);
+		return Objects.hash(estado, idSucursal, nombre, stock, tipo);
 	}
 
 	@Override
@@ -31,6 +60,7 @@ public class Sucursal implements Comparable<Sucursal>{
 			return false;
 		Sucursal other = (Sucursal) obj;
 		return estado == other.estado && Objects.equals(idSucursal, other.idSucursal) && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(productos, other.productos) && tipo == other.tipo;
+				&& Objects.equals(stock, other.stock) && tipo == other.tipo;
 	}
+	
 }

@@ -1,11 +1,13 @@
 package dal;
 
+import java.sql.*;
+
 public interface DAO<T> {
-	public void insert();
+	public void insert(T obj) throws SQLException;
 	
-	public void update();
+	public void update(T obj) throws SQLException;
 	
-	public void delete();
+	public void delete(T obj) throws SQLException;
 	
-	public T getByID();
+	public T getByID(String id) throws SQLException;
 }
