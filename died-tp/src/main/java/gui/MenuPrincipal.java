@@ -177,8 +177,10 @@ public class MenuPrincipal extends JPanel {
 		menuOrdenesDeProvision.add(lblGenerarUnaOrden);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setForeground(new Color(255, 255, 255));
+		btnSalir.setBackground(new Color(230, 0, 0));
 		btnSalir.addActionListener(act -> actionSalir());
-		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnSalir.setBounds(701, 466, 89, 23);
 		add(btnSalir);
 	}

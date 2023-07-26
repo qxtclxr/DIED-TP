@@ -12,7 +12,9 @@ public class Sucursal implements Comparable<Sucursal>{
 	//private Time horarioCierre;
 	
 	
-	public int compareTo(Sucursal suc) {return this.idSucursal.compareTo(suc.idSucursal);}
+	public int compareTo(Sucursal suc) {
+		return this.idSucursal.compareTo(suc.idSucursal);
+	}
 
 	@Override
 	public int hashCode() {

@@ -175,14 +175,16 @@ public class AltaSucursal extends JPanel {
 		add(btnProductosEnStock);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBackground(new Color(255, 159, 162));
 		btnCancelar.setBounds(580, 467, 100, 23);
 		btnCancelar.addActionListener(act -> this.actionCancelar());
-		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnCancelar);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setBackground(new Color(129, 205, 133));
 		btnConfirmar.setBounds(690, 467, 100, 23);
-		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnConfirmar);
 		
 		JLabel lblAltaDeProductos = new JLabel("Alta de sucursal");
