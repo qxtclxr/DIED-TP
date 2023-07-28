@@ -1,37 +1,34 @@
 package gui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
+import datos.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.Color;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JTable;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.Point;
+import java.sql.Time;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ConsultaSucursal extends Pantalla {
 	
+	private static final String[] COL_NAMES = {"ID de sucursal","Nombre","Tipo de sucursal","Estado","Horario de apertura","Horario de cierre",""};
 	private JTextField txtIDSucursal;
 	private JTextField txtNombre;
-	private JComboBox cmbTipoDeSucursal;
-	private JComboBox cmbEstado;
+	private JComboBox<TipoSucursal> cmbTipoSucursal;
+	private JComboBox<Operatividad> cmbOperatividad;
 	private JTextField txtHorarioAperturaHora;
 	private JTextField txtHorarioAperturaMinutos;
-	private JLabel lblIDSucursal;
-	private JLabel lblNombre;
-	private JLabel lblTipoDeSucursal;
-	private JLabel lblEstadoDeOperatividad;
-	private JLabel lblHorarioDeApertura;
-	private JLabel lblHorarioDeCierre;
-	private JLabel lblSeparadorHorarioApertura;
 	private JTextField txtHorarioCierreHora;
-	private JLabel lblSeparadorHorarioCierre;
 	private JTextField txtHorarioCierreMinutos;
-	private JButton btnNewButton;
-	private JTable table;
+	private JTable tabla;
+	private JScrollPane panelContenedorTabla;
+	private JButton btnBuscar;
 	
 	/**
 	 * Create the panel.
@@ -60,91 +57,170 @@ public class ConsultaSucursal extends Pantalla {
 		add(lblConsultaDeSucursales);
 		
 		txtIDSucursal = new JTextField();
-		txtIDSucursal.setBounds(10, 105, 121, 20);
+		txtIDSucursal.setBounds(10, 113, 121, 20);
 		add(txtIDSucursal);
 		txtIDSucursal.setColumns(10);
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(141, 105, 121, 20);
+		txtNombre.setBounds(141, 113, 121, 20);
 		add(txtNombre);
 		
-		cmbTipoDeSucursal = new JComboBox();
-		cmbTipoDeSucursal.setBounds(272, 105, 121, 20);
-		add(cmbTipoDeSucursal);
+		cmbTipoSucursal = new JComboBox<TipoSucursal>();
+		cmbTipoSucursal.setBounds(272, 113, 121, 20);
+		add(cmbTipoSucursal);
+		cmbTipoSucursal.addItem(null);
+		cmbTipoSucursal.addItem(TipoSucursal.COMERCIAL);
+		cmbTipoSucursal.addItem(TipoSucursal.FUENTE);
+		cmbTipoSucursal.addItem(TipoSucursal.SUMIDERO);
 		
-		cmbEstado = new JComboBox();
-		cmbEstado.setBounds(403, 105, 121, 20);
-		add(cmbEstado);
+		cmbOperatividad = new JComboBox<Operatividad>();
+		cmbOperatividad.setBounds(403, 113, 121, 20);
+		add(cmbOperatividad);
+		cmbOperatividad.addItem(null);
+		cmbOperatividad.addItem(Operatividad.OPERATIVA);
+		cmbOperatividad.addItem(Operatividad.NO_OPERATIVA);
 		
-		lblIDSucursal = new JLabel("ID de sucursal");
+		JLabel lblIDSucursal = new JLabel("ID de sucursal");
 		lblIDSucursal.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblIDSucursal.setVerticalAlignment(SwingConstants.TOP);
-		lblIDSucursal.setBounds(10, 90, 121, 14);
+		lblIDSucursal.setBounds(10, 95, 121, 14);
 		add(lblIDSucursal);
 		
-		lblNombre = new JLabel("Nombre");
+		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNombre.setVerticalAlignment(SwingConstants.TOP);
-		lblNombre.setBounds(141, 90, 121, 14);
+		lblNombre.setBounds(141, 95, 121, 14);
 		add(lblNombre);
 		
-		lblTipoDeSucursal = new JLabel("Tipo de sucursal");
+		JLabel lblTipoDeSucursal = new JLabel("Tipo de sucursal");
 		lblTipoDeSucursal.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTipoDeSucursal.setVerticalAlignment(SwingConstants.TOP);
-		lblTipoDeSucursal.setBounds(272, 90, 121, 14);
+		lblTipoDeSucursal.setBounds(272, 95, 121, 14);
 		add(lblTipoDeSucursal);
 		
-		lblEstadoDeOperatividad = new JLabel("Estado\r\n");
+		JLabel lblEstadoDeOperatividad = new JLabel("Estado");
 		lblEstadoDeOperatividad.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEstadoDeOperatividad.setVerticalAlignment(SwingConstants.TOP);
-		lblEstadoDeOperatividad.setBounds(403, 90, 121, 14);
+		lblEstadoDeOperatividad.setBounds(403, 95, 121, 14);
 		add(lblEstadoDeOperatividad);
 		
-		lblHorarioDeApertura = new JLabel("Horario de apertura");
+		JLabel lblHorarioDeApertura = new JLabel("Horario de apertura");
 		lblHorarioDeApertura.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblHorarioDeApertura.setVerticalAlignment(SwingConstants.TOP);
-		lblHorarioDeApertura.setBounds(534, 90, 121, 14);
+		lblHorarioDeApertura.setBounds(534, 95, 121, 14);
 		add(lblHorarioDeApertura);
 		
-		lblHorarioDeCierre = new JLabel("Horario de cierre");
+		JLabel lblHorarioDeCierre = new JLabel("Horario de cierre");
 		lblHorarioDeCierre.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblHorarioDeCierre.setVerticalAlignment(SwingConstants.TOP);
-		lblHorarioDeCierre.setBounds(665, 90, 121, 14);
+		lblHorarioDeCierre.setBounds(665, 95, 121, 14);
 		add(lblHorarioDeCierre);
 		
 		txtHorarioAperturaHora = new JTextField();
-		txtHorarioAperturaHora.setBounds(534, 105, 35, 20);
+		txtHorarioAperturaHora.setBounds(534, 113, 35, 20);
 		add(txtHorarioAperturaHora);
 		
-		lblSeparadorHorarioApertura = new JLabel(":");
+		JLabel lblSeparadorHorarioApertura = new JLabel(":");
 		lblSeparadorHorarioApertura.setVerticalAlignment(SwingConstants.TOP);
 		lblSeparadorHorarioApertura.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSeparadorHorarioApertura.setBounds(570, 104, 7, 22);
+		lblSeparadorHorarioApertura.setBounds(570, 112, 7, 20);
 		add(lblSeparadorHorarioApertura);
 		
 		txtHorarioAperturaMinutos = new JTextField();
-		txtHorarioAperturaMinutos.setBounds(577, 105, 35, 20);
+		txtHorarioAperturaMinutos.setBounds(577, 113, 35, 20);
 		add(txtHorarioAperturaMinutos);
 		
 		txtHorarioCierreHora = new JTextField();
-		txtHorarioCierreHora.setBounds(665, 104, 35, 20);
+		txtHorarioCierreHora.setBounds(665, 112, 35, 20);
 		add(txtHorarioCierreHora);
 		
-		lblSeparadorHorarioCierre = new JLabel(":");
+		JLabel lblSeparadorHorarioCierre = new JLabel(":");
 		lblSeparadorHorarioCierre.setVerticalAlignment(SwingConstants.TOP);
 		lblSeparadorHorarioCierre.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSeparadorHorarioCierre.setBounds(701, 103, 7, 22);
+		lblSeparadorHorarioCierre.setBounds(701, 111, 7, 20);
 		add(lblSeparadorHorarioCierre);
 		
 		txtHorarioCierreMinutos = new JTextField();
-		txtHorarioCierreMinutos.setBounds(708, 104, 35, 20);
+		txtHorarioCierreMinutos.setBounds(708, 112, 35, 20);
 		add(txtHorarioCierreMinutos);
 		
-		btnNewButton = new JButton("Buscar");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(10, 136, 121, 20);
-		add(btnNewButton);
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(act -> buscar());
+		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnBuscar.setBounds(10, 144, 121, 20);
+		add(btnBuscar);
+		
+		JButton btnCancelar = new JButton("Volver");
+		btnCancelar.setBounds(690, 466, 100, 23);
+		btnCancelar.addActionListener(act -> this.actionVolver());
+		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		add(btnCancelar);
 		
 	}
+	
+	public void buscar() {
+		
+		//TODO
+		Sucursal aux = new Sucursal("13245","Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
+		Sucursal[] auxArr = new Sucursal[100];
+		Arrays.fill(auxArr,aux);
+		ArrayList<Sucursal> auxList = new ArrayList<Sucursal>(Arrays.asList(auxArr));
+		//TODO
+		
+		generarTabla(auxList);
+		
+	}
+	
+	private void generarTabla(List<Sucursal> data) {
+		tabla = new JTable(datosTabla(data),COL_NAMES);
+		OpcionesCellEditor op = new OpcionesCellEditor(tabla,new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
+                int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
+                Rectangle cellRect = tabla.getCellRect(row, column, true);
+                Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
+                Sucursal selected = data.stream().
+                					filter(suc -> suc.getID().equals(tabla.getModel().getValueAt(row,0))).
+                					findFirst().
+                					orElse(null);
+                OpcionesSucursalPopup popupMenu = new OpcionesSucursalPopup(selected);
+                popupMenu.show(tabla, popupLocation.x, popupLocation.y);
+                
+            }
+        });
+		tabla.getColumnModel().getColumn(6).setCellRenderer(new OpcionesCellRenderer());
+        tabla.getColumnModel().getColumn(6).setCellEditor(op);
+		panelContenedorTabla = new JScrollPane(tabla);
+		panelContenedorTabla.setBounds(10, 175, 780, 276);
+		
+		add(panelContenedorTabla);
+	}
+	
+	private Object[][] datosTabla(List<Sucursal> data){
+		Object[][] tabla = new Object[data.size()][7];
+		for(int i = 0 ; i < data.size() ; i++) {
+			Object[] fila = {
+				data.get(i).getID(),
+				data.get(i).getNombre(),
+				data.get(i).getTipo(),
+				data.get(i).getEstado(),
+				data.get(i).getHorarioApertura(),
+				data.get(i).getHorarioCierre(),
+				data.get(i).getID()
+			};
+			tabla[i] = fila;
+		}
+		return tabla;
+	}
+	
+	public void actionVolver(){
+		this.setVisible(false);
+		pantallaAnterior.setVisible(true);
+		frame.setContentPane(pantallaAnterior);
+	}
 }
+
+
+
