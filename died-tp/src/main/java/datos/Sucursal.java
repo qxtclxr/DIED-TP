@@ -1,38 +1,28 @@
 package datos;
-import java.sql.Time;
+
 import java.util.*;
+import java.sql.Time;
 
 public class Sucursal implements Comparable<Sucursal>{
 	private String idSucursal;
 	private String nombre;
-	private Operatividad estado;
-	private TipoSucursal tipo;
-	private Map<Producto,Integer> productos;
 	private Time horarioApertura;
 	private Time horarioCierre;
+	private Operatividad estado;
+	private TipoSucursal tipo;
+	private Map<Producto,Integer> stock;
 	
-	
-	public int compareTo(Sucursal suc) {return this.idSucursal.compareTo(suc.idSucursal);}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(estado, idSucursal, nombre, productos, tipo);
+	public Sucursal(String idSucursal, String nombre, Time horarioApertura, Time horarioCierre, Operatividad estado, TipoSucursal tipo) {
+		super();
+		this.idSucursal = idSucursal;
+		this.nombre = nombre;
+		this.estado = estado;
+		this.tipo = tipo;
+		this.horarioApertura = horarioApertura;
+		this.horarioCierre = horarioCierre;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Sucursal other = (Sucursal) obj;
-		return estado == other.estado && Objects.equals(idSucursal, other.idSucursal) && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(productos, other.productos) && tipo == other.tipo;
-	}
-
-	public String getIdSucursal() {
+	public String getID() {
 		return idSucursal;
 	}
 
@@ -48,8 +38,12 @@ public class Sucursal implements Comparable<Sucursal>{
 		return tipo;
 	}
 
-	public Map<Producto, Integer> getProductos() {
-		return productos;
+	public Map<Producto, Integer> getStock() {
+		return stock;
+	}
+	
+	public void setStock(Map<Producto, Integer> stock) {
+		this.stock = stock;
 	}
 
 	public Time getHorarioApertura() {
@@ -59,36 +53,26 @@ public class Sucursal implements Comparable<Sucursal>{
 	public Time getHorarioCierre() {
 		return horarioCierre;
 	}
-
-	public void setIdSucursal(String idSucursal) {
-		this.idSucursal = idSucursal;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public void setEstado(Operatividad string) {
-		this.estado = string;
-	}
-
-	public void setTipo(TipoSucursal tipo) {
-		this.tipo = tipo;
-	}
-
-	public void setProductos(Map<Producto, Integer> productos) {
-		this.productos = productos;
-	}
-
-	public void setHorarioApertura(Time horarioApertura) {
-		this.horarioApertura = horarioApertura;
-	}
-
-	public void setHorarioCierre(Time horarioCierre) {
-		this.horarioCierre = horarioCierre;
-	}
 	
-	
-	
+	public int compareTo(Sucursal suc) {
+		return this.idSucursal.compareTo(suc.idSucursal);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idSucursal);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Sucursal other = (Sucursal) obj;
+		return Objects.equals(idSucursal, other.idSucursal);
+	}
 	
 }

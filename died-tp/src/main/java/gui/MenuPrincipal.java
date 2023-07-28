@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 public class MenuPrincipal extends JPanel {
 	
 	private JFrame frame;
+	private JTabbedPane opcionesEntidades;
 	
 	public MenuPrincipal(JFrame frame) {
 		this.frame = frame;
@@ -34,23 +35,41 @@ public class MenuPrincipal extends JPanel {
 		JLabel tituloSiglas = new JLabel("SGL");
 		tituloSiglas.setHorizontalAlignment(SwingConstants.LEFT);
 		tituloSiglas.setFont(new Font("Tahoma", Font.BOLD, 32));
-		tituloSiglas.setBounds(10, 13, 69, 30);
+		tituloSiglas.setBounds(10, 11, 69, 30);
 		add(tituloSiglas);
 		
 		JLabel tituloNombre = new JLabel("(Sistema de Gestion Logistico)");
 		tituloNombre.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		tituloNombre.setBounds(84, 23, 214, 20);
+		tituloNombre.setBounds(84, 21, 214, 20);
 		add(tituloNombre);
 		
 		JSeparator separadorTituloContenido = new JSeparator();
 		separadorTituloContenido.setBounds(10, 52, 780, 2);
 		add(separadorTituloContenido);
 		
-		JTabbedPane opcionesEntidades = new JTabbedPane(JTabbedPane.TOP);
+		opcionesEntidades = new JTabbedPane(JTabbedPane.TOP);
 		opcionesEntidades.setFont(new Font("Tahoma", Font.BOLD, 14));
 		opcionesEntidades.setBounds(10, 75, 780, 380);
 		add(opcionesEntidades);
 		
+		this.menuSucursales();
+		
+		this.menuRutas();
+		
+		this.menuProductos();
+		
+		this.menuOrdenes();
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setForeground(new Color(255, 255, 255));
+		btnSalir.setBackground(new Color(230, 0, 0));
+		btnSalir.addActionListener(act -> actionSalir());
+		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnSalir.setBounds(701, 466, 89, 23);
+		add(btnSalir);
+	}
+	
+	public void menuSucursales() {
 		JPanel menuSucursal = new JPanel();
 		opcionesEntidades.addTab("Sucursales", null, menuSucursal, null);
 		menuSucursal.setLayout(null);
@@ -69,6 +88,7 @@ public class MenuPrincipal extends JPanel {
 		menuSucursal.add(lblAltaDeSucursales);
 		
 		JButton btnConsultaDeSucursales = new JButton("Consulta de sucursales");
+		btnConsultaDeSucursales.addActionListener(act -> accionConsultaSucursal());
 		btnConsultaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeSucursales.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConsultaDeSucursales.setBounds(10, 79, 755, 23);
@@ -103,7 +123,9 @@ public class MenuPrincipal extends JPanel {
 		lblRankingDeSucursales.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblRankingDeSucursales.setBounds(10, 221, 755, 14);
 		menuSucursal.add(lblRankingDeSucursales);
-		
+	}
+	
+	public void menuRutas() {
 		JPanel menuRutas = new JPanel();
 		opcionesEntidades.addTab("Rutas", null, menuRutas, null);
 		menuRutas.setLayout(null);
@@ -131,7 +153,9 @@ public class MenuPrincipal extends JPanel {
 		lblConsultaDeRutas.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblConsultaDeRutas.setBounds(10, 103, 755, 14);
 		menuRutas.add(lblConsultaDeRutas);
-		
+	}
+	
+	public void menuProductos() {
 		JPanel menuProductos = new JPanel();
 		opcionesEntidades.addTab("Productos", null, menuProductos, null);
 		menuProductos.setLayout(null);
@@ -159,7 +183,9 @@ public class MenuPrincipal extends JPanel {
 		lblConsultaDeProductos.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblConsultaDeProductos.setBounds(10, 103, 755, 14);
 		menuProductos.add(lblConsultaDeProductos);
-		
+	}
+	
+	public void menuOrdenes() {
 		JPanel menuOrdenesDeProvision = new JPanel();
 		opcionesEntidades.addTab("Ordenes de Provision", null, menuOrdenesDeProvision, null);
 		menuOrdenesDeProvision.setLayout(null);
@@ -175,12 +201,6 @@ public class MenuPrincipal extends JPanel {
 		lblGenerarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblGenerarUnaOrden.setBounds(10, 45, 755, 14);
 		menuOrdenesDeProvision.add(lblGenerarUnaOrden);
-		
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(act -> actionSalir());
-		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSalir.setBounds(701, 466, 89, 23);
-		add(btnSalir);
 	}
 	
 	public void actionSalir() {
@@ -193,5 +213,11 @@ public class MenuPrincipal extends JPanel {
 		AltaSucursal altaSucursal = new AltaSucursal(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(altaSucursal);
+	}
+	
+	public void accionConsultaSucursal() {
+		ConsultaSucursal consultaSucursal = new ConsultaSucursal(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(consultaSucursal);
 	}
 }
