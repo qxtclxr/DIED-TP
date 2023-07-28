@@ -146,7 +146,7 @@ public class ConsultaSucursal extends Pantalla {
 		add(txtHorarioCierreMinutos);
 		
 		btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(act -> buscar());
+		btnBuscar.addActionListener(act -> actionBuscar());
 		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnBuscar.setBounds(10, 144, 121, 20);
 		add(btnBuscar);
@@ -159,7 +159,7 @@ public class ConsultaSucursal extends Pantalla {
 		
 	}
 	
-	public void buscar() {
+	public void actionBuscar() {
 		
 		//TODO
 		Sucursal aux = new Sucursal("13245","Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
@@ -174,24 +174,20 @@ public class ConsultaSucursal extends Pantalla {
 	
 	private void generarTabla(List<Sucursal> data) {
 		tabla = new JTable(datosTabla(data),COL_NAMES);
-		OpcionesCellEditor op = new OpcionesCellEditor(tabla,new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
-                int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
-                Rectangle cellRect = tabla.getCellRect(row, column, true);
-                Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-                Sucursal selected = data.stream().
-                					filter(suc -> suc.getID().equals(tabla.getModel().getValueAt(row,0))).
-                					findFirst().
-                					orElse(null);
-                OpcionesSucursalPopup popupMenu = new OpcionesSucursalPopup(selected);
-                popupMenu.show(tabla, popupLocation.x, popupLocation.y);
-                
-            }
-        });
-		tabla.getColumnModel().getColumn(6).setCellRenderer(new OpcionesCellRenderer());
-        tabla.getColumnModel().getColumn(6).setCellEditor(op);
+		OpcionesCellEditor op = new OpcionesCellEditor(tabla,act -> {
+			int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
+	        int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
+	        Rectangle cellRect = tabla.getCellRect(row, column, true);
+	        Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
+	        Sucursal selected = data.stream().
+	        					filter(suc -> suc.getID().equals(tabla.getModel().getValueAt(row,0))).
+	        					findFirst().
+	        					orElse(null);
+	        OpcionesSucursalPopup popupMenu = new OpcionesSucursalPopup(selected);
+	        popupMenu.show(tabla, popupLocation.x, popupLocation.y);
+	    });
+		tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellRenderer(new OpcionesCellRenderer());
+        tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellEditor(op);
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 175, 780, 276);
 		
