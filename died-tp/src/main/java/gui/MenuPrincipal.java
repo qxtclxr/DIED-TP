@@ -34,12 +34,12 @@ public class MenuPrincipal extends JPanel {
 		JLabel tituloSiglas = new JLabel("SGL");
 		tituloSiglas.setHorizontalAlignment(SwingConstants.LEFT);
 		tituloSiglas.setFont(new Font("Tahoma", Font.BOLD, 32));
-		tituloSiglas.setBounds(10, 13, 69, 30);
+		tituloSiglas.setBounds(10, 11, 69, 30);
 		add(tituloSiglas);
 		
 		JLabel tituloNombre = new JLabel("(Sistema de Gestion Logistico)");
 		tituloNombre.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		tituloNombre.setBounds(84, 23, 214, 20);
+		tituloNombre.setBounds(84, 21, 214, 20);
 		add(tituloNombre);
 		
 		JSeparator separadorTituloContenido = new JSeparator();
@@ -69,6 +69,7 @@ public class MenuPrincipal extends JPanel {
 		menuSucursal.add(lblAltaDeSucursales);
 		
 		JButton btnConsultaDeSucursales = new JButton("Consulta de sucursales");
+		btnConsultaDeSucursales.addActionListener(act -> accionConsultaSucursal());
 		btnConsultaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeSucursales.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConsultaDeSucursales.setBounds(10, 79, 755, 23);
@@ -195,5 +196,11 @@ public class MenuPrincipal extends JPanel {
 		AltaSucursal altaSucursal = new AltaSucursal(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(altaSucursal);
+	}
+	
+	public void accionConsultaSucursal() {
+		ConsultaSucursal consultaSucursal = new ConsultaSucursal(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(consultaSucursal);
 	}
 }

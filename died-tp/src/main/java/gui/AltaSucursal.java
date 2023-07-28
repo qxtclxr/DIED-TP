@@ -8,24 +8,19 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AltaSucursal extends JPanel {
-	
-	private JFrame frame;
-	private JPanel pantallaAnterior;
+public class AltaSucursal extends Pantalla {
+
 	private JTextField txtIDSucursal;
 	private JTextField txtNombre;
-	private JComboBox<ComboItem<TipoSucursal>> cmbTipoSucursal;
-	private JComboBox<ComboItem<Operatividad>> cmbOperatividad;
+	private JComboBox<TipoSucursal> cmbTipoSucursal;
+	private JComboBox<Operatividad> cmbOperatividad;
 	private JTextField txtHorarioAperturaHora;
 	private JTextField txtHorarioAperturaMinutos;
 	private JTextField txtHorarioCierreMinutos;
 	private JTextField txtHorarioCierreHora;
-
 	
 	public AltaSucursal(JFrame frame, JPanel pantallaAnterior) {
-		this.frame = frame;
-		this.pantallaAnterior = pantallaAnterior;
-		inicializarComponentes();
+		super(frame, pantallaAnterior);
 	}
 	
 	public void inicializarComponentes() {
@@ -36,7 +31,7 @@ public class AltaSucursal extends JPanel {
 		add(separadorTituloContenido);
 		
 		JLabel lblDescripcion = new JLabel("Completa el formulario y presiona \"Continuar\" para guardar los datos ingresados. Los datos obligatorios estan marcados con");
-		lblDescripcion.setBounds(10, 52, 717, 14);
+		lblDescripcion.setBounds(10, 50, 595, 14);
 		lblDescripcion.setForeground(new Color(128, 128, 128));
 		lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescripcion);
@@ -87,18 +82,18 @@ public class AltaSucursal extends JPanel {
 		lblTipoSucursal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblTipoSucursal);
 		
-		cmbTipoSucursal = new JComboBox<ComboItem<TipoSucursal>>();
+		cmbTipoSucursal = new JComboBox<TipoSucursal>();
 		cmbTipoSucursal.setBounds(30, 239, 355, 20);
 		add(cmbTipoSucursal);
-		cmbTipoSucursal.addItem(new ComboItem<TipoSucursal>("Comercial",TipoSucursal.COMERCIAL));
-		cmbTipoSucursal.addItem(new ComboItem<TipoSucursal>("Fuente",TipoSucursal.FUENTE));
-		cmbTipoSucursal.addItem(new ComboItem<TipoSucursal>("Sumidero",TipoSucursal.SUMIDERO));
+		cmbTipoSucursal.addItem(TipoSucursal.COMERCIAL);
+		cmbTipoSucursal.addItem(TipoSucursal.FUENTE);
+		cmbTipoSucursal.addItem(TipoSucursal.SUMIDERO);
 		
-		cmbOperatividad = new JComboBox<ComboItem<Operatividad>>();
+		cmbOperatividad = new JComboBox<Operatividad>();
 		cmbOperatividad.setBounds(415, 239, 355, 20);
 		add(cmbOperatividad);
-		cmbOperatividad.addItem(new ComboItem<Operatividad>("Operativa",Operatividad.OPERATIVA));
-		cmbOperatividad.addItem(new ComboItem<Operatividad>("No operativa",Operatividad.NO_OPERATIVA));
+		cmbOperatividad.addItem(Operatividad.OPERATIVA);
+		cmbOperatividad.addItem(Operatividad.NO_OPERATIVA);
 		
 		JLabel lblHorarioDeApertura = new JLabel("Horario de apertura");
 		lblHorarioDeApertura.setVerticalAlignment(SwingConstants.TOP);
@@ -107,12 +102,10 @@ public class AltaSucursal extends JPanel {
 		add(lblHorarioDeApertura);
 		
 		txtHorarioAperturaHora = new JTextField();
-		txtHorarioAperturaHora.setColumns(10);
 		txtHorarioAperturaHora.setBounds(30, 342, 50, 20);
 		add(txtHorarioAperturaHora);
 		
 		txtHorarioAperturaMinutos = new JTextField();
-		txtHorarioAperturaMinutos.setColumns(10);
 		txtHorarioAperturaMinutos.setBounds(94, 342, 50, 20);
 		add(txtHorarioAperturaMinutos);
 		
@@ -130,28 +123,26 @@ public class AltaSucursal extends JPanel {
 		
 		JLabel lblHorarioDeCierre = new JLabel("Horario de cierre");
 		lblHorarioDeCierre.setVerticalAlignment(SwingConstants.TOP);
-		lblHorarioDeCierre.setBounds(286, 317, 226, 20);
+		lblHorarioDeCierre.setBounds(415, 317, 226, 20);
 		lblHorarioDeCierre.setFont(new Font("Tahoma", Font.BOLD, 14));
-		add(lblHorarioDeCierre);		
-		
-		txtHorarioCierreMinutos = new JTextField();
-		txtHorarioCierreMinutos.setBounds(350, 342, 50, 20);
-		txtHorarioCierreMinutos.setColumns(10);
-		add(txtHorarioCierreMinutos);
+		add(lblHorarioDeCierre);
 		
 		txtHorarioCierreHora = new JTextField();
-		txtHorarioCierreHora.setBounds(286, 342, 50, 20);
-		txtHorarioCierreHora.setColumns(10);
+		txtHorarioCierreHora.setBounds(415, 342, 50, 20);
 		add(txtHorarioCierreHora);
+		
+		txtHorarioCierreMinutos = new JTextField();
+		txtHorarioCierreMinutos.setBounds(479, 342, 50, 20);
+		add(txtHorarioCierreMinutos);
 		
 		JLabel lblSeparadorHorarioCierre = new JLabel(":");
 		lblSeparadorHorarioCierre.setVerticalAlignment(SwingConstants.TOP);
-		lblSeparadorHorarioCierre.setBounds(340, 342, 7, 22);
+		lblSeparadorHorarioCierre.setBounds(469, 342, 7, 22);
 		lblSeparadorHorarioCierre.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(lblSeparadorHorarioCierre);
 		
 		JLabel lblDescHorarioCierre = new JLabel("Se utiliza formato de 24 horas.");
-		lblDescHorarioCierre.setBounds(286, 367, 177, 14);
+		lblDescHorarioCierre.setBounds(415, 367, 177, 14);
 		lblDescHorarioCierre.setForeground(Color.GRAY);
 		lblDescHorarioCierre.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblDescHorarioCierre);
@@ -161,18 +152,6 @@ public class AltaSucursal extends JPanel {
 		lblEstadoDeOperatividad.setBounds(415, 214, 250, 20);
 		lblEstadoDeOperatividad.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblEstadoDeOperatividad);
-		
-		JLabel lblProductosEnStock = new JLabel("Productos en stock");
-		lblProductosEnStock.setVerticalAlignment(SwingConstants.TOP);
-		lblProductosEnStock.setBounds(544, 317, 226, 20);
-		lblProductosEnStock.setFont(new Font("Tahoma", Font.BOLD, 14));
-		add(lblProductosEnStock);
-		
-		JButton btnProductosEnStock = new JButton("Editar stock de productos");
-		btnProductosEnStock.setBounds(544, 342, 226, 23);
-		btnProductosEnStock.setHorizontalAlignment(SwingConstants.LEFT);
-		btnProductosEnStock.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		add(btnProductosEnStock);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBackground(new Color(255, 159, 162));
@@ -190,8 +169,9 @@ public class AltaSucursal extends JPanel {
 		JLabel lblAltaDeProductos = new JLabel("Alta de sucursal");
 		lblAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAltaDeProductos.setFont(new Font("Tahoma", Font.BOLD, 32));
-		lblAltaDeProductos.setBounds(10, 13, 780, 30);
+		lblAltaDeProductos.setBounds(10, 11, 780, 30);
 		add(lblAltaDeProductos);
+		
 	}
 	
 	public void actionCancelar() {

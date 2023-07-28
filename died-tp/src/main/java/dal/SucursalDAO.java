@@ -25,7 +25,6 @@ public class SucursalDAO implements DAO<Sucursal>{
 	        pstm.setString(6, suc.getTipo().toString());
 	        pstm.executeUpdate();
 		}
-		setStock(suc);
 	}
 	
 	public void update(Sucursal suc) throws SQLException {
@@ -40,12 +39,46 @@ public class SucursalDAO implements DAO<Sucursal>{
 		}
 	}
 	
+	public void delete(Sucursal suc) throws SQLException {
+		String statement = "DELETE FROM Sucursal WHERE idsucursal = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setString(1,suc.getID());
+		}
+	}
+	
+	public Sucursal getByID(String id) throws SQLException { //Si no existe, se devuelve null. Podria cambiarse por una exception
+		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo " +
+						   "FROM Sucursal " +
+						   "WHERE idsucursal = ?";
+		Sucursal suc =  null;
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setString(1,id);
+			try(ResultSet rs = pstm.executeQuery();){
+				while(rs.next()) {
+					suc = new Sucursal(
+							rs.getString(1),
+							rs.getString(2),
+							rs.getTime(3),
+							rs.getTime(4),
+							Operatividad.valueOf(rs.getString(5)), 
+							TipoSucursal.valueOf(rs.getString(6)));
+					/*
+					 * Para los ENUM, por restricciones en las columnas de la tabla
+					 * se asegura un resultado correcto, es decir, valueOf() se ejecutara
+					 * correctamente.
+					 */
+				}
+			}
+		}
+		return suc;
+	}
+	
 	public void setStock(Sucursal suc) throws SQLException{
 		Set<Entry<Producto, Integer>> stock = suc.getStock().entrySet();
 		String statement = "INSERT Stock SET idproducto = ?, idsucursal = ?, cantidad = ? " +
 						   "ON CONFLICT DO UPDATE cantidad = ? WHERE idproducto = ? AND idsucursal = ?";
 		/*La anterior sentencia es una sentencia "UPSERT", si la fila no
-		 * existe se inserta y si existe se modifica.*/
+		 *existe se inserta y si existe se modifica.*/
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			conn.setAutoCommit(false);
 			/*Se setea el autocommit en false, ya que se ejecutan
@@ -64,9 +97,9 @@ public class SucursalDAO implements DAO<Sucursal>{
 				pstm.setString(5,prod.getID());
 				pstm.setString(6,suc.getID());
 				pstm.addBatch();
+				i++;
 				if(i%BATCH_LIMIT==0 || i==stock.size()-1)
 					pstm.executeBatch();
-				i++;
 			}
 		}catch (SQLException ex) {
 			conn.rollback();
@@ -79,16 +112,26 @@ public class SucursalDAO implements DAO<Sucursal>{
 		}
 	}
 	
-	public Map<Producto,Integer> getStock(Sucursal suc) throws SQLException {//Puede cambiar para no tener que llamar a ProductoDAO
-		ProductoDAO productoDAO = new ProductoDAO();
+	public Map<Producto,Integer> getStock(Sucursal suc) throws SQLException {
 		HashMap<Producto,Integer> stock = new HashMap<Producto,Integer>();
-		String statement = "SELECT * FROM Stock WHERE idsucursal = ?";
-		try (PreparedStatement pstm = conn.prepareStatement(statement);
-			 ResultSet rs = pstm.executeQuery();){
-			while(rs.next()) {
-				Producto prod = productoDAO.getByID(rs.getString("idproducto"));
-				stock.put(prod,rs.getInt("cantidad"));
+		String statement = 
+				"SELECT p.idproducto,p.nombre,p.descripcion,p.preciounitario,p.pesokg,s.cantidad " +
+				"FROM Stock s, Producto p " +
+				"WHERE s.idsucursal = ? AND s.idproducto = p.idproducto";
+		try (PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setString(1,suc.getID());
+			try(ResultSet rs = pstm.executeQuery();){
+				while(rs.next()) {
+					Producto prod = new Producto(
+							rs.getString(1),
+							rs.getString(2),
+							rs.getString(3),
+							rs.getFloat(4),
+							rs.getFloat(5));
+					stock.put(prod,rs.getInt(6));
+				}
 			}
 		}
+		return stock;
 	}
 }
