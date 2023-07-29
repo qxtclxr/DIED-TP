@@ -14,7 +14,7 @@ public class RutaPostgreDAO implements DAO<Ruta>,RutaDAO{
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public RutaDAO(Connection conn) {
+	public RutaPostgreDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
