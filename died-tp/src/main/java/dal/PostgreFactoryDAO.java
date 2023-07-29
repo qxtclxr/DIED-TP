@@ -7,6 +7,8 @@ public class PostgreFactoryDAO extends FactoryDAO {
 	public SucursalDAO getSucursalDAO(Connection conn) {
 		return new SucursalPostgreDAO(conn);
 	}
-	publi
+	public RutaDAO getRutaDAO(Connection conn) {
+		return new RutaPostgreDAO(conn);
+	}
 
 }
