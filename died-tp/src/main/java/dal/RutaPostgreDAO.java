@@ -9,7 +9,8 @@ import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
 
-public class RutaPostgreDAO implements DAO<Ruta>{
+
+public class RutaPostgreDAO implements DAO<Ruta>, RutaDAO{
 
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
@@ -74,7 +75,4 @@ public class RutaPostgreDAO implements DAO<Ruta>{
 		
 		return null;
 	}
-	
-	
-	
 }
