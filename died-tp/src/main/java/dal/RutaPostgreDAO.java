@@ -67,8 +67,7 @@ public class RutaPostgreDAO implements DAO<Ruta>{
 			pstm.setString(1,id);
 			try(ResultSet rs = pstm.executeQuery();){
 				while(rs.next()) {
-					
-					
+
 				}
 			}
 		}
