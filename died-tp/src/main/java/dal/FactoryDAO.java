@@ -6,6 +6,7 @@ public abstract class FactoryDAO {
 	public static final int POSTGRE_FACTORY = 1;
 	
 	public abstract SucursalDAO getSucursalDAO(Connection conn);
+	public abstract RutaDAO getRutaDAO(Connection conn);
 	
 	public static FactoryDAO getFactory(int key) {
 		switch(key) {
