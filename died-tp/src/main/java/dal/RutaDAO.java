@@ -1,5 +1,7 @@
 package dal;
 
-public interface RutaDAO {
+import datos.Ruta;
+
+public interface RutaDAO extends DAO<Ruta>{
 
 }

@@ -10,7 +10,7 @@ import datos.Producto;
 import datos.Sucursal;
 import datos.TipoSucursal;
 
-public class ProductoPostgreDAO implements DAO<Producto>, ProductoDAO{
+public class ProductoPostgreDAO implements ProductoDAO{
 
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;

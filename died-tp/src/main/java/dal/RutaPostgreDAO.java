@@ -10,7 +10,7 @@ import datos.Sucursal;
 import datos.TipoSucursal;
 
 
-public class RutaPostgreDAO implements DAO<Ruta>, RutaDAO{
+public class RutaPostgreDAO implements RutaDAO{
 
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
@@ -67,8 +67,15 @@ public class RutaPostgreDAO implements DAO<Ruta>, RutaDAO{
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			pstm.setString(1,id);
 			try(ResultSet rs = pstm.executeQuery();){
+				
+				FactoryDAO f = FactoryDAO.getFactory(1);
+				f.getSucursalDAO(conn).getByID(id);
+				
+				
 				while(rs.next()) {
+				
 
+					
 				}
 			}
 		}

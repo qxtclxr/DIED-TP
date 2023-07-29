@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import datos.*;
 
-public class SucursalPostgreDAO implements DAO<Sucursal>,SucursalDAO{
+public class SucursalPostgreDAO implements SucursalDAO{
 	
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;

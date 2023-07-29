@@ -26,16 +26,7 @@ public class Ruta {
 		
 	}
 	
-	public Ruta (Connection con) {
-		
-		FactoryDAO f = FactoryDAO.getFactory(1);
-		
-		
-		
-		
-	}
-	
-	
+
 	public Sucursal getOrigen() {return this.origen;}
 	public Sucursal getDestino() {return this.destino;}
 	public Integer getDuracion() {return this.duracion;}

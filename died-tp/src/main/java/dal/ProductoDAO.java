@@ -1,5 +1,7 @@
 package dal;
 
-public interface ProductoDAO {
+import datos.Producto;
+
+public interface ProductoDAO extends DAO<Producto>{
 
 }
