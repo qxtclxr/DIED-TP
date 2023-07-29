@@ -6,7 +6,7 @@ public class PostgreFactoryDAO extends FactoryDAO {
 
 	@Override
 	public SucursalDAO getSucursalDAO(Connection conn) {
-		return new SucursalPostgreDAO(Connection conn);
+		return new SucursalPostgreDAO(conn);
 	}
 
 }
