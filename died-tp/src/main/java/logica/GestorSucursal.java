@@ -1,6 +1,14 @@
 package logica;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Time;
+
+import dal.FactoryDAO;
+import datos.Operatividad;
+import datos.Sucursal;
+import datos.TipoSucursal;
+import gui.ComboItem;
 
 public final class GestorSucursal {
 	/* responsabilidades que tendria esta clas:
@@ -23,9 +31,14 @@ public final class GestorSucursal {
 		this.conn=c;
 	}
 	
-	public Boolean altaSucursal() {
-		//tbd
-		return false;
-	};
+	public void altaSucursal(String idSuc,String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws SQLException{
+		//tengo que armar el objeto de datos y luego persistirlo
+		//chequear posta estos constructores
+		Sucursal aux= new Sucursal(idSuc,nombreSuc,Time.valueOf(horarioAperturaHora+":"+horarioAperturaMinutos),Time.valueOf(horarioCierreHora+":"+horarioCierreMinutos),operatividad,tipo);
+		FactoryDAO fact= FactoryDAO.getFactory(1);
+		fact.getSucursalDAO(conn).insert(aux);
+	}
+	
+	
 
 }
