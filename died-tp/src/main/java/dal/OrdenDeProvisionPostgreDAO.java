@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import datos.OrdenDeProvision;
 
-public class OrdenDeProvisionPostgreDAO implements DAO<OrdenDeProvision>, OrdenDeProvisionDAO  {
+public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;

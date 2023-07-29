@@ -1,5 +1,7 @@
 package dal;
 
-public interface OrdenDeProvisionDAO {
+import datos.OrdenDeProvision;
+
+public interface OrdenDeProvisionDAO extends DAO<OrdenDeProvision>{
 
 }

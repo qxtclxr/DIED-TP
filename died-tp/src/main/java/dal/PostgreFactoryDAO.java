@@ -10,5 +10,12 @@ public class PostgreFactoryDAO extends FactoryDAO {
 	public RutaDAO getRutaDAO(Connection conn) {
 		return new RutaPostgreDAO(conn);
 	}
+	
+	public OrdenDeProvisionDAO getOrdenDeProvisionDAO(Connection conn) {
+		return new OrdenDeProvisionPostgreDAO(conn);
+	}
 
+	public ProductoDAO getProductoDAO(Connection conn) {
+		return new ProductoPostgreDAO(conn);
+	}
 }

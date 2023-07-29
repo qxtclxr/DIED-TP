@@ -1,11 +1,31 @@
 package logica;
 
+import java.sql.Connection;
 
-public class GestorSucursal {
-	
+public final class GestorSucursal {
 	/* responsabilidades que tendria esta clas:
-	 * Deberia chequear los datos de alta de una sucursal y de modificacion, crear el objeto de datos de la sucursal y 
-	 * luego llamar al DAO correspondiente para la persistencia
+	 * ALERTA: Una vez que la inicialices, no vas a poder cambiarle la conexion
+	 * Realizar altas y bajas mediante la conexion a un DAO
 	 */
+	
+	private Connection conn;
+	private static GestorSucursal gestor;
+	
+	public synchronized static GestorSucursal getInstance(Connection c) {
+		if(gestor==null) {
+			gestor= new GestorSucursal(c);
+		}
+		return gestor;
+	}
+	
+	private GestorSucursal(Connection c){
+		super();
+		this.conn=c;
+	}
+	
+	public Boolean altaSucursal() {
+		//tbd
+		return false;
+	};
 
 }

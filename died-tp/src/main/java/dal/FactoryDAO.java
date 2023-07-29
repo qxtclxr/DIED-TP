@@ -7,6 +7,9 @@ public abstract class FactoryDAO {
 	
 	public abstract SucursalDAO getSucursalDAO(Connection conn);
 	public abstract RutaDAO getRutaDAO(Connection conn);
+	public abstract OrdenDeProvisionDAO getOrdenDeProvisionDAO(Connection conn);
+	public abstract ProductoDAO getProductoDAO(Connection conn);
+	
 	
 	public static FactoryDAO getFactory(int key) {
 		switch(key) {
