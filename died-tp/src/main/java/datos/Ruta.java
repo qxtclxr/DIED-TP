@@ -1,5 +1,10 @@
 package datos;
 
+import java.sql.Connection;
+
+import dal.FactoryDAO;
+import logica.bdd.SucursalDAO;
+
 public class Ruta {
 	private String idRuta;
 	private Sucursal origen;
@@ -18,7 +23,18 @@ public class Ruta {
 		this.estado = estado;
 		this.duracion = duracion;
 		this.capacidadMaxima = capacidadMaxima;
+		
 	}
+	
+	public Ruta (Connection con) {
+		
+		FactoryDAO f = FactoryDAO.getFactory(1);
+		
+		
+		
+		
+	}
+	
 	
 	public Sucursal getOrigen() {return this.origen;}
 	public Sucursal getDestino() {return this.destino;}

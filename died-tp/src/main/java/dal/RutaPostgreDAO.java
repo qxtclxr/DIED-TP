@@ -9,12 +9,12 @@ import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
 
-public class RutaDAO implements DAO<Ruta>{
+public class RutaPostgreDAO implements DAO<Ruta>{
 
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public RutaDAO(Connection conn) {
+	public RutaPostgreDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
@@ -50,7 +50,6 @@ public class RutaDAO implements DAO<Ruta>{
 		
 	}
 
-	@Override
 	public void delete(Ruta obj) throws SQLException {
 		String statement = "DELETE FROM Ruta WHERE idruta = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
@@ -58,18 +57,24 @@ public class RutaDAO implements DAO<Ruta>{
 		}
 		
 	}
-
-	@Override
 	public Ruta getByID(String id) throws SQLException {
+		String statement = "SELECT idruta,origen,destino,duracion,capacidadmaxima,estado " +
+				   "FROM Ruta " +
+				   "WHERE idruta = ?";
+		Ruta rut = null;
+		
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setString(1,id);
+			try(ResultSet rs = pstm.executeQuery();){
+				while(rs.next()) {
+					
+					
+				}
+			}
+		}
 		
 		return null;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
