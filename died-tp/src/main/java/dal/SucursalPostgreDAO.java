@@ -47,13 +47,13 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		}
 	}
 	
-	public Sucursal getByID(String id) throws SQLException { //Si no existe, se devuelve null. Podria cambiarse por una exception
+	public Sucursal getByID(Integer id) throws SQLException { //Si no existe, se devuelve null. Podria cambiarse por una exception
 		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo " +
 						   "FROM Sucursal " +
 						   "WHERE idsucursal = ?";
 		Sucursal suc =  null;
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setString(1,id);
+			pstm.setInt(1,id);
 			try(ResultSet rs = pstm.executeQuery();){
 				while(rs.next()) {
 					suc = new Sucursal(
