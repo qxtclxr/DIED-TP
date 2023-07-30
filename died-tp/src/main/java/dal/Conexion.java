@@ -2,19 +2,32 @@ package dal;
 
 import java.sql.*;
 
-public class Conexion {
+public final class Conexion {
+	/*ver tema clonado
+	 * 
+	 */
+	
 
 	private String url = "jdbc:postgresql://localhost:5432/bdtpdied";
 	private String username = "usertpdied";
 	private String password = "user";
 	private boolean estado = false;
 	private Connection con;	
+	private static Conexion obj;
 	
-	public Connection conectar() throws SQLException, ClassNotFoundException {
+	
+	public synchronized static Conexion getInstance() throws SQLException, ClassNotFoundException{
+		if(obj==null) {
+			obj= new Conexion();
+		}
+		return obj;
+	}
+	
+	
+	public Conexion() throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		this.con = DriverManager.getConnection(url, username, password);
 		this.estado = true;
-		return this.con;
 	}
 	
 	public void desconectar() throws SQLException {
@@ -26,6 +39,10 @@ public class Conexion {
 	
 	public boolean getEstado() {
 		return this.estado;
+	}
+	
+	public Connection getConn() {
+		return this.con;
 	}
 	
 }
