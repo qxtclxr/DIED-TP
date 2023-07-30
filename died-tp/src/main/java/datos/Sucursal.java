@@ -1,4 +1,4 @@
-package datos;
+;;package datos;
 
 import java.util.*;
 import java.sql.Time;
@@ -21,7 +21,8 @@ public class Sucursal implements Comparable<Sucursal>{
 		this.horarioApertura = horarioApertura;
 		this.horarioCierre = horarioCierre;
 	}
-
+	
+	
 	public String getID() {
 		return idSucursal;
 	}
