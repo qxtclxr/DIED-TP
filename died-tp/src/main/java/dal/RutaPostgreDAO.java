@@ -15,8 +15,9 @@ public class RutaPostgreDAO implements RutaDAO{
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public RutaPostgreDAO(Connection conn) {
-		this.conn = conn;
+	public RutaPostgreDAO() throws ClassNotFoundException, SQLException {
+		super();
+		this.conn = Conexion.getInstance().getConn();;
 	}
 	
 	
@@ -58,7 +59,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		}
 		
 	}
-	public Ruta getByID(String id) throws SQLException {
+	public Ruta getByID(String id) throws SQLException, ClassNotFoundException {
 		String statement = "SELECT idruta,origen,destino,duracion,capacidadmaxima,estado " +
 				   "FROM Ruta " +
 				   "WHERE idruta = ?";
@@ -69,7 +70,7 @@ public class RutaPostgreDAO implements RutaDAO{
 			try(ResultSet rs = pstm.executeQuery();){
 				
 				FactoryDAO f = FactoryDAO.getFactory(1);
-				f.getSucursalDAO(conn).getByID(id);
+				f.getSucursalDAO().getByID(id);
 				
 				
 				while(rs.next()) {

@@ -15,8 +15,9 @@ public class ProductoPostgreDAO implements ProductoDAO{
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public ProductoPostgreDAO(Connection conn) {
-		this.conn = conn;
+	public ProductoPostgreDAO() throws ClassNotFoundException, SQLException {
+		super();
+		this.conn = Conexion.getInstance().getConn();
 	}
 	
 	

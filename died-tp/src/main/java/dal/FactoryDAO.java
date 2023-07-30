@@ -1,14 +1,15 @@
 package dal;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public abstract class FactoryDAO {
 	public static final int POSTGRE_FACTORY = 1;
 	
-	public abstract SucursalDAO getSucursalDAO();
-	public abstract RutaDAO getRutaDAO();
-	public abstract OrdenDeProvisionDAO getOrdenDeProvisionDAO();
-	public abstract ProductoDAO getProductoDAO();
+	public abstract SucursalDAO getSucursalDAO()throws SQLException,ClassNotFoundException;
+	public abstract RutaDAO getRutaDAO() throws SQLException,ClassNotFoundException;
+	public abstract OrdenDeProvisionDAO getOrdenDeProvisionDAO()throws SQLException,ClassNotFoundException;
+	public abstract ProductoDAO getProductoDAO() throws SQLException,ClassNotFoundException;
 	
 	
 	public static FactoryDAO getFactory(int key) {
