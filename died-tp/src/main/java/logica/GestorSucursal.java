@@ -11,7 +11,7 @@ import datos.TipoSucursal;
 import gui.ComboItem;
 
 public final class GestorSucursal {
-	/* responsabilidades que tendria esta clas:
+	/* Responsabilidades que tendria esta clas:
 	 * ALERTA: Una vez que la inicialices, no vas a poder cambiarle la conexion
 	 * Realizar altas y bajas mediante la conexion a un DAO
 	 */
@@ -26,7 +26,7 @@ public final class GestorSucursal {
 		return gestor;
 	}
 	
-	private GestorSucursal(Connection c){
+	private GestorSucursal(Connection c) {
 		super();
 		this.conn=c;
 	}
