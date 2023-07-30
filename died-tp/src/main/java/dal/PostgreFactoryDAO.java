@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class PostgreFactoryDAO extends FactoryDAO {
 	
-	public SucursalDAO getSucursalDAO() throws ClassNotFoundException, SQLException{
+	public SucursalDAO getSucursalDAO(){
 		return new SucursalPostgreDAO();
 	}
 	public RutaDAO getRutaDAO() {

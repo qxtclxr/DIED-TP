@@ -24,6 +24,7 @@ public final class Conexion {
 	}
 	
 	
+	
 	public Conexion() throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		this.con = DriverManager.getConnection(url, username, password);
