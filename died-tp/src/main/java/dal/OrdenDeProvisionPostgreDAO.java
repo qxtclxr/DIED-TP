@@ -11,8 +11,9 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public OrdenDeProvisionPostgreDAO(Connection conn) {
-		this.conn = conn;
+	public OrdenDeProvisionPostgreDAO() throws ClassNotFoundException, SQLException {
+		super();
+		this.conn = Conexion.getInstance().getConn();
 	}
 	
 	

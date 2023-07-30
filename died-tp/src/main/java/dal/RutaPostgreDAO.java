@@ -15,8 +15,9 @@ public class RutaPostgreDAO implements RutaDAO{
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public RutaPostgreDAO(Connection conn) {
-		this.conn = conn;
+	public RutaPostgreDAO() throws ClassNotFoundException, SQLException {
+		super();
+		this.conn = Conexion.getInstance().getConn();;
 	}
 	
 	
