@@ -1,4 +1,4 @@
-;;package datos;
+package datos;
 
 import java.util.*;
 import java.sql.Time;

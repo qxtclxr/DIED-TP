@@ -3,7 +3,6 @@ package datos;
 import java.sql.Connection;
 
 import dal.FactoryDAO;
-import logica.bdd.SucursalDAO;
 
 public class Ruta {
 	private String idRuta;

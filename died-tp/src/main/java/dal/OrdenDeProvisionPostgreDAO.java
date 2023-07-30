@@ -65,7 +65,6 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 				pstm.setString(4, obj.getIdOrden());
 				pstm.setString(5, prod.getID());
 			}
-
 		});
 		
 		
