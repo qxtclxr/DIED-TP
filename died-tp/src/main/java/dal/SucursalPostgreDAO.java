@@ -35,14 +35,14 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			pstm.setTime(3, suc.getHorarioCierre());
 			pstm.setString(4, suc.getEstado().toString());
 			pstm.setString(5, suc.getTipo().toString());
-			pstm.setString(6, suc.getID());
+			pstm.setInt(6, suc.getID());
 		}
 	}
 	
 	public void delete(Sucursal suc) throws SQLException {
 		String statement = "DELETE FROM Sucursal WHERE idsucursal = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setString(1,suc.getID());
+			pstm.setInt(1,suc.getID());
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			try(ResultSet rs = pstm.executeQuery();){
 				while(rs.next()) {
 					suc = new Sucursal(
-							rs.getString(1),
+							rs.getInt(1),
 							rs.getString(2),
 							rs.getTime(3),
 							rs.getTime(4),
@@ -90,12 +90,12 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			for(Entry<Producto, Integer> item : stock) {
 				Producto prod = item.getKey();
 				Integer cantidad = item.getValue();
-				pstm.setString(1,prod.getID());
-				pstm.setString(2,suc.getID());
+				pstm.setInt(1,prod.getID());
+				pstm.setInt(2,suc.getID());
 				pstm.setInt(3, cantidad.intValue());
 				pstm.setInt(4, cantidad.intValue());
-				pstm.setString(5,prod.getID());
-				pstm.setString(6,suc.getID());
+				pstm.setInt(5,prod.getID());
+				pstm.setInt(6,suc.getID());
 				pstm.addBatch();
 				i++;
 				if(i%BATCH_LIMIT==0 || i==stock.size()-1)
@@ -119,11 +119,11 @@ public class SucursalPostgreDAO implements SucursalDAO{
 				"FROM Stock s, Producto p " +
 				"WHERE s.idsucursal = ? AND s.idproducto = p.idproducto";
 		try (PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setString(1,suc.getID());
+			pstm.setInt(1,suc.getID());
 			try(ResultSet rs = pstm.executeQuery();){
 				while(rs.next()) {
 					Producto prod = new Producto(
-							rs.getString(1),
+							rs.getInt(1),
 							rs.getString(2),
 							rs.getString(3),
 							rs.getFloat(4),

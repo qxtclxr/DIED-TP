@@ -24,7 +24,7 @@ public class ProductoPostgreDAO implements ProductoDAO{
 	public void insert(Producto obj) throws SQLException {
 		String statement = "INSERT INTO Producto (idproducto, nombre, descripcion, preciounitario, pesokg) VALUES (?,?,?,?,?)";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
-			pstm.setString(1, obj.getID());
+			pstm.setInt(1, obj.getID());
 			pstm.setString(2, obj.getNombre());
 			pstm.setString(3, obj.getDescripcion());
 			pstm.setDouble(4, obj.getPrecioUnitario());
@@ -40,13 +40,13 @@ public class ProductoPostgreDAO implements ProductoDAO{
 	public void update(Producto obj) throws SQLException {
 		String statement = "UPDATE Producto SET idproducto = ?, nombre = ?, descripcion = ?, preciounitario = ?, pesokg = ? WHERE idproducto = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
-			pstm.setString(1, obj.getID());
+			pstm.setInt(1, obj.getID());
 			pstm.setString(2, obj.getNombre());
 			pstm.setString(3, obj.getDescripcion());
 			pstm.setDouble(4, obj.getPrecioUnitario());
 			pstm.setDouble(5, obj.getPesoKg());
 			
-			pstm.setString(1, obj.getID());
+			pstm.setInt(1, obj.getID());
 		}
 		
 		
@@ -56,24 +56,24 @@ public class ProductoPostgreDAO implements ProductoDAO{
 	public void delete(Producto obj) throws SQLException {
 		String statement = "DELETE FROM Producto WHERE idproducto = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setString(1,obj.getID());
+			pstm.setInt(1,obj.getID());
 		}
 		
 	}
 
 	@Override
-	public Producto getByID(String id) throws SQLException {
+	public Producto getByID(Integer id) throws SQLException {
 	
 		String statement = "SELECT idproducto, nombre, descripcion, preciounitario, pesokg " +
 				   "FROM Producto " +
 				   "WHERE idproducto = ?";
 		Producto p =  null;
 			try(PreparedStatement pstm = conn.prepareStatement(statement);){
-						pstm.setString(1,id);
+						pstm.setInt(1,id);
 								try(ResultSet rs = pstm.executeQuery();){
 										while(rs.next()) {
 												p = new Producto(
-														rs.getString(1),
+														rs.getInt(1),
 														rs.getString(2),
 														rs.getString(3),
 														rs.getFloat(4),

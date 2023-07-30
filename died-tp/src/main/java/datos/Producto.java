@@ -3,13 +3,13 @@ package datos;
 import java.util.Objects;
 
 public class Producto {
-	private String idProducto;
+	private Integer idProducto;
 	private String nombre;
 	private String descripcion;
 	private Float precioUnitario;
 	private Float pesoKg;
 	
-	public Producto(String idProducto, String nombre, String descripcion, Float precioUnitario, Float pesoKg) {
+	public Producto(Integer idProducto, String nombre, String descripcion, Float precioUnitario, Float pesoKg) {
 		super();
 		this.idProducto = idProducto;
 		this.nombre = nombre;
@@ -17,7 +17,7 @@ public class Producto {
 		this.precioUnitario = precioUnitario;
 		this.pesoKg = pesoKg;
 	}
-	public String getID() {
+	public Integer getID() {
 		return idProducto;
 	}
 	public String getNombre() {

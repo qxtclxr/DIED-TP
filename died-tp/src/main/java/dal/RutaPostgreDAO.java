@@ -24,9 +24,9 @@ public class RutaPostgreDAO implements RutaDAO{
 	public void insert(Ruta obj) throws SQLException {
 		String statement = "INSERT INTO RUTA (idruta,origen,destino,duracion,capacidadmaxima,estado) VALUES (?,?,?,?,?,?)";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {			
-	        pstm.setString(1, obj.getIdRuta());
-	        pstm.setString(2, obj.getOrigen().getID());
-	        pstm.setString(3, obj.getDestino().getID());
+	        pstm.setInt(1, obj.getIdRuta());
+	        pstm.setInt(2, obj.getOrigen().getID());
+	        pstm.setInt(3, obj.getDestino().getID());
 	        pstm.setInt(4, obj.getDuracion());
 	        pstm.setFloat(5, obj.getCapacidadMaxima());
 	        pstm.setString(6, obj.getEstado());
@@ -39,13 +39,13 @@ public class RutaPostgreDAO implements RutaDAO{
 	public void update(Ruta obj) throws SQLException {
 		String statement = "UPDATE RUTA SET idruta = ?, origen = ?, destino = ?, duracion = ?, capacidadmaxima = ?, estado = ? WHERE idruta = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {			
-	        pstm.setString(1, obj.getIdRuta());
-	        pstm.setString(2, obj.getOrigen().getID());
-	        pstm.setString(3, obj.getDestino().getID());
+	        pstm.setInt(1, obj.getIdRuta());
+	        pstm.setInt(2, obj.getOrigen().getID());
+	        pstm.setInt(3, obj.getDestino().getID());
 	        pstm.setInt(4, obj.getDuracion());
 	        pstm.setFloat(5, obj.getCapacidadMaxima());
-	        pstm.setString(6, obj.getEstado());
-	        pstm.setString(7, obj.getIdRuta());
+	        pstm.setString(6, obj.getEstado().toString());
+	        pstm.setInt(7, obj.getIdRuta());
 	        pstm.executeUpdate();
 		}
 		
@@ -54,18 +54,18 @@ public class RutaPostgreDAO implements RutaDAO{
 	public void delete(Ruta obj) throws SQLException {
 		String statement = "DELETE FROM Ruta WHERE idruta = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setString(1,obj.getIdRuta());
+			pstm.setInt(1,obj.getIdRuta());
 		}
 		
 	}
-	public Ruta getByID(String id) throws SQLException {
+	public Ruta getByID(Integer id) throws SQLException {
 		String statement = "SELECT idruta,origen,destino,duracion,capacidadmaxima,estado " +
 				   "FROM Ruta " +
 				   "WHERE idruta = ?";
 		Ruta rut = null;
 		
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setString(1,id);
+			pstm.setInt(1,id);
 			try(ResultSet rs = pstm.executeQuery();){
 				
 				FactoryDAO f = FactoryDAO.getFactory(1);

@@ -7,7 +7,6 @@ import datos.Producto;
 import datos.Sucursal;
 
 public interface SucursalDAO extends DAO<Sucursal> {
-	public abstract  void setStock(Sucursal suc) throws SQLException;
+	public abstract void setStock(Sucursal suc) throws SQLException;
 	public abstract Map<Producto,Integer> getStock(Sucursal suc) throws SQLException;
-	
 }

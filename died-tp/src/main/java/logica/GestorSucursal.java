@@ -8,7 +8,6 @@ import dal.FactoryDAO;
 import datos.Operatividad;
 import datos.Sucursal;
 import datos.TipoSucursal;
-import gui.ComboItem;
 
 public final class GestorSucursal {
 	/* Responsabilidades que tendria esta clas:
@@ -30,7 +29,7 @@ public final class GestorSucursal {
 	}
 
 	
-	public void altaSucursal(String idSuc,String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws SQLException, ClassNotFoundException{
+	public void altaSucursal(Integer idSuc,String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws SQLException, ClassNotFoundException{
 		//tengo que armar el objeto de datos y luego persistirlo
 		//chequear posta estos constructores
 		/*

@@ -27,7 +27,7 @@ public class GestorProductos {
 		this.conn=c;
 	}
 	
-	public void altaProducto(String idProducto, String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException{
+	public void altaProducto(Integer idProducto, String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException{
 		
 		FactoryDAO fact= FactoryDAO.getFactory(1);
 	

@@ -27,7 +27,7 @@ public final class GestorRutas {
 		this.conn=c;
 	}
 	
-	public void altaRuta(String idRuta, String idSucursalOrigen, String idSucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws SQLException{
+	public void altaRuta(Integer idRuta, Integer idSucursalOrigen, Integer idSucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws SQLException{
 		
 		FactoryDAO fact= FactoryDAO.getFactory(1);
 		SucursalDAO auxDAOSucursal= fact.getSucursalDAO(conn);

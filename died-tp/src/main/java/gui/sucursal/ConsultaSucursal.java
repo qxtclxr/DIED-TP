@@ -167,7 +167,7 @@ public class ConsultaSucursal extends Pantalla {
 	public void actionBuscar() {
 		
 		//TODO
-		Sucursal aux = new Sucursal("13245","Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
+		Sucursal aux = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
 		Sucursal[] auxArr = new Sucursal[100];
 		Arrays.fill(auxArr,aux);
 		ArrayList<Sucursal> auxList = new ArrayList<Sucursal>(Arrays.asList(auxArr));

@@ -5,7 +5,7 @@ import java.sql.Connection;
 import dal.FactoryDAO;
 
 public class Ruta {
-	private String idRuta;
+	private Integer idRuta;
 	private Sucursal origen;
 	private Sucursal destino;
 	private Operatividad estado;
@@ -13,7 +13,7 @@ public class Ruta {
 	private Float capacidadMaxima; //Unidad: kg
 	
 	
-	public Ruta(String idRuta, Sucursal origen, Sucursal destino, Operatividad estado, Integer duracion,
+	public Ruta(Integer idRuta, Sucursal origen, Sucursal destino, Operatividad estado, Integer duracion,
 			Float capacidadMaxima) {
 		super();
 		this.idRuta = idRuta;
@@ -29,7 +29,7 @@ public class Ruta {
 	public Sucursal getOrigen() {return this.origen;}
 	public Sucursal getDestino() {return this.destino;}
 	public Integer getDuracion() {return this.duracion;}
-	public String getIdRuta() {return this.idRuta;}
+	public Integer getIdRuta() {return this.idRuta;}
 	public Float getCapacidadMaxima() {return this.capacidadMaxima;}
 	public String getEstado() {return this.estado.toString();}
 }

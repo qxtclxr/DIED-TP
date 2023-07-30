@@ -1,7 +1,6 @@
 package gui.sucursal;
 
 import datos.*;
-import gui.ComboItem;
 import gui.Pantalla;
 import logica.*;
 import javax.swing.*;
@@ -188,8 +187,8 @@ public class AltaSucursal extends Pantalla {
 	@SuppressWarnings("unchecked")
 	public void actionConfirmar() {
 		
-		ComboItem<TipoSucursal> selectTipoSucursal = (ComboItem<TipoSucursal>) cmbTipoSucursal.getSelectedItem();
-		ComboItem<Operatividad> selectOperatividad = (ComboItem<Operatividad>) cmbOperatividad.getSelectedItem();
+		TipoSucursal selectTipoSucursal = (TipoSucursal) cmbTipoSucursal.getSelectedItem();
+		Operatividad selectOperatividad = (Operatividad) cmbOperatividad.getSelectedItem();
 		/*
 		try {
 			GestorSucursal gestorSucursal = GestorSucursal.getInstance();

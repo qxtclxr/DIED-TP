@@ -4,7 +4,7 @@ import java.util.*;
 import java.sql.Time;
 
 public class Sucursal implements Comparable<Sucursal>{
-	private String idSucursal;
+	private Integer idSucursal;
 	private String nombre;
 	private Time horarioApertura;
 	private Time horarioCierre;
@@ -12,7 +12,7 @@ public class Sucursal implements Comparable<Sucursal>{
 	private TipoSucursal tipo;
 	private Map<Producto,Integer> stock;
 	
-	public Sucursal(String idSucursal, String nombre, Time horarioApertura, Time horarioCierre, Operatividad estado, TipoSucursal tipo) {
+	public Sucursal(Integer idSucursal, String nombre, Time horarioApertura, Time horarioCierre, Operatividad estado, TipoSucursal tipo) {
 		super();
 		this.idSucursal = idSucursal;
 		this.nombre = nombre;
@@ -23,7 +23,7 @@ public class Sucursal implements Comparable<Sucursal>{
 	}
 	
 	
-	public String getID() {
+	public Integer getID() {
 		return idSucursal;
 	}
 
