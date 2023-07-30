@@ -1,10 +1,11 @@
-package dal;
+package dal.implementacionesPostgre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dal.general.ProductoDAO;
 import datos.Operatividad;
 import datos.Producto;
 import datos.Sucursal;

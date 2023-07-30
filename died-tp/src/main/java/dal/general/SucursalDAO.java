@@ -1,4 +1,4 @@
-package dal;
+package dal.general;
 
 import java.sql.SQLException;
 import java.util.Map;

@@ -1,9 +1,10 @@
-package dal;
+package dal.implementacionesPostgre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import dal.general.OrdenDeProvisionDAO;
 import datos.OrdenDeProvision;
 
 public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {

@@ -1,9 +1,10 @@
-package dal;
+package dal.implementacionesPostgre;
 
 import java.sql.*;
 import java.util.*;
 import java.util.Map.Entry;
 
+import dal.general.SucursalDAO;
 import datos.*;
 
 public class SucursalPostgreDAO implements SucursalDAO{

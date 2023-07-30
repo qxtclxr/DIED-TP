@@ -3,8 +3,8 @@ package logica;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import dal.FactoryDAO;
-import dal.SucursalDAO;
+import dal.general.FactoryDAO;
+import dal.general.SucursalDAO;
 import datos.Operatividad;
 import datos.Producto;
 

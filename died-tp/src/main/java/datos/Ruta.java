@@ -2,7 +2,7 @@ package datos;
 
 import java.sql.Connection;
 
-import dal.FactoryDAO;
+import dal.general.FactoryDAO;
 
 public class Ruta {
 	private Integer idRuta;

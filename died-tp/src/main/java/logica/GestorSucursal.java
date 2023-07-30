@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
 
-import dal.FactoryDAO;
+import dal.general.FactoryDAO;
 import datos.Operatividad;
 import datos.Sucursal;
 import datos.TipoSucursal;

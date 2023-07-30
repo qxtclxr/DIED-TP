@@ -1,7 +1,13 @@
-package dal;
+package dal.implementacionesPostgre;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import dal.general.FactoryDAO;
+import dal.general.OrdenDeProvisionDAO;
+import dal.general.ProductoDAO;
+import dal.general.RutaDAO;
+import dal.general.SucursalDAO;
 
 public class PostgreFactoryDAO extends FactoryDAO {
 	
