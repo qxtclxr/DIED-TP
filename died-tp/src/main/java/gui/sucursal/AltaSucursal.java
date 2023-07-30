@@ -1,6 +1,8 @@
-package gui;
+package gui.sucursal;
 
 import datos.*;
+import gui.ComboItem;
+import gui.Pantalla;
 import logica.*;
 import javax.swing.*;
 import java.awt.Font;

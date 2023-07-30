@@ -26,7 +26,6 @@ public final class GestorSucursal {
 	}
 
 	private GestorSucursal(){
-
 		super();
 	}
 
@@ -42,7 +41,6 @@ public final class GestorSucursal {
 		FactoryDAO fact= FactoryDAO.getFactory(1);
 		fact.getSucursalDAO().insert(aux);
 	}
-	
 	
 
 }

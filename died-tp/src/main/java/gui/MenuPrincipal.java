@@ -13,6 +13,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import gui.sucursal.AltaSucursal;
+import gui.sucursal.ConsultaSucursal;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;

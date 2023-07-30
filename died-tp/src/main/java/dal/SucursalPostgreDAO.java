@@ -16,13 +16,13 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	}
 	
 	public void insert(Sucursal suc) throws SQLException {
-		String statement = "INSERT INTO Sucursal (idsucursal,nombre,horarioapertura,horariocierre,estado,tipo) VALUES (?,?,?,?,?,?)";
+		String statement = "INSERT INTO Sucursal (nombre,horarioapertura,horariocierre,estado,tipo) VALUES (?,?,?,?,?)";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
-	        pstm.setString(2, suc.getNombre());
-	        pstm.setTime(3, suc.getHorarioApertura());
-	        pstm.setTime(4, suc.getHorarioCierre());
-	        pstm.setString(5, suc.getEstado().toString());
-	        pstm.setString(6, suc.getTipo().toString());
+	        pstm.setString(1, suc.getNombre());
+	        pstm.setTime(2, suc.getHorarioApertura());
+	        pstm.setTime(3, suc.getHorarioCierre());
+	        pstm.setString(4, suc.getEstado().toString());
+	        pstm.setString(5, suc.getTipo().toString());
 	        pstm.executeUpdate();
 		}
 	}

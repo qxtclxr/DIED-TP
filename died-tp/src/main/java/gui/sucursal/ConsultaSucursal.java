@@ -1,6 +1,11 @@
-package gui;
+package gui.sucursal;
 
 import datos.*;
+import gui.Pantalla;
+import gui.tabla.OpcionesCellEditor;
+import gui.tabla.OpcionesCellRenderer;
+import gui.tabla.OpcionesSucursalPopup;
+
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
