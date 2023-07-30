@@ -1,21 +1,22 @@
 package dal;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class PostgreFactoryDAO extends FactoryDAO {
 	
-	public SucursalDAO getSucursalDAO(Connection conn) {
-		return new SucursalPostgreDAO(conn);
+	public SucursalDAO getSucursalDAO(){
+		return new SucursalPostgreDAO();
 	}
-	public RutaDAO getRutaDAO(Connection conn) {
-		return new RutaPostgreDAO(conn);
+	public RutaDAO getRutaDAO() {
+		return new RutaPostgreDAO();
 	}
 	
-	public OrdenDeProvisionDAO getOrdenDeProvisionDAO(Connection conn) {
-		return new OrdenDeProvisionPostgreDAO(conn);
+	public OrdenDeProvisionDAO getOrdenDeProvisionDAO() {
+		return new OrdenDeProvisionPostgreDAO();
 	}
 
-	public ProductoDAO getProductoDAO(Connection conn) {
-		return new ProductoPostgreDAO(conn);
+	public ProductoDAO getProductoDAO() {
+		return new ProductoPostgreDAO();
 	}
 }

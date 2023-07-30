@@ -11,8 +11,8 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public SucursalPostgreDAO(Connection conn) {
-		this.conn = conn;
+	public SucursalPostgreDAO()throws SQLException,ClassNotFoundException {
+		this.conn = Conexion.getInstance().getConn();
 	}
 	
 	public void insert(Sucursal suc) throws SQLException {

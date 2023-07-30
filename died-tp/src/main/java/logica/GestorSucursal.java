@@ -16,27 +16,31 @@ public final class GestorSucursal {
 	 * Realizar altas y bajas mediante la conexion a un DAO
 	 */
 	
-	private Connection conn;
 	private static GestorSucursal gestor;
 	
 	public synchronized static GestorSucursal getInstance(Connection c) {
 		if(gestor==null) {
-			gestor= new GestorSucursal(c);
+			gestor= new GestorSucursal();
 		}
 		return gestor;
 	}
-	
-	private GestorSucursal(Connection c) {
+
+	private GestorSucursal(){
+
 		super();
-		this.conn=c;
 	}
+
 	
-	public void altaSucursal(String idSuc,String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws SQLException{
+	public void altaSucursal(String idSuc,String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws SQLException, ClassNotFoundException{
 		//tengo que armar el objeto de datos y luego persistirlo
 		//chequear posta estos constructores
+		/*
+		 * 
+		 * 
+		 */
 		Sucursal aux= new Sucursal(idSuc,nombreSuc,Time.valueOf(horarioAperturaHora+":"+horarioAperturaMinutos),Time.valueOf(horarioCierreHora+":"+horarioCierreMinutos),operatividad,tipo);
 		FactoryDAO fact= FactoryDAO.getFactory(1);
-		fact.getSucursalDAO(conn).insert(aux);
+		fact.getSucursalDAO().insert(aux);
 	}
 	
 	
