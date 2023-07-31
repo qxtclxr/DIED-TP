@@ -5,6 +5,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import gui.sucursal.*;
 import gui.ruta.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuPrincipal extends JPanel {
 	
@@ -133,6 +135,7 @@ public class MenuPrincipal extends JPanel {
 		menuRutas.add(lblAltaDeRutas);
 		
 		JButton btnConsultaDeRutas = new JButton("Consulta de rutas");
+		btnConsultaDeRutas.addActionListener(act -> actionConsultaRuta());
 		btnConsultaDeRutas.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeRutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConsultaDeRutas.setBounds(10, 79, 755, 23);
@@ -215,5 +218,11 @@ public class MenuPrincipal extends JPanel {
 		AltaRuta altaRuta = new AltaRuta(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(altaRuta);
+	}
+	
+	public void actionConsultaRuta() {
+		ConsultaRuta consultaRuta = new ConsultaRuta(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(consultaRuta);
 	}
 }

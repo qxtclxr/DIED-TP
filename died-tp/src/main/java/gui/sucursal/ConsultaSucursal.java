@@ -1,23 +1,16 @@
 package gui.sucursal;
 
 import datos.*;
-import gui.OpcionesCellEditor;
-import gui.OpcionesCellRenderer;
 import gui.Pantalla;
+import gui.TablaDeDatos;
 
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.sql.Time;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class ConsultaSucursal extends Pantalla {
 	
@@ -30,7 +23,7 @@ public class ConsultaSucursal extends Pantalla {
 	private JTextField txtHorarioAperturaMinutos;
 	private JTextField txtHorarioCierreHora;
 	private JTextField txtHorarioCierreMinutos;
-	private JTable tabla;
+	private TablaDeDatos tabla;
 	private JScrollPane panelContenedorTabla;
 	private JButton btnBuscar;
 	
@@ -162,6 +155,31 @@ public class ConsultaSucursal extends Pantalla {
 		add(btnCancelar);
 		
 	}
+
+	private void generarTabla(List<Sucursal> data) {
+		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
+		tabla.onPressingOpciones(act -> actionOpcionesPopup(tabla,data));
+		panelContenedorTabla = new JScrollPane(tabla);
+		panelContenedorTabla.setBounds(10, 175, 780, 276);
+		add(panelContenedorTabla);
+	}
+	
+	private Object[][] datosTabla(List<Sucursal> data){
+		Object[][] contenido = new Object[data.size()][COL_NAMES.length];
+		for(int i = 0 ; i < data.size() ; i++) {
+			Object[] fila = {
+				data.get(i).getID(),
+				data.get(i).getNombre(),
+				data.get(i).getTipo(),
+				data.get(i).getEstado(),
+				data.get(i).getHorarioApertura(),
+				data.get(i).getHorarioCierre(),
+				data.get(i).getID()
+			};
+			contenido[i] = fila;
+		}
+		return contenido;
+	}
 	
 	public void actionBuscar() {
 		
@@ -176,34 +194,7 @@ public class ConsultaSucursal extends Pantalla {
 		
 	}
 	
-	private void generarTabla(List<Sucursal> data) {
-		tabla = new JTable(datosTabla(data),COL_NAMES);
-		OpcionesCellEditor op = new OpcionesCellEditor(tabla,act -> actionOpcionesPopup(tabla,data));
-		tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellRenderer(new OpcionesCellRenderer());
-        tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellEditor(op);
-		panelContenedorTabla = new JScrollPane(tabla);
-		panelContenedorTabla.setBounds(10, 175, 780, 276);
-		add(panelContenedorTabla);
-	}
-	
-	private Object[][] datosTabla(List<Sucursal> data){
-		Object[][] tabla = new Object[data.size()][7];
-		for(int i = 0 ; i < data.size() ; i++) {
-			Object[] fila = {
-				data.get(i).getID(),
-				data.get(i).getNombre(),
-				data.get(i).getTipo(),
-				data.get(i).getEstado(),
-				data.get(i).getHorarioApertura(),
-				data.get(i).getHorarioCierre(),
-				data.get(i).getID()
-			};
-			tabla[i] = fila;
-		}
-		return tabla;
-	}
-	
-	public void actionOpcionesPopup(JTable tabla, List<Sucursal> data) {
+	public void actionOpcionesPopup(TablaDeDatos tabla, List<Sucursal> data) {
 		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);
@@ -222,6 +213,3 @@ public class ConsultaSucursal extends Pantalla {
 		frame.setContentPane(pantallaAnterior);
 	}
 }
-
-
-

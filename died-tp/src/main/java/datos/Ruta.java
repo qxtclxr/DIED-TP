@@ -25,7 +25,7 @@ public class Ruta {
 	public Sucursal getOrigen() {return this.origen;}
 	public Sucursal getDestino() {return this.destino;}
 	public Integer getDuracion() {return this.duracion;}
-	public Integer getIdRuta() {return this.idRuta;}
+	public Integer getID() {return this.idRuta;}
 	public Float getCapacidadMaxima() {return this.capacidadMaxima;}
 	public String getEstado() {return this.estado.toString();}
 }
