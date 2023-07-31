@@ -2,6 +2,8 @@ package gui.sucursal;
 
 import datos.*;
 import gui.*;
+import gui.tabla.OpcionesPopup;
+
 import javax.swing.*;
 
 public class OpcionesPopupSucursal extends OpcionesPopup<Sucursal>{

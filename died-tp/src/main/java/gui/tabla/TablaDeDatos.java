@@ -1,4 +1,4 @@
-package gui;
+package gui.tabla;
 
 import java.awt.Point;
 import java.awt.Rectangle;

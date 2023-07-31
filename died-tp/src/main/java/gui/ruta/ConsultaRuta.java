@@ -2,6 +2,7 @@ package gui.ruta;
 
 import datos.*;
 import gui.*;
+import gui.tabla.TablaDeDatos;
 
 import java.util.*;
 import javax.swing.*;

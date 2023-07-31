@@ -2,6 +2,8 @@ package gui.ruta;
 
 import datos.*;
 import gui.*;
+import gui.tabla.OpcionesPopup;
+
 import javax.swing.*;
 
 public class OpcionesPopupRuta extends OpcionesPopup<Ruta>{

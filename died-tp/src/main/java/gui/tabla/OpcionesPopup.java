@@ -1,4 +1,4 @@
-package gui;
+package gui.tabla;
 
 import javax.swing.*;
 

@@ -2,7 +2,7 @@ package gui.sucursal;
 
 import datos.*;
 import gui.Pantalla;
-import gui.TablaDeDatos;
+import gui.tabla.TablaDeDatos;
 
 import java.util.*;
 import javax.swing.*;
