@@ -76,4 +76,9 @@ public class Sucursal implements Comparable<Sucursal>{
 		return Objects.equals(idSucursal, other.idSucursal);
 	}
 	
+	@Override
+	public String toString() {
+		return this.getNombre() + " (" + this.getID() + ")";
+	}
+	
 }

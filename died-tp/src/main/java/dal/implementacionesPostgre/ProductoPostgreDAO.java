@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import dal.general.ProductoDAO;
 import datos.Operatividad;
@@ -92,6 +93,13 @@ public class ProductoPostgreDAO implements ProductoDAO{
 			}
 			return p;
 
+	}
+
+
+	@Override
+	public List<Producto> searchByAttributes(Producto obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

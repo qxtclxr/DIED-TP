@@ -1,25 +1,10 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-
-import gui.sucursal.AltaSucursal;
-import gui.sucursal.ConsultaSucursal;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import gui.sucursal.*;
+import gui.ruta.*;
 
 public class MenuPrincipal extends JPanel {
 	
@@ -92,7 +77,7 @@ public class MenuPrincipal extends JPanel {
 		menuSucursal.add(lblAltaDeSucursales);
 		
 		JButton btnConsultaDeSucursales = new JButton("Consulta de sucursales");
-		btnConsultaDeSucursales.addActionListener(act -> accionConsultaSucursal());
+		btnConsultaDeSucursales.addActionListener(act -> actionConsultaSucursal());
 		btnConsultaDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeSucursales.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConsultaDeSucursales.setBounds(10, 79, 755, 23);
@@ -135,6 +120,7 @@ public class MenuPrincipal extends JPanel {
 		menuRutas.setLayout(null);
 		
 		JButton btnAltaDeRutas = new JButton("Alta de rutas");
+		btnAltaDeRutas.addActionListener(act -> this.actionAltaRuta());
 		btnAltaDeRutas.setHorizontalAlignment(SwingConstants.LEFT);
 		btnAltaDeRutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnAltaDeRutas.setBounds(10, 21, 755, 23);
@@ -219,9 +205,15 @@ public class MenuPrincipal extends JPanel {
 		frame.setContentPane(altaSucursal);
 	}
 	
-	public void accionConsultaSucursal() {
+	public void actionConsultaSucursal() {
 		ConsultaSucursal consultaSucursal = new ConsultaSucursal(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(consultaSucursal);
+	}
+	
+	public void actionAltaRuta() {
+		AltaRuta altaRuta = new AltaRuta(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(altaRuta);
 	}
 }

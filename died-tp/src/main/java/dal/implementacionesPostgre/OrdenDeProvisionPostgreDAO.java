@@ -3,6 +3,7 @@ package dal.implementacionesPostgre;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import dal.general.OrdenDeProvisionDAO;
 import datos.OrdenDeProvision;
@@ -91,6 +92,13 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 
 	@Override
 	public OrdenDeProvision getByID(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<OrdenDeProvision> searchByAttributes(OrdenDeProvision obj) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

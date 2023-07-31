@@ -12,7 +12,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	private Connection conn;
 	private static int BATCH_LIMIT = 1000;
 	
-	public SucursalPostgreDAO()throws SQLException,ClassNotFoundException {
+	public SucursalPostgreDAO() throws SQLException,ClassNotFoundException {
 		super();
 		this.conn = Conexion.getInstance().getConn();
 	}
@@ -73,6 +73,39 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			}
 		}
 		return suc;
+	}
+	
+	@Override
+	public List<Sucursal> searchByAttributes(Sucursal obj) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<Sucursal> getAll() throws SQLException {
+		
+		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo FROM Sucursal ORDER BY nombre";
+		ArrayList<Sucursal> result = new ArrayList<Sucursal>();
+		
+		try(PreparedStatement pstm = conn.prepareStatement(statement);
+			ResultSet rs = pstm.executeQuery();){
+			while(rs.next()) {
+				result.add(new Sucursal(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getTime(3),
+						rs.getTime(4),
+						Operatividad.valueOf(rs.getString(5)), 
+						TipoSucursal.valueOf(rs.getString(6))
+						)
+					);
+			}
+		}
+		
+		for(Sucursal suc : result) {
+			suc.setStock(getStock(suc));
+		}
+		
+		return result;
 	}
 	
 	public void setStock(Sucursal suc) throws SQLException{
@@ -136,4 +169,6 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		}
 		return stock;
 	}
+
+
 }

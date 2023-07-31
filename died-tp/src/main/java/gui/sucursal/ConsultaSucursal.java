@@ -1,10 +1,9 @@
 package gui.sucursal;
 
 import datos.*;
+import gui.OpcionesCellEditor;
+import gui.OpcionesCellRenderer;
 import gui.Pantalla;
-import gui.tabla.OpcionesCellEditor;
-import gui.tabla.OpcionesCellRenderer;
-import gui.tabla.OpcionesSucursalPopup;
 
 import java.util.*;
 import javax.swing.*;
@@ -166,12 +165,12 @@ public class ConsultaSucursal extends Pantalla {
 	
 	public void actionBuscar() {
 		
-		//TODO
+		//TODO: Prueba
 		Sucursal aux = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
 		Sucursal[] auxArr = new Sucursal[100];
 		Arrays.fill(auxArr,aux);
 		ArrayList<Sucursal> auxList = new ArrayList<Sucursal>(Arrays.asList(auxArr));
-		//TODO
+		//TODO: Prueba
 		
 		generarTabla(auxList);
 		
@@ -179,23 +178,11 @@ public class ConsultaSucursal extends Pantalla {
 	
 	private void generarTabla(List<Sucursal> data) {
 		tabla = new JTable(datosTabla(data),COL_NAMES);
-		OpcionesCellEditor op = new OpcionesCellEditor(tabla,act -> {
-			int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
-	        int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
-	        Rectangle cellRect = tabla.getCellRect(row, column, true);
-	        Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-	        Sucursal selected = data.stream().
-	        					filter(suc -> suc.getID().equals(tabla.getModel().getValueAt(row,0))).
-	        					findFirst().
-	        					orElse(null);
-	        OpcionesSucursalPopup popupMenu = new OpcionesSucursalPopup(selected);
-	        popupMenu.show(tabla, popupLocation.x, popupLocation.y);
-	    });
+		OpcionesCellEditor op = new OpcionesCellEditor(tabla,act -> actionOpcionesPopup(tabla,data));
 		tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellRenderer(new OpcionesCellRenderer());
         tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellEditor(op);
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 175, 780, 276);
-		
 		add(panelContenedorTabla);
 	}
 	
@@ -214,6 +201,19 @@ public class ConsultaSucursal extends Pantalla {
 			tabla[i] = fila;
 		}
 		return tabla;
+	}
+	
+	public void actionOpcionesPopup(JTable tabla, List<Sucursal> data) {
+		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
+        int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
+        Rectangle cellRect = tabla.getCellRect(row, column, true);
+        Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
+        Sucursal selected = data.stream().
+        					filter(suc -> suc.getID().equals(tabla.getModel().getValueAt(row,0))).
+        					findFirst().
+        					orElse(null);
+        OpcionesPopupSucursal popupMenu = new OpcionesPopupSucursal(selected,frame,this);
+        popupMenu.show(tabla, popupLocation.x, popupLocation.y);
 	}
 	
 	public void actionVolver(){

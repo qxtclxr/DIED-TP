@@ -1,4 +1,4 @@
-package gui.sucursal;
+package gui.ruta;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,13 +6,13 @@ import java.awt.Font;
 import javax.swing.*;
 import datos.*;
 
-public class EdicionSucursal extends FormularioSucursal {
+public class EdicionRuta extends FormularioRuta {
 	
-	private Sucursal suc;
+	private Ruta ruta;
 	
-	public EdicionSucursal(JFrame frame, JPanel pantallaAnterior, Sucursal suc) {
+	public EdicionRuta(JFrame frame, JPanel pantallaAnterior, Ruta ruta) {
 		super(frame, pantallaAnterior);
-		this.suc = suc;
+		this.ruta = ruta;
 		setDefaultValues();
 	}
 	
@@ -20,7 +20,7 @@ public class EdicionSucursal extends FormularioSucursal {
 		
 		super.inicializarComponentes();
 		
-		JLabel lblAltaDeProductos = new JLabel("Edicion de sucursal");
+		JLabel lblAltaDeProductos = new JLabel("Edicion de ruta");
 		lblAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAltaDeProductos.setFont(new Font("Tahoma", Font.BOLD, 32));
 		lblAltaDeProductos.setBounds(10, 11, 780, 30);
@@ -35,13 +35,13 @@ public class EdicionSucursal extends FormularioSucursal {
 	}
 	
 	public void setDefaultValues() {
-		txtNombre.setText(suc.getNombre());
-		cmbTipoSucursal.setSelectedItem(suc.getTipo());
-		cmbOperatividad.setSelectedItem(suc.getEstado());
-		cmbHorarioAperturaHora.setSelectedIndex(suc.getHorarioApertura().toLocalTime().getHour());
-		cmbHorarioAperturaMinutos.setSelectedIndex(suc.getHorarioApertura().toLocalTime().getMinute());
-		cmbHorarioCierreHora.setSelectedIndex(suc.getHorarioCierre().toLocalTime().getHour());
-		cmbHorarioCierreMinutos.setSelectedIndex(suc.getHorarioCierre().toLocalTime().getMinute());
+		
+		cmbSucursalOrigen.setSelectedItem(ruta.getOrigen());
+		cmbSucursalDestino.setSelectedItem(ruta.getDestino());
+		cmbOperatividad.setSelectedItem(ruta.getEstado());
+		txtDuracion.setText(ruta.getDuracion().toString());
+		txtCapcidadMaxima.setText(ruta.getCapacidadMaxima().toString());
+		
 	}
 
 	@Override

@@ -1,11 +1,11 @@
-package gui.sucursal;
+package gui.ruta;
 
 import java.awt.*;
 import javax.swing.*;
 
-public class AltaSucursal extends FormularioSucursal{
+public class AltaRuta extends FormularioRuta{
 	
-	public AltaSucursal(JFrame frame, JPanel pantallaAnterior) {
+	public AltaRuta(JFrame frame, JPanel pantallaAnterior) {
 		super(frame, pantallaAnterior);
 	}
 	
@@ -13,7 +13,7 @@ public class AltaSucursal extends FormularioSucursal{
 		
 		super.inicializarComponentes();
 		
-		JLabel lblAltaDeProductos = new JLabel("Alta de sucursal");
+		JLabel lblAltaDeProductos = new JLabel("Alta de ruta");
 		lblAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAltaDeProductos.setFont(new Font("Tahoma", Font.BOLD, 32));
 		lblAltaDeProductos.setBounds(10, 11, 780, 30);

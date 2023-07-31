@@ -1,9 +1,10 @@
 package dal.implementacionesPostgre;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.*;
 import dal.general.FactoryDAO;
 import dal.general.RutaDAO;
 import datos.Operatividad;
@@ -71,8 +72,8 @@ public class RutaPostgreDAO implements RutaDAO{
 			pstm.setInt(1,id);
 			try(ResultSet rs = pstm.executeQuery();){
 				
-				FactoryDAO f = FactoryDAO.getFactory(1);
-				f.getSucursalDAO(conn).getByID(id);
+				FactoryDAO f = FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+				f.getSucursalDAO().getByID(id);
 				
 				
 				while(rs.next()) {
@@ -83,6 +84,11 @@ public class RutaPostgreDAO implements RutaDAO{
 			}
 		}
 		
+		return null;
+	}
+	
+	public List<Ruta> searchByAttributes(Ruta obj){
+		//TODO
 		return null;
 	}
 }

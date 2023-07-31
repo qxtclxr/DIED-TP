@@ -1,9 +1,5 @@
 package datos;
 
-import java.sql.Connection;
-
-import dal.general.FactoryDAO;
-
 public class Ruta {
 	private Integer idRuta;
 	private Sucursal origen;
