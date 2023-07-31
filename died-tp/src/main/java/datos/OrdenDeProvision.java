@@ -3,7 +3,7 @@ package datos;
 import java.util.*;
 import java.sql.Date;
 
-public class OrdenDeProvision {
+public class OrdenDeProvision implements Entidad{
 	private Integer idOrden;
 	private Date fecha;
 	private Sucursal sucursalDestino;
@@ -35,10 +35,10 @@ public class OrdenDeProvision {
 	public void setEstado(EstadoOrden estado) {
 		this.estado = estado;
 	}
-	public Integer getIdOrden() {
+	public Integer getID() {
 		return idOrden;
 	}
-	public void setIdOrden(Integer idOrden) {
+	public void setID(Integer idOrden) {
 		this.idOrden = idOrden;
 	}
 	public Map<Producto, Integer> getProductos() {

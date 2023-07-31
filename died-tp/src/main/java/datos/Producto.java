@@ -2,7 +2,7 @@ package datos;
 
 import java.util.Objects;
 
-public class Producto {
+public class Producto implements Entidad{
 	private Integer idProducto;
 	private String nombre;
 	private String descripcion;

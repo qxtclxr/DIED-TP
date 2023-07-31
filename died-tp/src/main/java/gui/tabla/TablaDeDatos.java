@@ -1,17 +1,13 @@
 package gui.tabla;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import datos.Sucursal;
-import gui.sucursal.OpcionesPopupSucursal;
-
 public class TablaDeDatos extends JTable{
+	
+	private OpcionesCellRenderer cellRenderer;
+	private OpcionesCellEditor cellEditor;
 	
 	public TablaDeDatos(Object[][] data, String[] colNames) {
 		super();
@@ -21,13 +17,18 @@ public class TablaDeDatos extends JTable{
 			//Se edita solo la ultima columna que es la que tiene el boton de opciones.
 		};
 		this.setModel(modeloTabla);
-		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellRenderer(new OpcionesCellRenderer());
-		
+		this.cellRenderer = new OpcionesCellRenderer();
+		this.cellEditor = new OpcionesCellEditor();
+		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellRenderer(cellRenderer);
+		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellEditor(cellEditor);
+	}
+	
+	public void setOpcionesLabel(String label) {
+		this.cellRenderer.setLabel(label);
+		this.cellEditor.setLabel(label);
 	}
 	
 	public void onPressingOpciones(ActionListener listener) {
-		OpcionesCellEditor op = new OpcionesCellEditor(this,listener);
-		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellEditor(op);
+		this.cellEditor.setActionListener(listener);
 	}
-
 }

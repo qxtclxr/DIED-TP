@@ -1,6 +1,6 @@
 package datos;
 
-public class Ruta {
+public class Ruta implements Entidad{
 	private Integer idRuta;
 	private Sucursal origen;
 	private Sucursal destino;

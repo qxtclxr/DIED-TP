@@ -3,7 +3,7 @@ package datos;
 import java.util.*;
 import java.sql.Time;
 
-public class Sucursal implements Comparable<Sucursal>{
+public class Sucursal implements Comparable<Sucursal>, Entidad{
 	private Integer idSucursal;
 	private String nombre;
 	private Time horarioApertura;
