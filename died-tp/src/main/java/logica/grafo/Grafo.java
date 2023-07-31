@@ -1,4 +1,4 @@
-package logica;
+package logica.grafo;
 
 import java.util.*;
 import java.util.stream.*;
@@ -13,6 +13,44 @@ public class Grafo {
 		this.aristas = new ArrayList<Ruta>();
 	}
 	
+	public List<Sucursal> getVertices() {
+		return vertices;
+	}
+	
+	public void addVertice(Sucursal vertice) {
+		this.vertices.add(vertice);
+	}
+	
+	public void addVertice(List<Sucursal> vertices) {
+		for(Sucursal vertice: vertices)
+			this.vertices.add(vertice);
+	}
+
+	public List<Ruta> getAristas() {
+		return aristas;
+	}
+	
+	public void addArista(Ruta arista) {
+		this.aristas.add(arista);
+	}
+	
+	public void addArista(List<Ruta> aristas) {
+		for(Ruta arista: aristas)
+			this.aristas.add(arista);
+	}
+	
+	public void removeVertice(Sucursal vertice) {
+		this.vertices.remove(vertice);
+		this.aristas = this.aristas.stream().
+				filter(a -> !(a.getOrigen().equals(vertice) || a.getDestino().equals(vertice))).
+				collect(Collectors.toList());
+	}
+	
+	public void removeArista(Ruta arista) {
+		this.aristas.remove(arista);
+	}
+
+
 	public List<Ruta> rutasSalientes(Sucursal suc) {
 		return this.aristas.stream().
 			   filter(rut -> rut.getOrigen().equals(suc)).

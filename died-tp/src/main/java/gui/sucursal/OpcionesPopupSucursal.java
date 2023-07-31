@@ -17,7 +17,6 @@ public class OpcionesPopupSucursal extends OpcionesPopup<Sucursal>{
 
 	@Override
 	public void actionEditar() {
-		System.out.println(obj.getID());
 		EdicionSucursal edicionSucursal = new EdicionSucursal(frame,pantalla,obj);
 		pantalla.setVisible(false);
 		frame.setContentPane(edicionSucursal);

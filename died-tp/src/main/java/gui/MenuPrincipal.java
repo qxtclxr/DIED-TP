@@ -6,6 +6,8 @@ import javax.swing.border.*;
 import gui.producto.*;
 import gui.sucursal.*;
 import gui.ruta.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuPrincipal extends JPanel {
 	
@@ -91,6 +93,7 @@ public class MenuPrincipal extends JPanel {
 		menuSucursal.add(lblConsultaDeSucursales);
 		
 		JButton btnFlujoMaximo = new JButton("Flujo maximo");
+		btnFlujoMaximo.addActionListener(act -> actionFlujoMaximo());
 		btnFlujoMaximo.setHorizontalAlignment(SwingConstants.LEFT);
 		btnFlujoMaximo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnFlujoMaximo.setBounds(10, 137, 755, 23);
@@ -215,6 +218,12 @@ public class MenuPrincipal extends JPanel {
 		frame.setContentPane(consultaSucursal);
 	}
 	
+	public void actionFlujoMaximo() {
+		GrafoPrueba flujoMaximo = new GrafoPrueba(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(flujoMaximo);
+	}
+	
 	public void actionAltaRuta() {
 		AltaRuta altaRuta = new AltaRuta(frame,this);
 		this.setVisible(false);
@@ -238,4 +247,5 @@ public class MenuPrincipal extends JPanel {
 		this.setVisible(false);
 		frame.setContentPane(consultaProducto);
 	}
+	
 }

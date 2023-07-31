@@ -33,7 +33,7 @@ public class RutaPostgreDAO implements RutaDAO{
 	        pstm.setInt(3, obj.getDestino().getID());
 	        pstm.setInt(4, obj.getDuracion());
 	        pstm.setFloat(5, obj.getCapacidadMaxima());
-	        pstm.setString(6, obj.getEstado());
+	        pstm.setString(6, obj.getEstado().toString());
 	        pstm.executeUpdate();
 		}
 		
