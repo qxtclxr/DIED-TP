@@ -20,11 +20,13 @@ public class ConsultaRuta extends Pantalla {
 	private JComboBox<Sucursal> cmbSucursalOrigen;
 	private JComboBox<Sucursal> cmbSucursalDestino;
 	private JComboBox<Operatividad> cmbOperatividad;
-	private JTextField txtDuracion;
-	private JTextField txtCapacidadMaxima;
+	private JTextField txtDuracionDesde;
+	private JTextField txtDuracionHasta;
 	private TablaDeDatos tabla;
 	private JScrollPane panelContenedorTabla;
 	private JButton btnBuscar;
+	private JTextField txtCapacidadMaximaDesde;
+	private JTextField txtCapacidadMaximaHasta;
 	
 	/**
 	 * Create the panel.
@@ -79,7 +81,7 @@ public class ConsultaRuta extends Pantalla {
 		add(cmbSucursalDestino);
 		cmbSucursalDestino.addItem(null);
 		for(Sucursal suc : todasLasSucursales)
-			cmbSucursalOrigen.addItem(suc);
+			cmbSucursalDestino.addItem(suc);
 		
 		cmbOperatividad = new JComboBox<Operatividad>();
 		cmbOperatividad.setBounds(403, 113, 121, 20);
@@ -87,6 +89,26 @@ public class ConsultaRuta extends Pantalla {
 		cmbOperatividad.addItem(null);
 		cmbOperatividad.addItem(Operatividad.OPERATIVA);
 		cmbOperatividad.addItem(Operatividad.NO_OPERATIVA);
+		
+		txtDuracionDesde = new JTextField();
+		txtDuracionDesde.setColumns(10);
+		txtDuracionDesde.setBounds(534, 113, 121, 20);
+		add(txtDuracionDesde);
+		
+		txtDuracionHasta = new JTextField();
+		txtDuracionHasta.setColumns(10);
+		txtDuracionHasta.setBounds(665, 113, 121, 20);
+		add(txtDuracionHasta);
+		
+		txtCapacidadMaximaDesde = new JTextField();
+		txtCapacidadMaximaDesde.setColumns(10);
+		txtCapacidadMaximaDesde.setBounds(10, 162, 121, 20);
+		add(txtCapacidadMaximaDesde);
+		
+		txtCapacidadMaximaHasta = new JTextField();
+		txtCapacidadMaximaHasta.setColumns(10);
+		txtCapacidadMaximaHasta.setBounds(141, 162, 121, 20);
+		add(txtCapacidadMaximaHasta);
 		
 		JLabel lblIDRuta = new JLabel("ID de ruta");
 		lblIDRuta.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -118,16 +140,40 @@ public class ConsultaRuta extends Pantalla {
 		lblDuracion.setBounds(534, 95, 121, 14);
 		add(lblDuracion);
 		
+		JLabel descDuracionDesde = new JLabel("desde");
+		descDuracionDesde.setForeground(Color.GRAY);
+		descDuracionDesde.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		descDuracionDesde.setBounds(534, 133, 121, 14);
+		add(descDuracionDesde);
+		
+		JLabel descDuracionHasta = new JLabel("hasta");
+		descDuracionHasta.setForeground(Color.GRAY);
+		descDuracionHasta.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		descDuracionHasta.setBounds(665, 133, 121, 14);
+		add(descDuracionHasta);
+		
 		JLabel lblCapacidadMaxima = new JLabel("Capacidad maxima");
-		lblCapacidadMaxima.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblCapacidadMaxima.setVerticalAlignment(SwingConstants.TOP);
-		lblCapacidadMaxima.setBounds(665, 95, 121, 14);
+		lblCapacidadMaxima.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblCapacidadMaxima.setBounds(10, 144, 121, 14);
 		add(lblCapacidadMaxima);
+		
+		JLabel descCapacidadMaximaHasta = new JLabel("hasta");
+		descCapacidadMaximaHasta.setForeground(Color.GRAY);
+		descCapacidadMaximaHasta.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		descCapacidadMaximaHasta.setBounds(141, 182, 121, 14);
+		add(descCapacidadMaximaHasta);
+		
+		JLabel descCapacidadMaximaDesde = new JLabel("desde");
+		descCapacidadMaximaDesde.setForeground(Color.GRAY);
+		descCapacidadMaximaDesde.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		descCapacidadMaximaDesde.setBounds(10, 182, 121, 14);
+		add(descCapacidadMaximaDesde);
 		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(act -> actionBuscar());
 		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnBuscar.setBounds(10, 144, 121, 20);
+		btnBuscar.setBounds(272, 162, 121, 20);
 		add(btnBuscar);
 		
 		JButton btnCancelar = new JButton("Volver");
@@ -135,16 +181,7 @@ public class ConsultaRuta extends Pantalla {
 		btnCancelar.addActionListener(act -> this.actionVolver());
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnCancelar);
-		
-		txtDuracion = new JTextField();
-		txtDuracion.setColumns(10);
-		txtDuracion.setBounds(534, 113, 121, 20);
-		add(txtDuracion);
-		
-		txtCapacidadMaxima = new JTextField();
-		txtCapacidadMaxima.setColumns(10);
-		txtCapacidadMaxima.setBounds(665, 113, 121, 20);
-		add(txtCapacidadMaxima);
+
 	}
 
 	private void generarTabla(List<Ruta> data) {
@@ -152,7 +189,7 @@ public class ConsultaRuta extends Pantalla {
 		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
 		tabla.onPressingOpciones(act -> actionOpcionesPopup(tabla,data));
 		panelContenedorTabla = new JScrollPane(tabla);
-		panelContenedorTabla.setBounds(10, 175, 780, 276);
+		panelContenedorTabla.setBounds(10, 206, 780, 245);
 		add(panelContenedorTabla);
 	}
 	

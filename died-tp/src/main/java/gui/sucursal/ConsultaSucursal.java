@@ -138,6 +138,18 @@ public class ConsultaSucursal extends Pantalla {
 		lblSeparadorHorarioCierre.setBounds(701, 111, 7, 20);
 		add(lblSeparadorHorarioCierre);
 		
+		JLabel descHorarioApertura = new JLabel("<html>Abre a las (o antes de<br/>las):</html>");
+		descHorarioApertura.setForeground(Color.GRAY);
+		descHorarioApertura.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		descHorarioApertura.setBounds(534, 133, 121, 28);
+		add(descHorarioApertura);
+		
+		JLabel descPrecioHasta = new JLabel("<html>Cierra a las (o despues<br/>de las):</html>");
+		descPrecioHasta.setForeground(Color.GRAY);
+		descPrecioHasta.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		descPrecioHasta.setBounds(665, 133, 121, 28);
+		add(descPrecioHasta);
+		
 		txtHorarioCierreMinutos = new JTextField();
 		txtHorarioCierreMinutos.setBounds(708, 112, 35, 20);
 		add(txtHorarioCierreMinutos);
@@ -160,7 +172,7 @@ public class ConsultaSucursal extends Pantalla {
 		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
 		tabla.onPressingOpciones(act -> actionOpcionesPopup(tabla,data));
 		panelContenedorTabla = new JScrollPane(tabla);
-		panelContenedorTabla.setBounds(10, 175, 780, 276);
+		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
 	}
 	

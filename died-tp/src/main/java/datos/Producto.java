@@ -17,6 +17,7 @@ public class Producto {
 		this.precioUnitario = precioUnitario;
 		this.pesoKg = pesoKg;
 	}
+	
 	public Integer getID() {
 		return idProducto;
 	}

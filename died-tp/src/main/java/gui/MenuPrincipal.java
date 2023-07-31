@@ -3,10 +3,9 @@ package gui;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import gui.producto.*;
 import gui.sucursal.*;
 import gui.ruta.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MenuPrincipal extends JPanel {
 	
@@ -154,6 +153,7 @@ public class MenuPrincipal extends JPanel {
 		menuProductos.setLayout(null);
 		
 		JButton btnAltaDeProductos = new JButton("Alta de productos");
+		btnAltaDeProductos.addActionListener(act -> actionAltaProducto());
 		btnAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnAltaDeProductos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnAltaDeProductos.setBounds(10, 21, 755, 23);
@@ -166,6 +166,7 @@ public class MenuPrincipal extends JPanel {
 		menuProductos.add(lblAltaDeProductos);
 		
 		JButton btnConsultaDeProductos = new JButton("Consulta de productos");
+		btnConsultaDeProductos.addActionListener(act -> actionConsultaProducto());
 		btnConsultaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConsultaDeProductos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConsultaDeProductos.setBounds(10, 79, 755, 23);
@@ -224,5 +225,17 @@ public class MenuPrincipal extends JPanel {
 		ConsultaRuta consultaRuta = new ConsultaRuta(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(consultaRuta);
+	}
+	
+	public void actionAltaProducto() {
+		AltaProducto altaProducto = new AltaProducto(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(altaProducto);
+	}
+	
+	public void actionConsultaProducto() {
+		ConsultaProducto consultaProducto = new ConsultaProducto(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(consultaProducto);
 	}
 }
