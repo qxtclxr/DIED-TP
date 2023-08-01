@@ -35,7 +35,15 @@ public class GestorProductos {
 		
 		fact.getProductoDAO().insert(aux);
 	}
-	
+	public void modificarProducto(Integer idProducto, String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException, ClassNotFoundException{
+			
+			FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+		
+		
+			Producto aux= new Producto(idProducto,nombre,descripcion,precioU,pesoKg);
+			
+			fact.getProductoDAO().update(aux);
+		}
 	
 
 }
