@@ -34,8 +34,13 @@ public final class GestorSucursal {
 		 * En esta sucursal uso null para el id porque cuando lo persista, la BDD le va a generar un id serial automaticamente
 		 */
 		Sucursal aux= new Sucursal(nombreSuc,Time.valueOf(horarioAperturaHora+":"+horarioAperturaMinutos),Time.valueOf(horarioCierreHora+":"+horarioCierreMinutos),operatividad,tipo);
-		FactoryDAO fact= FactoryDAO.getFactory(1);
+		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
 		fact.getSucursalDAO().insert(aux);
+	}
+	public void modificarSucursal(Integer idSucursal,String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws ClassNotFoundException, SQLException {
+		Sucursal aux= new Sucursal(idSucursal,nombreSuc,Time.valueOf(horarioAperturaHora+":"+horarioAperturaMinutos),Time.valueOf(horarioCierreHora+":"+horarioCierreMinutos),operatividad,tipo);
+		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+		fact.getSucursalDAO().update(aux);
 	}
 	
 

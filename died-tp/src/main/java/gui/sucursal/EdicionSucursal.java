@@ -52,7 +52,7 @@ public class EdicionSucursal extends FormularioSucursal {
 
 	@Override
 	public void actionConfirmar() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
