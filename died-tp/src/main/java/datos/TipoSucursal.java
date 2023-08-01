@@ -11,5 +11,7 @@ public enum TipoSucursal {
 		this.name = name;
 	}
 	
+	public String getValueAsString() {return super.toString();}
+	
 	public String toString() {return name;}
 }

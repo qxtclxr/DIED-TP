@@ -8,9 +8,9 @@ public final class Conexion {
 	 */
 	
 
-	private String url = "jdbc:postgresql://localhost:5432/bdtpdied";
-	private String username = "usertpdied";
-	private String password = "user";
+	private String url = "jdbc:postgresql://190.114.206.177/phppgadmin/";
+	private String username = "tf16_user";
+	private String password = "tf135";
 	private boolean estado = false;
 	private Connection con;	
 	private static Conexion obj;
@@ -23,9 +23,7 @@ public final class Conexion {
 		return obj;
 	}
 	
-	
-	
-	public Conexion() throws SQLException, ClassNotFoundException {
+	private Conexion() throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
 		this.con = DriverManager.getConnection(url, username, password);
 		this.estado = true;

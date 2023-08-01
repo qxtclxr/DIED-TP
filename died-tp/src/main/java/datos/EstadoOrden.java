@@ -10,5 +10,7 @@ public enum EstadoOrden {
 		this.name = name;
 	}
 	
+	public String getValueAsString() {return super.toString();}
+	
 	public String toString() {return name;}
 }
