@@ -86,14 +86,37 @@ public class RutaPostgreDAO implements RutaDAO{
 		return null;
 	}
 	
-	public List<Ruta> searchByAttributes(...){
-		//TODO
-		String statement =
-				"SELECT idruta,origen,destino,duracion,capacidadmaxima,estado " +
-				"FROM Ruta ";
-		if(!id.isNull()) statement += "idruta = ? AND"
-		if(!origen.isNull()) statement += ""
+	public List<Ruta> searchByAttributes(Integer idRuta, Sucursal origen, Sucursal destino,
+										 Operatividad estado, Integer duracionDesde, Integer duracionHasta,
+										 Float capacMaxDesde, Float capacMaxHasta){
+		List<Ruta> result = new ArrayList<>();
 		
-		return null;
+		try(){
+			
+		}
+		
+		return result;
+	}
+	
+	private PreparedStatement searchStatement(Integer idRuta, Sucursal origen, Sucursal destino,
+			 								  Operatividad estado, Integer duracionDesde, Integer duracionHasta,
+			 								  Float capacMaxDesde, Float capacMaxHasta) throws SQLException {
+		String statement = "SELECT idruta,origen,destino,duracion,capacidadmaxima,estado FROM Ruta WHERE 1=1";
+		if(idRuta != null) statement += " AND idruta::TEXT LIKE '%?%'"; //puede dar un error.
+		if(origen != null) statement += " AND origen = ?";
+		if(destino != null) statement += " AND destino = ?";
+		if(estado != null) statement += " AND estado = ?";
+		if(duracionDesde != null || duracionHasta != null) statement += " (duracion BETWEEN ? AND ?) AND";
+		if(capacMaxDesde != null || capacMaxHasta != null) statement += " (capacidadmaxima BETWEEN ? AND ?) AND";
+		
+		PreparedStatement pstm = conn.prepareStatement(statement);
+		
+		int paramIndex = 1;
+		if(idRuta != null) pstm.setInt(paramIndex++,idRuta);
+		if(origen != null) pstm.setInt(paramIndex++,origen.getID());
+		if(destino != null) pstm.setInt(paramIndex++,destino.getID());
+		if(estado != null) pstm.setString(paramIndex++,destino.getEstado().toString());
+		
+		return pstm;
 	}
 }
