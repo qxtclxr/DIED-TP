@@ -3,7 +3,7 @@ package dal.general;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import dal.implementacionesPostgre.PostgreFactoryDAO;
+import dal.implementaciones_postgre.PostgreFactoryDAO;
 
 public abstract class FactoryDAO {
 	public static final int POSTGRE_FACTORY = 1;
