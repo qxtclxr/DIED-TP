@@ -187,7 +187,7 @@ public class ConsultaRuta extends Pantalla {
 	private void generarTabla(List<Ruta> data) {
 		
 		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
-		tabla.onPressingOpciones(act -> actionOpcionesPopup(tabla,data));
+		tabla.onPressingButton(act -> actionOpcionesPopup(data));
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 206, 780, 245);
 		add(panelContenedorTabla);
@@ -224,7 +224,7 @@ public class ConsultaRuta extends Pantalla {
 		
 	}
 	
-	public void actionOpcionesPopup(TablaDeDatos tabla, List<Ruta> data) {
+	public void actionOpcionesPopup(List<Ruta> data) {
 		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);

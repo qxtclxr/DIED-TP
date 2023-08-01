@@ -6,11 +6,14 @@ import gui.tabla.TablaDeDatos;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.sql.Time;
+import java.text.ParseException;
 
 public class ConsultaSucursal extends Pantalla {
 	
@@ -19,10 +22,8 @@ public class ConsultaSucursal extends Pantalla {
 	private JTextField txtNombre;
 	private JComboBox<TipoSucursal> cmbTipoSucursal;
 	private JComboBox<Operatividad> cmbOperatividad;
-	private JTextField txtHorarioAperturaHora;
-	private JTextField txtHorarioAperturaMinutos;
-	private JTextField txtHorarioCierreHora;
-	private JTextField txtHorarioCierreMinutos;
+	private JTextField txtHorarioApertura;
+	private JTextField txtHorarioCierre;
 	private TablaDeDatos tabla;
 	private JScrollPane panelContenedorTabla;
 	private JButton btnBuscar;
@@ -114,23 +115,16 @@ public class ConsultaSucursal extends Pantalla {
 		lblHorarioDeCierre.setBounds(665, 95, 121, 14);
 		add(lblHorarioDeCierre);
 		
-		txtHorarioAperturaHora = new JTextField();
-		txtHorarioAperturaHora.setBounds(534, 113, 35, 20);
-		add(txtHorarioAperturaHora);
+		MaskFormatter horaMask = this.createFormatter("##:##");
+		horaMask.setPlaceholderCharacter('-');
 		
-		JLabel lblSeparadorHorarioApertura = new JLabel(":");
-		lblSeparadorHorarioApertura.setVerticalAlignment(SwingConstants.TOP);
-		lblSeparadorHorarioApertura.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSeparadorHorarioApertura.setBounds(570, 112, 7, 20);
-		add(lblSeparadorHorarioApertura);
+		txtHorarioApertura = new JFormattedTextField(horaMask);
+		txtHorarioApertura.setBounds(534, 113, 121, 20);
+		add(txtHorarioApertura);
 		
-		txtHorarioAperturaMinutos = new JTextField();
-		txtHorarioAperturaMinutos.setBounds(577, 113, 35, 20);
-		add(txtHorarioAperturaMinutos);
-		
-		txtHorarioCierreHora = new JTextField();
-		txtHorarioCierreHora.setBounds(665, 112, 35, 20);
-		add(txtHorarioCierreHora);
+		txtHorarioCierre = new JFormattedTextField(horaMask);
+		txtHorarioCierre.setBounds(665, 113, 121, 20);
+		add(txtHorarioCierre);
 		
 		JLabel lblSeparadorHorarioCierre = new JLabel(":");
 		lblSeparadorHorarioCierre.setVerticalAlignment(SwingConstants.TOP);
@@ -150,10 +144,6 @@ public class ConsultaSucursal extends Pantalla {
 		descPrecioHasta.setBounds(665, 133, 121, 28);
 		add(descPrecioHasta);
 		
-		txtHorarioCierreMinutos = new JTextField();
-		txtHorarioCierreMinutos.setBounds(708, 112, 35, 20);
-		add(txtHorarioCierreMinutos);
-		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(act -> actionBuscar());
 		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -167,10 +157,20 @@ public class ConsultaSucursal extends Pantalla {
 		add(btnCancelar);
 		
 	}
+	
+	private MaskFormatter createFormatter(String s) {
+	    MaskFormatter formatter = null;
+	    try {
+	        formatter = new MaskFormatter(s);
+	    } catch (java.text.ParseException exc) {
+	    	//TODO
+	    }
+	    return formatter;
+	}
 
 	private void generarTabla(List<Sucursal> data) {
 		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
-		tabla.onPressingOpciones(act -> actionOpcionesPopup(tabla,data));
+		tabla.onPressingButton(act -> actionOpcionesPopup(data));
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
@@ -206,7 +206,7 @@ public class ConsultaSucursal extends Pantalla {
 		
 	}
 	
-	public void actionOpcionesPopup(TablaDeDatos tabla, List<Sucursal> data) {
+	public void actionOpcionesPopup(List<Sucursal> data) {
 		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);

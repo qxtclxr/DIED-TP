@@ -6,8 +6,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class TablaDeDatos extends JTable{
 	
-	private OpcionesCellRenderer cellRenderer;
-	private OpcionesCellEditor cellEditor;
+	protected OpcionesCellRenderer cellRenderer;
+	protected OpcionesCellEditor cellEditor;
 	
 	public TablaDeDatos(Object[][] data, String[] colNames) {
 		super();
@@ -23,12 +23,16 @@ public class TablaDeDatos extends JTable{
 		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellEditor(cellEditor);
 	}
 	
-	public void setOpcionesLabel(String label) {
+	public TablaDeDatos() {
+		super();
+	}
+
+	public void setButtonLabel(String label) {
 		this.cellRenderer.setLabel(label);
 		this.cellEditor.setLabel(label);
 	}
 	
-	public void onPressingOpciones(ActionListener listener) {
+	public void onPressingButton(ActionListener listener) {
 		this.cellEditor.setActionListener(listener);
 	}
 }

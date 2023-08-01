@@ -35,13 +35,19 @@ public class EdicionSucursal extends FormularioSucursal {
 	}
 	
 	public void setDefaultValues() {
+		String horarioApertura =
+				String.format("%02d", suc.getHorarioApertura().toLocalTime().getHour()) +
+				":" +
+				String.format("%02d", suc.getHorarioApertura().toLocalTime().getMinute());
+		String horarioCierre =
+				String.format("%02d", suc.getHorarioCierre().toLocalTime().getHour()) +
+				":" +
+				String.format("%02d", suc.getHorarioCierre().toLocalTime().getMinute());
 		txtNombre.setText(suc.getNombre());
 		cmbTipoSucursal.setSelectedItem(suc.getTipo());
 		cmbOperatividad.setSelectedItem(suc.getEstado());
-		cmbHorarioAperturaHora.setSelectedIndex(suc.getHorarioApertura().toLocalTime().getHour());
-		cmbHorarioAperturaMinutos.setSelectedIndex(suc.getHorarioApertura().toLocalTime().getMinute());
-		cmbHorarioCierreHora.setSelectedIndex(suc.getHorarioCierre().toLocalTime().getHour());
-		cmbHorarioCierreMinutos.setSelectedIndex(suc.getHorarioCierre().toLocalTime().getMinute());
+		txtHorarioApertura.setValue(horarioApertura);
+		txtHorarioCierre.setValue(horarioCierre);
 	}
 
 	@Override

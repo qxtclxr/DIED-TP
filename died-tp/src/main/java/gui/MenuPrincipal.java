@@ -6,6 +6,7 @@ import javax.swing.border.*;
 import gui.producto.*;
 import gui.sucursal.*;
 import gui.ruta.*;
+import gui.ordenes.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -190,6 +191,7 @@ public class MenuPrincipal extends JPanel {
 		JButton btnGenerarUnaOrden = new JButton("Generar una orden de provision");
 		btnGenerarUnaOrden.setHorizontalAlignment(SwingConstants.LEFT);
 		btnGenerarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnGenerarUnaOrden.addActionListener(act -> actionGenerarOrden());
 		btnGenerarUnaOrden.setBounds(10, 21, 755, 23);
 		menuOrdenesDeProvision.add(btnGenerarUnaOrden);
 		
@@ -246,6 +248,12 @@ public class MenuPrincipal extends JPanel {
 		ConsultaProducto consultaProducto = new ConsultaProducto(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(consultaProducto);
+	}
+	
+	public void actionGenerarOrden() {
+		ListarProductosOrden generarOrden = new ListarProductosOrden(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(generarOrden);
 	}
 	
 }

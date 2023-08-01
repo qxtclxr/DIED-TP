@@ -28,7 +28,6 @@ public class AltaSucursal extends FormularioSucursal{
 
 	@Override
 	public void actionConfirmar() {
-		// TODO Auto-generated method stub
-		
+		System.out.println(this.txtHorarioApertura.getText());
 	}
 }

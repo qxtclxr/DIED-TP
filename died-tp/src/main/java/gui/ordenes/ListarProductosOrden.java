@@ -1,35 +1,34 @@
-package gui.producto;
+package gui.ordenes;
 
 import datos.*;
 import gui.*;
+import gui.tabla.TablaCarrito;
 import gui.tabla.TablaDeDatos;
-
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.sql.Time;
 
 
-public class ConsultaProducto extends Pantalla {
+public class ListarProductosOrden extends Pantalla {
 
 	private static final String[] COL_NAMES = {"ID del producto","Nombre","Descripcion","Precio unitario","Peso (en kg.)",""};
+	private static final String[] COL_NAMES_SELECT = {"ID del producto","Nombre","Descripcion","Precio unitario","Peso (en kg.)","Cantidad",""};
 	private JTextField txtIDProducto;
 	private JTextField txtNombre;
 	private JTextField txtPrecioDesde;
 	private JTextField txtPrecioHasta;
 	private JTextField txtPesoDesde;
 	private JTextField txtPesoHasta;
-	private TablaDeDatos tabla;
+	private TablaDeDatos tablaDatos;
+	private TablaCarrito tablaSeleccionados;
 	private JScrollPane panelContenedorTabla;
-	private JButton btnBuscar;
 	
 	/**
 	 * Create the panel.
 	 */
-	public ConsultaProducto(JFrame frame, JPanel pantallaAnterior) {
+	public ListarProductosOrden(JFrame frame, JPanel pantallaAnterior) {
 		super(frame,pantallaAnterior);
 	}
 	
@@ -93,7 +92,7 @@ public class ConsultaProducto extends Pantalla {
 		lblDuracion.setBounds(534, 95, 121, 14);
 		add(lblDuracion);
 		
-		btnBuscar = new JButton("Buscar");
+		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(act -> actionBuscar());
 		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnBuscar.setBounds(10, 144, 121, 20);
@@ -138,18 +137,37 @@ public class ConsultaProducto extends Pantalla {
 		descPesoHasta.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		descPesoHasta.setBounds(665, 133, 121, 14);
 		add(descPesoHasta);
+		
+		JLabel lblProductosSeleccionados = new JLabel("Productos seleccionados");
+		lblProductosSeleccionados.setHorizontalAlignment(SwingConstants.LEFT);
+		lblProductosSeleccionados.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblProductosSeleccionados.setBounds(10, 326, 780, 20);
+		add(lblProductosSeleccionados);
+		
+		generarTablaSeleccionados();
+	}
+	
+	public void actionBuscar() {
+		//TODO: Prueba
+		Producto aux = new Producto(12345,"Heladera Phillips","Una heladera con muchas funcionalidades, etc.",120000F,550F);
+		Producto[] auxArr = new Producto[100];
+		Arrays.fill(auxArr,aux);
+		ArrayList<Producto> auxList = new ArrayList<Producto>(Arrays.asList(auxArr));
+		//TODO: Prueba
+		
+		generarTablaDatos(auxList);
 	}
 
-	private void generarTabla(List<Producto> data) {
-		
-		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(data));
-		panelContenedorTabla = new JScrollPane(tabla);
-		panelContenedorTabla.setBounds(10, 174, 780, 277);
+	private void generarTablaDatos(List<Producto> data) {
+		tablaDatos = new TablaDeDatos(datosTablaDatos(data),COL_NAMES);
+		tablaDatos.onPressingButton(act -> actionAgregar());
+		tablaDatos.setButtonLabel("Agregar");
+		panelContenedorTabla = new JScrollPane(tablaDatos);
+		panelContenedorTabla.setBounds(10, 175, 780, 140);
 		add(panelContenedorTabla);
 	}
 	
-	private Object[][] datosTabla(List<Producto> data){
+	private Object[][] datosTablaDatos(List<Producto> data){
 		Object[][] contenido = new Object[data.size()][COL_NAMES.length];
 		for(int i = 0 ; i < data.size() ; i++) {
 			Object[] fila = {
@@ -164,30 +182,28 @@ public class ConsultaProducto extends Pantalla {
 		return contenido;
 	}
 	
-	public void actionBuscar() {
-		
-		//TODO: Prueba
-		Producto aux = new Producto(12345,"Heladera Phillips","Una heladera con muchas funcionalidades, etc.",120000F,550F);
-		Producto[] auxArr = new Producto[100];
-		Arrays.fill(auxArr,aux);
-		ArrayList<Producto> auxList = new ArrayList<Producto>(Arrays.asList(auxArr));
-		//TODO: Prueba
-		
-		generarTabla(auxList);
+	public void actionAgregar() {
+		int row = tablaDatos.convertRowIndexToModel(tablaDatos.getEditingRow());
+		Integer selectedProdID = (Integer) tablaDatos.getModel().getValueAt(row,0);
+		if(!tablaSeleccionados.getCarrito().contains(selectedProdID)) {
+			int dataSize = tablaDatos.getColumnCount()-1;
+	        Object[] data = new Object[dataSize+1]; //Un lugar mas para el valor default del JSpinner
+	        for(int i = 0 ; i < dataSize ; i++) {
+	        	data[i] = tablaDatos.getModel().getValueAt(row,i);
+	        }
+	        data[dataSize] = 1; //Este es el valor inicial del JSpinner con el que se setea la cantidad de producto.
+	        DefaultTableModel model = (DefaultTableModel) tablaSeleccionados.getModel();
+	        model.addRow(data);
+	        tablaSeleccionados.getCarrito().add(selectedProdID);
+		}
 		
 	}
 	
-	public void actionOpcionesPopup(List<Producto> data) {
-		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
-        int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
-        Rectangle cellRect = tabla.getCellRect(row, column, true);
-        Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-        Producto selected = data.stream().
-        					filter(prod -> prod.getID().equals(tabla.getModel().getValueAt(row,0))).
-        					findFirst().
-        					orElse(null);
-        OpcionesPopupProducto popupMenu = new OpcionesPopupProducto(selected,frame,this);
-        popupMenu.show(tabla, popupLocation.x, popupLocation.y);
+	public void generarTablaSeleccionados() {
+		tablaSeleccionados = new TablaCarrito(COL_NAMES_SELECT);
+		JScrollPane panelProductosSeleccionados = new JScrollPane(tablaSeleccionados);
+		panelProductosSeleccionados.setBounds(10, 350, 780, 105);
+		add(panelProductosSeleccionados);
 	}
 	
 	public void actionVolver(){
