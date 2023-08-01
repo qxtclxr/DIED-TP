@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import dal.postgre.Conexion;
 
@@ -31,7 +32,7 @@ public class Ventana extends JFrame {
 		try {
 			conexion = Conexion.getInstance();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "There's a bug on you!","Hey!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"","Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
