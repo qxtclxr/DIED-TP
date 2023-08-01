@@ -1,4 +1,4 @@
-package dal.implementaciones_postgre;
+package dal.postgre;
 
 import java.sql.*;
 import java.util.*;
