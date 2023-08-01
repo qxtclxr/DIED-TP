@@ -8,7 +8,7 @@ public final class Conexion {
 	 */
 	
 
-	private String url = "jdbc:postgresql://190.114.206.177/phppgadmin/";
+	private String url = "jdbc:postgresql://190.114.206.177";
 	private String username = "tf16_user";
 	private String password = "tf135";
 	private boolean estado = false;
