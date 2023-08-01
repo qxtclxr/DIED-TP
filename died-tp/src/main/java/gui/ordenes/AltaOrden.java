@@ -1,11 +1,11 @@
-package gui.ruta;
+package gui.ordenes;
 
 import java.awt.*;
 import javax.swing.*;
 
-public class AltaRuta extends FormularioRuta{
+public class AltaOrden extends FormularioOrden{
 	
-	public AltaRuta(JFrame frame, JPanel pantallaAnterior) {
+	public AltaOrden(JFrame frame, JPanel pantallaAnterior) {
 		super(frame, pantallaAnterior);
 	}
 	
@@ -13,13 +13,13 @@ public class AltaRuta extends FormularioRuta{
 		
 		super.inicializarComponentes();
 		
-		JLabel lblAltaDeProductos = new JLabel("Alta de ruta");
+		JLabel lblAltaDeProductos = new JLabel("Generar orden de provision");
 		lblAltaDeProductos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAltaDeProductos.setFont(new Font("Tahoma", Font.BOLD, 32));
 		lblAltaDeProductos.setBounds(10, 11, 780, 30);
 		add(lblAltaDeProductos);
 		
-		JLabel lblDescripcion = new JLabel("Completa el formulario y presiona \"Confirmar\" para guardar los datos ingresados. De haber errores se pedira el reingreso de los datos.");
+		JLabel lblDescripcion = new JLabel("Completa el formulario y presiona \"Continuar\" para guardar los datos ingresados. De haber errores se pedira el reingreso de los datos.");
 		lblDescripcion.setBounds(10, 50, 780, 14);
 		lblDescripcion.setForeground(new Color(128, 128, 128));
 		lblDescripcion.setFont(new Font("Tahoma", Font.PLAIN, 11));

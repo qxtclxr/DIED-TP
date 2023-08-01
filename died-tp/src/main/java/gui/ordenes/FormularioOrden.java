@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 
 public abstract class FormularioOrden extends Pantalla {
 	protected JComboBox<Sucursal> cmbSucursalDestino;
-	protected JTextField txtDuracion;
+	protected JTextField txtTiempoMaximo;
 	
 	public FormularioOrden(JFrame frame, JPanel pantallaAnterior) {
 		super(frame, pantallaAnterior);
@@ -48,9 +48,6 @@ public abstract class FormularioOrden extends Pantalla {
 		separadorTituloContenido.setBounds(10, 77, 780, 2);
 		add(separadorTituloContenido);
 		
-		for(Sucursal suc : todasLasSucursales)
-			cmbSucursalOrigen.addItem(suc);
-		
 		JLabel lblSucursalDestino = new JLabel("Sucursal de destino");
 		lblSucursalDestino.setVerticalAlignment(SwingConstants.TOP);
 		lblSucursalDestino.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -64,21 +61,27 @@ public abstract class FormularioOrden extends Pantalla {
 		for(Sucursal suc : todasLasSucursales)
 			cmbSucursalDestino.addItem(suc);
 		
-		JLabel lblDuracion = new JLabel("Tiempo maximo hasta recibir la orden");
-		lblDuracion.setVerticalAlignment(SwingConstants.TOP);
-		lblDuracion.setBounds(222, 264, 355, 20);
-		lblDuracion.setFont(new Font("Tahoma", Font.BOLD, 14));
-		add(lblDuracion);
+		JLabel descSucursalDestino = new JLabel("Sucursal receptora de los productos.");
+		descSucursalDestino.setForeground(Color.GRAY);
+		descSucursalDestino.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		descSucursalDestino.setBounds(222, 206, 355, 14);
+		add(descSucursalDestino);
 		
-		txtDuracion = new JTextField();
-		txtDuracion.setBounds(222, 289, 355, 20);
-		add(txtDuracion);
+		JLabel lblTiempoMaximo = new JLabel("Tiempo maximo hasta recibir la orden");
+		lblTiempoMaximo.setVerticalAlignment(SwingConstants.TOP);
+		lblTiempoMaximo.setBounds(222, 264, 355, 20);
+		lblTiempoMaximo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		add(lblTiempoMaximo);
 		
-		JLabel descDuracion = new JLabel("Tiempo maximo en el que se desea recibir la orden (en horas).");
-		descDuracion.setForeground(Color.GRAY);
-		descDuracion.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		descDuracion.setBounds(222, 314, 355, 14);
-		add(descDuracion);
+		txtTiempoMaximo = new JTextField();
+		txtTiempoMaximo.setBounds(222, 289, 355, 20);
+		add(txtTiempoMaximo);
+		
+		JLabel descTiempoMaximo = new JLabel("Tiempo maximo en el que se desea recibir la orden (en horas).");
+		descTiempoMaximo.setForeground(Color.GRAY);
+		descTiempoMaximo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		descTiempoMaximo.setBounds(222, 314, 355, 14);
+		add(descTiempoMaximo);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBackground(new Color(255, 159, 162));
@@ -93,11 +96,6 @@ public abstract class FormularioOrden extends Pantalla {
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnConfirmar);		
 		
-		JLabel lblSucursalReceptoraDe = new JLabel("Sucursal receptora de los productos.");
-		lblSucursalReceptoraDe.setForeground(Color.GRAY);
-		lblSucursalReceptoraDe.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblSucursalReceptoraDe.setBounds(222, 206, 355, 14);
-		add(lblSucursalReceptoraDe);
 	}
 	
 	public void actionCancelar() {
