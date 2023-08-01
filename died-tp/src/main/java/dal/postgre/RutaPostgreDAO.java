@@ -32,7 +32,7 @@ public class RutaPostgreDAO implements RutaDAO{
 	        pstm.setInt(2, obj.getDestino().getID());
 	        pstm.setInt(3, obj.getDuracion());
 	        pstm.setFloat(4, obj.getCapacidadMaxima());
-	        pstm.setString(5, obj.getEstado().toString());
+	        pstm.setString(5, obj.getEstado().getValueAsString());
 	        pstm.executeUpdate();
 		}
 		
@@ -47,7 +47,7 @@ public class RutaPostgreDAO implements RutaDAO{
 	        pstm.setInt(3, obj.getDestino().getID());
 	        pstm.setInt(4, obj.getDuracion());
 	        pstm.setFloat(5, obj.getCapacidadMaxima());
-	        pstm.setString(6, obj.getEstado().toString());
+	        pstm.setString(6, obj.getEstado().getValueAsString());
 	        pstm.setInt(7, obj.getID());
 	        pstm.executeUpdate();
 		}
@@ -88,11 +88,18 @@ public class RutaPostgreDAO implements RutaDAO{
 	
 	public List<Ruta> searchByAttributes(Integer idRuta, Sucursal origen, Sucursal destino,
 										 Operatividad estado, Integer duracionDesde, Integer duracionHasta,
-										 Float capacMaxDesde, Float capacMaxHasta){
+										 Float capacMaxDesde, Float capacMaxHasta) throws SQLException {
 		List<Ruta> result = new ArrayList<>();
 		
-		try(){
-			
+		try(PreparedStatement pstm = searchStatement(idRuta,origen,destino,estado,duracionDesde,duracionHasta,capacMaxDesde,capacMaxHasta);
+			ResultSet rs = pstm.executeQuery()){
+			while(rs.next()) {
+				Ruta ruta = new Ruta(
+						rs.getInt(""),
+						
+				);
+						
+			}
 		}
 		
 		return result;
@@ -101,7 +108,12 @@ public class RutaPostgreDAO implements RutaDAO{
 	private PreparedStatement searchStatement(Integer idRuta, Sucursal origen, Sucursal destino,
 			 								  Operatividad estado, Integer duracionDesde, Integer duracionHasta,
 			 								  Float capacMaxDesde, Float capacMaxHasta) throws SQLException {
-		String statement = "SELECT idruta,origen,destino,duracion,capacidadmaxima,estado FROM Ruta WHERE 1=1";
+		String statement =
+				"SELECT or.idsucursal,or.nombre,or.horarioapertura,or.horariocierre,or.estado,or.tipo," +
+				"de.idsucursal,de.nombre,de.horarioapertura,de.horariocierre,de.estado,de.tipo," +
+				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
+				"FROM Ruta r, Sucursal or, Sucursal de " +
+				"WHERE r.origen = or.idsucursal AND r.destino = de.idsucursal";
 		if(idRuta != null) statement += " AND idruta::TEXT LIKE '%?%'"; //puede dar un error.
 		if(origen != null) statement += " AND origen = ?";
 		if(destino != null) statement += " AND destino = ?";
@@ -115,7 +127,15 @@ public class RutaPostgreDAO implements RutaDAO{
 		if(idRuta != null) pstm.setInt(paramIndex++,idRuta);
 		if(origen != null) pstm.setInt(paramIndex++,origen.getID());
 		if(destino != null) pstm.setInt(paramIndex++,destino.getID());
-		if(estado != null) pstm.setString(paramIndex++,destino.getEstado().toString());
+		if(estado != null) pstm.setString(paramIndex++,destino.getEstado().getValueAsString());
+		if(duracionDesde != null) pstm.setInt(paramIndex++,duracionDesde);
+		else pstm.setInt(paramIndex++,-1);
+		if(duracionHasta != null) pstm.setInt(paramIndex++,duracionHasta);
+		else pstm.setInt(paramIndex++,Integer.MAX_VALUE);
+		if(capacMaxDesde != null) pstm.setFloat(paramIndex++,capacMaxDesde);
+		else pstm.setFloat(paramIndex++,-1);
+		if(capacMaxHasta != null) pstm.setFloat(paramIndex++,capacMaxHasta);
+		else pstm.setString(paramIndex++,"inf");
 		
 		return pstm;
 	}
