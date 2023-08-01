@@ -25,18 +25,13 @@ public class ProductoPostgreDAO implements ProductoDAO{
 	
 	@Override
 	public void insert(Producto obj) throws SQLException {
-		String statement = "INSERT INTO Producto (idproducto, nombre, descripcion, preciounitario, pesokg) VALUES (?,?,?,?,?)";
+		String statement = "INSERT INTO Producto (nombre, descripcion, preciounitario, pesokg) VALUES (?,?,?,?)";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
-			pstm.setInt(1, obj.getID());
-			pstm.setString(2, obj.getNombre());
-			pstm.setString(3, obj.getDescripcion());
-			pstm.setDouble(4, obj.getPrecioUnitario());
-			pstm.setDouble(5, obj.getPesoKg());
+			pstm.setString(1, obj.getNombre());
+			pstm.setString(2, obj.getDescripcion());
+			pstm.setDouble(3, obj.getPrecioUnitario());
+			pstm.setDouble(4, obj.getPesoKg());
 		}
-		
-		
-		
-		
 	}
 
 	@Override

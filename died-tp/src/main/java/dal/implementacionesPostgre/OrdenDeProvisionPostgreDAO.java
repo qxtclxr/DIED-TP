@@ -21,13 +21,12 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	
 	@Override
 	public void insert(OrdenDeProvision obj) throws SQLException {
-		String statement = "INSERT INTO ordendeprovision (idorden,sucursaldestino,fecha,tiempomaximo) VALUES (?,?,?,?)";
+		String statement = "INSERT INTO ordendeprovision (sucursaldestino,fecha,tiempomaximo) VALUES (?,?,?)";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
 
-			pstm.setInt(1, obj.getIdOrden());
-			pstm.setInt(2, obj.getSucursalDestino().getID());
-			pstm.setDate(3, obj.getFecha());
-			pstm.setInt(4, obj.getTiempoMaximo());
+			pstm.setInt(1, obj.getSucursalDestino().getID());
+			pstm.setDate(2, obj.getFecha());
+			pstm.setInt(3, obj.getTiempoMaximo());
 			
 	        pstm.executeUpdate();
 		}
@@ -36,7 +35,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 		obj.getProductos().forEach((prod, cant) -> {
 			String statment = "INSERT INTO detalleorden(idorden, idproducto, cantidad) VALUES (?,?,?)";
 			try(PreparedStatement pstm = conn.prepareStatement(statement);){
-				pstm.setInt(1, obj.getIdOrden());
+				pstm.setInt(1, obj.getID());
 				pstm.setInt(2, prod.getID());
 				pstm.setInt(3, cant);
 			}
@@ -52,20 +51,20 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 		String statement = "UPDATE ordendeprovision SET idorden = ?, sucursaldestino = ?, fecha= ? , tiempomaximo = ? WHERE idorden = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 
-			pstm.setInt(1, obj.getIdOrden());
+			pstm.setInt(1, obj.getID());
 			pstm.setInt(2, obj.getSucursalDestino().getID());
 			pstm.setDate(3, obj.getFecha());
 			pstm.setInt(4, obj.getTiempoMaximo());
-			pstm.setInt(5, obj.getIdOrden());
+			pstm.setInt(5, obj.getID());
 		}
 		
 		obj.getProductos().forEach((prod, cant) -> {
 			String statment = "UPDATE detalleorden SET idorden = ?, idproducto = ?, cantidad = ? WHERE idorden = ? AND idproducto = ?";
 			try(PreparedStatement pstm = conn.prepareStatement(statement);){
-				pstm.setInt(1, obj.getIdOrden());
+				pstm.setInt(1, obj.getID());
 				pstm.setInt(2, prod.getID());
 				pstm.setInt(3, cant);
-				pstm.setInt(4, obj.getIdOrden());
+				pstm.setInt(4, obj.getID());
 				pstm.setInt(5, prod.getID());
 			}
 		});
@@ -77,13 +76,13 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	public void delete(OrdenDeProvision obj) throws SQLException {
 		String statement = "DELETE FROM ordendeprovision WHERE idorden = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-			pstm.setInt(1,obj.getIdOrden());
+			pstm.setInt(1,obj.getID());
 		}
 	
 		obj.getProductos().forEach((prod, cant) -> {
 			String statment = "DELETE FROM detalleorden WHERE idorden = ?";
 			try(PreparedStatement pstm = conn.prepareStatement(statement);){
-				pstm.setInt(1, obj.getIdOrden());
+				pstm.setInt(1, obj.getID());
 			}
 
 		});

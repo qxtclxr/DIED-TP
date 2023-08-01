@@ -26,14 +26,13 @@ public class RutaPostgreDAO implements RutaDAO{
 	
 	@Override
 	public void insert(Ruta obj) throws SQLException {
-		String statement = "INSERT INTO RUTA (idruta,origen,destino,duracion,capacidadmaxima,estado) VALUES (?,?,?,?,?,?)";
+		String statement = "INSERT INTO RUTA (origen,destino,duracion,capacidadmaxima,estado) VALUES (?,?,?,?,?)";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {			
-	        pstm.setInt(1, obj.getID());
-	        pstm.setInt(2, obj.getOrigen().getID());
-	        pstm.setInt(3, obj.getDestino().getID());
-	        pstm.setInt(4, obj.getDuracion());
-	        pstm.setFloat(5, obj.getCapacidadMaxima());
-	        pstm.setString(6, obj.getEstado().toString());
+	        pstm.setInt(1, obj.getOrigen().getID());
+	        pstm.setInt(2, obj.getDestino().getID());
+	        pstm.setInt(3, obj.getDuracion());
+	        pstm.setFloat(4, obj.getCapacidadMaxima());
+	        pstm.setString(5, obj.getEstado().toString());
 	        pstm.executeUpdate();
 		}
 		
