@@ -86,8 +86,14 @@ public class RutaPostgreDAO implements RutaDAO{
 		return null;
 	}
 	
-	public List<Ruta> searchByAttributes(Ruta obj){
+	public List<Ruta> searchByAttributes(...){
 		//TODO
+		String statement =
+				"SELECT idruta,origen,destino,duracion,capacidadmaxima,estado " +
+				"FROM Ruta ";
+		if(!id.isNull()) statement += "idruta = ? AND"
+		if(!origen.isNull()) statement += ""
+		
 		return null;
 	}
 }

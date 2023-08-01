@@ -221,7 +221,6 @@ public class ConsultaRuta extends Pantalla {
 		//TODO: Prueba
 		
 		generarTabla(auxList);
-		
 	}
 	
 	public void actionOpcionesPopup(List<Ruta> data) {
