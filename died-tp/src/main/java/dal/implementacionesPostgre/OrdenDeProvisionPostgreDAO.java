@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-
 import dal.general.OrdenDeProvisionDAO;
 import datos.OrdenDeProvision;
 
@@ -30,7 +29,6 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 			
 	        pstm.executeUpdate();
 		}
-
 		
 		obj.getProductos().forEach((prod, cant) -> {
 			String statment = "INSERT INTO detalleorden(idorden, idproducto, cantidad) VALUES (?,?,?)";
@@ -39,11 +37,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 				pstm.setInt(2, prod.getID());
 				pstm.setInt(3, cant);
 			}
-
 		});
-
-		
-		
 	}
 
 	@Override
