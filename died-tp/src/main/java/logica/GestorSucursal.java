@@ -1,6 +1,6 @@
 package logica;
 
-import java.sql.Connection;
+
 import java.sql.SQLException;
 import java.sql.Time;
 
@@ -17,7 +17,7 @@ public final class GestorSucursal {
 	
 	private static GestorSucursal gestor;
 	
-	public synchronized static GestorSucursal getInstance(Connection c) {
+	public synchronized static GestorSucursal getInstance() {
 		if(gestor==null) {
 			gestor= new GestorSucursal();
 		}
@@ -30,13 +30,10 @@ public final class GestorSucursal {
 
 	
 	public void altaSucursal(String nombreSuc,TipoSucursal tipo, Operatividad operatividad,String horarioAperturaHora,String horarioAperturaMinutos, String horarioCierreHora, String horarioCierreMinutos) throws SQLException, ClassNotFoundException{
-		//tengo que armar el objeto de datos y luego persistirlo
-		//chequear posta estos constructores
 		/*
-		 * 
-		 * 
+		 * En esta sucursal uso null para el id porque cuando lo persista, la BDD le va a generar un id serial automaticamente
 		 */
-		Sucursal aux= new Sucursal(idSuc,nombreSuc,Time.valueOf(horarioAperturaHora+":"+horarioAperturaMinutos),Time.valueOf(horarioCierreHora+":"+horarioCierreMinutos),operatividad,tipo);
+		Sucursal aux= new Sucursal(nombreSuc,Time.valueOf(horarioAperturaHora+":"+horarioAperturaMinutos),Time.valueOf(horarioCierreHora+":"+horarioCierreMinutos),operatividad,tipo);
 		FactoryDAO fact= FactoryDAO.getFactory(1);
 		fact.getSucursalDAO().insert(aux);
 	}

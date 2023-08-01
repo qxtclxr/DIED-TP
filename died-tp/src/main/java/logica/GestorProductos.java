@@ -1,6 +1,6 @@
 package logica;
 
-import java.sql.Connection;
+
 import java.sql.SQLException;
 
 import dal.general.FactoryDAO;
@@ -12,29 +12,28 @@ public class GestorProductos {
 	/* falta gestionar responsabilidades para esta clase
 	 * 
 	 */
-	private Connection conn;
+
 	private static GestorProductos gestor;
 	
-	public synchronized static GestorProductos getInstance(Connection c) {
+	public synchronized static GestorProductos getInstance() {
 		if(gestor==null) {
-			gestor=new GestorProductos(c);
+			gestor=new GestorProductos();
 		}
 		return gestor;
 	}
 	
-	private GestorProductos(Connection c) {
+	private GestorProductos() {
 		super();
-		this.conn=c;
 	}
 	
-	public void altaProducto(Integer idProducto, String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException{
+	public void altaProducto(String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException, ClassNotFoundException{
 		
 		FactoryDAO fact= FactoryDAO.getFactory(1);
 	
 	
-		Producto aux= new Producto(idProducto,nombre,descripcion,precioU,pesoKg);
+		Producto aux= new Producto(nombre,descripcion,precioU,pesoKg);
 		
-		fact.getProductoDAO(conn).insert(aux);
+		fact.getProductoDAO().insert(aux);
 	}
 	
 	

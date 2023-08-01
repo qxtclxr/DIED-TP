@@ -21,6 +21,17 @@ public class Ruta implements Entidad{
 		
 	}
 
+	public Ruta( Sucursal origen, Sucursal destino, Operatividad estado, Integer duracion,
+			Float capacidadMaxima) {
+		super();
+		
+		this.origen = origen;
+		this.destino = destino;
+		this.estado = estado;
+		this.duracion = duracion;
+		this.capacidadMaxima = capacidadMaxima;
+	}
+
 	public Sucursal getOrigen() {return this.origen;}
 	public Sucursal getDestino() {return this.destino;}
 	public Integer getDuracion() {return this.duracion;}

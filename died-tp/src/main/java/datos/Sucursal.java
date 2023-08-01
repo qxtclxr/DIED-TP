@@ -23,6 +23,17 @@ public class Sucursal implements Comparable<Sucursal>, Entidad{
 	}
 	
 	
+	public Sucursal( String nombre, Time horarioApertura, Time horarioCierre, Operatividad estado, TipoSucursal tipo) {
+		super();
+		
+		this.nombre = nombre;
+		this.estado = estado;
+		this.tipo = tipo;
+		this.horarioApertura = horarioApertura;
+		this.horarioCierre = horarioCierre;
+	}
+
+
 	public Integer getID() {
 		return idSucursal;
 	}

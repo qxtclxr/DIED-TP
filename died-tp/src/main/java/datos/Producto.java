@@ -18,6 +18,15 @@ public class Producto implements Entidad{
 		this.pesoKg = pesoKg;
 	}
 	
+	public Producto(String nombre2, String descripcion2, Float precioU, Float pesoKg2) {
+		super();
+		
+		this.nombre = nombre2;
+		this.descripcion = descripcion2;
+		this.precioUnitario = precioU;
+		this.pesoKg = pesoKg2;
+	}
+
 	public Integer getID() {
 		return idProducto;
 	}
