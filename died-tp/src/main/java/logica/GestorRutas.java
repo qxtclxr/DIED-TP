@@ -37,5 +37,10 @@ public final class GestorRutas {
 	}
 	
 	
+	/*
+	 * List<Ruta> search by attributes
+	 * handling 
+	 */
+	
 
 }
