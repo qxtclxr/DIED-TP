@@ -27,7 +27,6 @@ public abstract class FormularioRuta extends Pantalla {
 		
 		setLayout(null);
 		
-		
 		//TODO: Prueba
 		Sucursal aux = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
 		Sucursal[] auxArr = new Sucursal[100];
@@ -35,7 +34,9 @@ public abstract class FormularioRuta extends Pantalla {
 		ArrayList<Sucursal> todasLasSucursales = new ArrayList<Sucursal>(Arrays.asList(auxArr));
 		//TODO: Prueba
 		
-		//List<Sucursal> todasLasSucursales = GestorSucursal.getInstance().getAll();
+		List<Sucursal> posiblesOrigenes = GestorSucursal.getInstance().getPosiblesOrigenes();
+		
+		List<Sucursal> posiblesDestinos = GestorSucursal.getInstance().getPosiblesDestinos();
 		
 		JSeparator separadorTituloContenido = new JSeparator();
 		separadorTituloContenido.setBounds(10, 77, 780, 2);
