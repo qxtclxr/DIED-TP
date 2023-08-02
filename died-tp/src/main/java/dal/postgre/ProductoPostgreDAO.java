@@ -90,8 +90,6 @@ public class ProductoPostgreDAO implements ProductoDAO{
 
 	}
 
-
-	@Override
 	public List<Producto> searchByAttributes(Producto obj) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;

@@ -11,6 +11,4 @@ public interface DAO<T> {
 	public void delete(T obj) throws SQLException;
 	
 	public T getByID(Integer id) throws SQLException;
-	
-	public List<T> searchByAttributes(T obj) throws SQLException;
 }

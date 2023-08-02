@@ -88,14 +88,11 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	@Override
+	
+	
 	public List<OrdenDeProvision> searchByAttributes(OrdenDeProvision obj) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 	
 }

@@ -20,7 +20,7 @@ public class RutaPostgreDAO implements RutaDAO{
 	
 	public RutaPostgreDAO() throws ClassNotFoundException, SQLException {
 		super();
-		this.conn = Conexion.getInstance().getConn();;
+		this.conn = Conexion.getInstance().getConn();
 	}
 	
 	
@@ -62,28 +62,47 @@ public class RutaPostgreDAO implements RutaDAO{
 		
 	}
 	public Ruta getByID(Integer id) throws SQLException {
-		String statement = "SELECT idruta,origen,destino,duracion,capacidadmaxima,estado " +
-				   "FROM Ruta " +
-				   "WHERE idruta = ?";
-		Ruta rut = null;
+		String statement =
+				"SELECT or.idsucursal,or.nombre,or.horarioapertura,or.horariocierre,or.estado,or.tipo," +
+						"de.idsucursal,de.nombre,de.horarioapertura,de.horariocierre,de.estado,de.tipo," +
+						"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
+						"FROM Ruta r, Sucursal or, Sucursal de " +
+						"WHERE r.origen = or.idsucursal AND r.destino = de.idsucursal AND r.idruta = ?";
+		Ruta ruta = null;
 		
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			pstm.setInt(1,id);
-			try(ResultSet rs = pstm.executeQuery();){
-				
-				FactoryDAO f = FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
-				f.getSucursalDAO().getByID(id);
-				
+			
+			try(ResultSet rs = pstm.executeQuery();){		
 				
 				while(rs.next()) {
-				
-
-					
+					Sucursal origenAux  = new Sucursal();
+					origenAux.setID(rs.getInt(1));
+					origenAux.setNombre(rs.getString(2));
+					origenAux.setHorarioApertura(rs.getTime(3));
+					origenAux.setHorarioCierre(rs.getTime(4));
+					origenAux.setEstado(Operatividad.valueOf(rs.getString(5)));
+					origenAux.setTipo(TipoSucursal.valueOf(rs.getString(6)));
+					Sucursal destinoAux = new Sucursal();
+					destinoAux.setID(rs.getInt(7));
+					destinoAux.setNombre(rs.getString(8));
+					destinoAux.setHorarioApertura(rs.getTime(9));
+					destinoAux.setHorarioCierre(rs.getTime(10));
+					destinoAux.setEstado(Operatividad.valueOf(rs.getString(11)));
+					destinoAux.setTipo(TipoSucursal.valueOf(rs.getString(12)));
+					ruta = new Ruta();
+					ruta.setID(rs.getInt(13));
+					ruta.setDuracion(rs.getInt(14));
+					ruta.setCapacidadMaxima(rs.getFloat(15));
+					ruta.setEstado(Operatividad.valueOf(rs.getString(16)));
+					ruta.setOrigen(origenAux);
+					ruta.setOrigen(destinoAux);				
 				}
+				
 			}
 		}
 		
-		return null;
+		return ruta;
 	}
 	
 	public List<Ruta> searchByAttributes(Integer idRuta, Sucursal origen, Sucursal destino,
@@ -94,16 +113,28 @@ public class RutaPostgreDAO implements RutaDAO{
 		try(PreparedStatement pstm = searchStatement(idRuta,origen,destino,estado,duracionDesde,duracionHasta,capacMaxDesde,capacMaxHasta);
 			ResultSet rs = pstm.executeQuery()){
 			while(rs.next()) {
-				Sucursal origen = new Sucursal(
-						rs.getInt(1),
-						rs.getString(2),
-						rs.getTime(3),
-						);
-				Ruta ruta = new Ruta(
-						rs.getInt(""),
-						
-				);
-						
+				Sucursal origenAux  = new Sucursal();
+				origenAux.setID(rs.getInt(1));
+				origenAux.setNombre(rs.getString(2));
+				origenAux.setHorarioApertura(rs.getTime(3));
+				origenAux.setHorarioCierre(rs.getTime(4));
+				origenAux.setEstado(Operatividad.valueOf(rs.getString(5)));
+				origenAux.setTipo(TipoSucursal.valueOf(rs.getString(6)));
+				Sucursal destinoAux = new Sucursal();
+				destinoAux.setID(rs.getInt(7));
+				destinoAux.setNombre(rs.getString(8));
+				destinoAux.setHorarioApertura(rs.getTime(9));
+				destinoAux.setHorarioCierre(rs.getTime(10));
+				destinoAux.setEstado(Operatividad.valueOf(rs.getString(11)));
+				destinoAux.setTipo(TipoSucursal.valueOf(rs.getString(12)));
+				Ruta ruta = new Ruta();
+				ruta.setID(rs.getInt(13));
+				ruta.setDuracion(rs.getInt(14));
+				ruta.setCapacidadMaxima(rs.getFloat(15));
+				ruta.setEstado(Operatividad.valueOf(rs.getString(16)));
+				ruta.setOrigen(origenAux);
+				ruta.setOrigen(destinoAux);
+				result.add(ruta);
 			}
 		}
 		
@@ -123,8 +154,10 @@ public class RutaPostgreDAO implements RutaDAO{
 		if(origen != null) statement += " AND origen = ?";
 		if(destino != null) statement += " AND destino = ?";
 		if(estado != null) statement += " AND estado = ?";
-		if(duracionDesde != null || duracionHasta != null) statement += " (duracion BETWEEN ? AND ?) AND";
-		if(capacMaxDesde != null || capacMaxHasta != null) statement += " (capacidadmaxima BETWEEN ? AND ?) AND";
+		if(duracionDesde != null || duracionHasta != null) statement += " AND (duracion BETWEEN ? AND ?)";
+		if(capacMaxDesde != null || capacMaxHasta != null) statement += " AND (capacidadmaxima BETWEEN ? AND ?)";
+		
+		statement += " ORDER BY or.nombre";
 		
 		PreparedStatement pstm = conn.prepareStatement(statement);
 		

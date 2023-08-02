@@ -75,15 +75,13 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return suc;
 	}
 	
-	@Override
 	public List<Sucursal> searchByAttributes(Sucursal obj) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public List<Sucursal> getAll() throws SQLException {
-		
-		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo FROM Sucursal ORDER BY nombre";
+	public List<Sucursal> getPosiblesOrigenes() throws SQLException {
+		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo FROM Sucursal WHERE tipo<>'SUMIDERO' ORDER BY nombre";
 		ArrayList<Sucursal> result = new ArrayList<Sucursal>();
 		
 		try(PreparedStatement pstm = conn.prepareStatement(statement);
@@ -99,12 +97,28 @@ public class SucursalPostgreDAO implements SucursalDAO{
 						)
 					);
 			}
-		}
+		}		
+		return result;
+	}
+	
+	public List<Sucursal> getPosiblesDestinos() throws SQLException {
+		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo FROM Sucursal WHERE tipo<>'FUENTE' ORDER BY nombre";
+		ArrayList<Sucursal> result = new ArrayList<Sucursal>();
 		
-		for(Sucursal suc : result) {
-			suc.setStock(getStock(suc));
-		}
-		
+		try(PreparedStatement pstm = conn.prepareStatement(statement);
+			ResultSet rs = pstm.executeQuery();){
+			while(rs.next()) {
+				result.add(new Sucursal(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getTime(3),
+						rs.getTime(4),
+						Operatividad.valueOf(rs.getString(5)), 
+						TipoSucursal.valueOf(rs.getString(6))
+						)
+					);
+			}
+		}		
 		return result;
 	}
 	
