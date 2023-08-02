@@ -51,7 +51,6 @@ public class RutaPostgreDAO implements RutaDAO{
 	        pstm.setInt(7, obj.getID());
 	        pstm.executeUpdate();
 		}
-		
 	}
 
 	public void delete(Ruta obj) throws SQLException {
@@ -63,11 +62,11 @@ public class RutaPostgreDAO implements RutaDAO{
 	}
 	public Ruta getByID(Integer id) throws SQLException {
 		String statement =
-				"SELECT or.idsucursal,or.nombre,or.horarioapertura,or.horariocierre,or.estado,or.tipo," +
-						"de.idsucursal,de.nombre,de.horarioapertura,de.horariocierre,de.estado,de.tipo," +
-						"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
-						"FROM Ruta r, Sucursal or, Sucursal de " +
-						"WHERE r.origen = or.idsucursal AND r.destino = de.idsucursal AND r.idruta = ?";
+				"SELECT o.idsucursal,o.nombre,o.horarioapertura,o.horariocierre,o.estado,o.tipo," +
+				"d.idsucursal,d.nombre,d.horarioapertura,d.horariocierre,d.estado,d.tipo," +
+				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
+				"FROM Ruta r, Sucursal o, Sucursal d " +
+				"WHERE r.origen = o.idsucursal AND r.destino = d.idsucursal AND r.idruta = ?";
 		Ruta ruta = null;
 		
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
@@ -96,7 +95,7 @@ public class RutaPostgreDAO implements RutaDAO{
 					ruta.setCapacidadMaxima(rs.getFloat(15));
 					ruta.setEstado(Operatividad.valueOf(rs.getString(16)));
 					ruta.setOrigen(origenAux);
-					ruta.setOrigen(destinoAux);				
+					ruta.setDestino(destinoAux);		
 				}
 				
 			}

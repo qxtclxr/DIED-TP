@@ -203,7 +203,6 @@ public class ConsultaSucursal extends Pantalla {
 		//TODO: Prueba
 		
 		generarTabla(auxList);
-		
 	}
 	
 	public void actionOpcionesPopup(List<Sucursal> data) {
