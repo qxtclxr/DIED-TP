@@ -1,7 +1,13 @@
 package gui.sucursal;
 
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
+
+import datos.Operatividad;
+import datos.TipoSucursal;
+import logica.GestorSucursal;
 
 public class AltaSucursal extends FormularioSucursal{
 	
@@ -28,6 +34,37 @@ public class AltaSucursal extends FormularioSucursal{
 
 	@Override
 	public void actionConfirmar() {
-		//TODO
+		if(this.validateInput()) {
+			try {
+				GestorSucursal.getInstance().altaSucursal(
+						txtNombre.getText(),
+						(TipoSucursal) cmbTipoSucursal.getSelectedItem(),
+						(Operatividad) cmbOperatividad.getSelectedItem(),
+						txtHorarioApertura.getText(),
+						txtHorarioCierre.getText());
+				JOptionPane.showMessageDialog(
+						frame,
+						"La sucursal ha sido creada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+			}catch (SQLException | ClassNotFoundException ex) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde",
+						"Error de base de datos",
+						JOptionPane.ERROR_MESSAGE);
+			}finally {
+				this.setVisible(false);
+				pantallaAnterior.setVisible(true);
+				frame.setContentPane(pantallaAnterior);
+			}
+			
+		}else {
+			JOptionPane.showMessageDialog(
+					frame,
+					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
+					"Datos ingresados invalidos",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

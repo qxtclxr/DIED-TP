@@ -206,12 +206,8 @@ public class MenuPrincipal extends JPanel {
 	
 	public void actionSalir() {
 		int result = JOptionPane.showConfirmDialog(frame,"¿Seguro que quieres salir de la aplicacion?","Salir",JOptionPane.YES_NO_OPTION);
-		if(result==JOptionPane.YES_OPTION)
+		if(result==JOptionPane.YES_OPTION) {
 			frame.dispose();
-		try {
-			Conexion.getInstance().desconectar();
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null,"Hubo un error al desconectarse de la base de datos.","Error de conexion", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

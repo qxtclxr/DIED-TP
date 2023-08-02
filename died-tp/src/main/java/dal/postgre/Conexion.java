@@ -3,14 +3,10 @@ package dal.postgre;
 import java.sql.*;
 
 public final class Conexion {
-	/*ver tema clonado
-	 * 
-	 */
-	
 
-	private String url = "jdbc:postgresql://190.114.206.177";
-	private String username = "tf16_user";
-	private String password = "tf135";
+	private String url = "jdbc:postgresql://localhost:5432/died-tp";
+	private String username = "postgres";
+	private String password = "postgresql";
 	private boolean estado = false;
 	private Connection con;	
 	private static Conexion obj;
