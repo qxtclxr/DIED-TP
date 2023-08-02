@@ -48,6 +48,7 @@ public class AltaSucursal extends FormularioSucursal{
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde",
