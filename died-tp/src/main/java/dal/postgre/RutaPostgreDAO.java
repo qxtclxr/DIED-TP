@@ -150,12 +150,12 @@ public class RutaPostgreDAO implements RutaDAO{
 				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
 				"FROM Ruta r, Sucursal o, Sucursal d " +
 				"WHERE r.origen = o.idsucursal AND r.destino = d.idsucursal";
-		if(idRuta != null) statement += " AND idruta::TEXT LIKE '%?%'"; //puede dar un error.
-		if(origen != null) statement += " AND origen = ?";
-		if(destino != null) statement += " AND destino = ?";
-		if(estado != null) statement += " AND estado = ?";
-		if(duracionDesde != null || duracionHasta != null) statement += " AND (duracion BETWEEN ? AND ?)";
-		if(capacMaxDesde != null || capacMaxHasta != null) statement += " AND (capacidadmaxima BETWEEN ? AND ?)";
+		if(idRuta != null) statement += " AND r.idruta::TEXT LIKE '%?%'"; //puede dar un error.
+		if(origen != null) statement += " AND r.origen = ?";
+		if(destino != null) statement += " AND r.destino = ?";
+		if(estado != null) statement += " AND r.estado = ?";
+		if(duracionDesde != null || duracionHasta != null) statement += " AND (r.duracion BETWEEN ? AND ?)";
+		if(capacMaxDesde != null || capacMaxHasta != null) statement += " AND (r.capacidadmaxima BETWEEN ? AND ?)";
 		
 		statement += " ORDER BY o.nombre";
 		
@@ -165,7 +165,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		if(idRuta != null) pstm.setInt(paramIndex++,idRuta);
 		if(origen != null) pstm.setInt(paramIndex++,origen.getID());
 		if(destino != null) pstm.setInt(paramIndex++,destino.getID());
-		if(estado != null) pstm.setString(paramIndex++,destino.getEstado().getValueAsString());
+		if(estado != null) pstm.setString(paramIndex++,estado.getValueAsString());
 		if(duracionDesde != null || duracionHasta != null) {
 			if(duracionDesde != null) pstm.setInt(paramIndex++,duracionDesde);
 			else pstm.setInt(paramIndex++,-1);

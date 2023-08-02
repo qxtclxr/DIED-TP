@@ -168,9 +168,9 @@ public class ConsultaSucursal extends Pantalla {
 	    return formatter;
 	}
 
-	private void generarTabla(List<Sucursal> data) {
-		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(data));
+	private void generarTabla() {
+		tabla = new TablaDeDatos(COL_NAMES);
+		tabla.onPressingButton(act -> actionOpcionesPopup(new ArrayList<>()/*TODO*/));
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
@@ -211,11 +211,8 @@ public class ConsultaSucursal extends Pantalla {
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);
         Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-        Sucursal selected = data.stream().
-        					filter(suc -> suc.getID().equals(tabla.getModel().getValueAt(row,0))).
-        					findFirst().
-        					orElse(null);
-        OpcionesPopupSucursal popupMenu = new OpcionesPopupSucursal(selected,frame,this);
+        Integer idSelected = (Integer) tabla.getModel().getValueAt(row,0);
+        OpcionesPopupSucursal popupMenu = new OpcionesPopupSucursal(idSelected,frame,this);
         popupMenu.show(tabla, popupLocation.x, popupLocation.y);
 	}
 	

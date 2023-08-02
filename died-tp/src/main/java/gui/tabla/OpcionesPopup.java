@@ -1,18 +1,19 @@
 package gui.tabla;
 
 import javax.swing.*;
+import datos.Entidad;
 
-public abstract class OpcionesPopup<T> extends JPopupMenu{
+public abstract class OpcionesPopup extends JPopupMenu{
 	
 	protected JFrame frame;
 	protected JPanel pantalla;
 	protected JMenuItem editar = new JMenuItem("Editar");
 	protected JMenuItem eliminar = new JMenuItem("Eliminar");
-	protected T obj;
+	protected Integer id;
 	
-	public OpcionesPopup(T obj, JFrame frame, JPanel pantalla) {
+	public OpcionesPopup(Integer id, JFrame frame, JPanel pantalla) {
 		super();
-		this.obj = obj;
+		this.id = id;
 		this.frame = frame;
 		this.pantalla = pantalla;
 		editar.addActionListener(act -> actionEditar());

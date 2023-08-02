@@ -2,6 +2,7 @@ package gui.producto;
 
 import datos.*;
 import gui.*;
+import gui.ruta.OpcionesPopupRuta;
 import gui.tabla.TablaDeDatos;
 
 import java.util.*;
@@ -139,11 +140,10 @@ public class ConsultaProducto extends Pantalla {
 		descPesoHasta.setBounds(665, 133, 121, 14);
 		add(descPesoHasta);
 	}
-
-	private void generarTabla(List<Producto> data) {
-		
-		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(data));
+	
+	private void generarTabla() {
+		tabla = new TablaDeDatos(COL_NAMES);
+		tabla.onPressingButton(act -> actionOpcionesPopup(new ArrayList<>()/*TODO*/));
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
@@ -166,6 +166,8 @@ public class ConsultaProducto extends Pantalla {
 	
 	public void actionBuscar() {
 		
+		//TODO
+		
 		//TODO: Prueba
 		Producto aux = new Producto(12345,"Heladera Phillips","Una heladera con muchas funcionalidades, etc.",120000F,550F);
 		Producto[] auxArr = new Producto[100];
@@ -182,11 +184,8 @@ public class ConsultaProducto extends Pantalla {
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);
         Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-        Producto selected = data.stream().
-        					filter(prod -> prod.getID().equals(tabla.getModel().getValueAt(row,0))).
-        					findFirst().
-        					orElse(null);
-        OpcionesPopupProducto popupMenu = new OpcionesPopupProducto(selected,frame,this);
+        Integer idSelected = (Integer) tabla.getModel().getValueAt(row,0);
+        OpcionesPopupProducto popupMenu = new OpcionesPopupProducto(idSelected,frame,this);
         popupMenu.show(tabla, popupLocation.x, popupLocation.y);
 	}
 	

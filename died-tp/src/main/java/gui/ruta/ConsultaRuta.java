@@ -8,6 +8,8 @@ import logica.GestorSucursal;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -188,10 +190,9 @@ public class ConsultaRuta extends Pantalla {
 			btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			add(btnCancelar);
 			
-			tabla = new TablaDeDatos();
-			panelContenedorTabla = new JScrollPane();
-			
 			fieldsDefaultColor();
+			generarTabla();
+			
 		}catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(
@@ -269,9 +270,9 @@ public class ConsultaRuta extends Pantalla {
 		return validInput;
 	}
 
-	private void generarTabla(List<Ruta> data) {
-		tabla = new TablaDeDatos(datosTabla(data),COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(data));
+	private void generarTabla() {
+		tabla = new TablaDeDatos(COL_NAMES);
+		tabla.onPressingButton(act -> actionOpcionesPopup(new ArrayList<>()/*TODO*/));
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 206, 780, 245);
 		add(panelContenedorTabla);
@@ -295,7 +296,6 @@ public class ConsultaRuta extends Pantalla {
 	}
 	
 	public void actionBuscar() {
-		System.out.println("pepe");
 		List<Ruta> dataList = new ArrayList<>();
 		if(this.validateInput()) {
 			try {				
@@ -308,6 +308,21 @@ public class ConsultaRuta extends Pantalla {
 						txtDuracionHasta.getText(),
 						txtCapacidadMaximaDesde.getText(),
 						txtCapacidadMaximaHasta.getText());
+				
+				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+				model.setRowCount(0);
+				for(Ruta ruta : dataList) {
+					Object[] fila = {
+							ruta.getID(),
+							ruta.getOrigen(),
+							ruta.getDestino(),
+							ruta.getEstado(),
+							ruta.getDuracion(),
+							ruta.getCapacidadMaxima(),
+							ruta.getID()
+						};
+					model.addRow(fila);
+				}
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(
@@ -330,8 +345,6 @@ public class ConsultaRuta extends Pantalla {
 		Arrays.fill(auxArr,aux);
 		ArrayList<Ruta> auxList = new ArrayList<Ruta>(Arrays.asList(auxArr));
 		*/
-		
-		generarTabla(dataList);
 	}
 	
 	public void actionOpcionesPopup(List<Ruta> data) {
@@ -339,11 +352,8 @@ public class ConsultaRuta extends Pantalla {
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);
         Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-        Ruta selected = data.stream().
-        					filter(ruta -> ruta.getID().equals(tabla.getModel().getValueAt(row,0))).
-        					findFirst().
-        					orElse(null);
-        OpcionesPopupRuta popupMenu = new OpcionesPopupRuta(selected,frame,this);
+        Integer idSelected = (Integer) tabla.getModel().getValueAt(row,0);
+        OpcionesPopupRuta popupMenu = new OpcionesPopupRuta(idSelected,frame,this);
         popupMenu.show(tabla, popupLocation.x, popupLocation.y);
 	}
 	

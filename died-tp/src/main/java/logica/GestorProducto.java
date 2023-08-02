@@ -8,21 +8,21 @@ import dal.general.SucursalDAO;
 import datos.Operatividad;
 import datos.Producto;
 
-public class GestorProductos {
+public class GestorProducto {
 	/* falta gestionar responsabilidades para esta clase
 	 * 
 	 */
 
-	private static GestorProductos gestor;
+	private static GestorProducto gestor;
 	
-	public synchronized static GestorProductos getInstance() {
+	public synchronized static GestorProducto getInstance() {
 		if(gestor==null) {
-			gestor=new GestorProductos();
+			gestor=new GestorProducto();
 		}
 		return gestor;
 	}
 	
-	private GestorProductos() {
+	private GestorProducto() {
 		super();
 	}
 	

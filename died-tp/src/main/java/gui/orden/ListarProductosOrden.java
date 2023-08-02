@@ -155,11 +155,11 @@ public class ListarProductosOrden extends Pantalla {
 		ArrayList<Producto> auxList = new ArrayList<Producto>(Arrays.asList(auxArr));
 		//TODO: Prueba
 		
-		generarTablaDatos(auxList);
+		//generarTablaDatos(auxList);
 	}
-
-	private void generarTablaDatos(List<Producto> data) {
-		tablaDatos = new TablaDeDatos(datosTablaDatos(data),COL_NAMES);
+	
+	private void generarTablaDatos() {
+		tablaDatos = new TablaDeDatos(COL_NAMES);
 		tablaDatos.onPressingButton(act -> actionAgregar());
 		tablaDatos.setButtonLabel("Agregar");
 		panelContenedorTabla = new JScrollPane(tablaDatos);

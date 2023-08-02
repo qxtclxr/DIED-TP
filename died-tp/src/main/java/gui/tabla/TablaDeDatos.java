@@ -9,9 +9,9 @@ public class TablaDeDatos extends JTable{
 	protected OpcionesCellRenderer cellRenderer;
 	protected OpcionesCellEditor cellEditor;
 	
-	public TablaDeDatos(Object[][] data, String[] colNames) {
+	public TablaDeDatos(String[] colNames) {
 		super();
-		DefaultTableModel modeloTabla = new DefaultTableModel(data,colNames) {
+		DefaultTableModel modeloTabla = new DefaultTableModel(new Object[0][colNames.length],colNames) {
 			@Override
 			public boolean isCellEditable(int row, int col) {return col==this.getColumnCount()-1;}
 			//Se edita solo la ultima columna que es la que tiene el boton de opciones.
