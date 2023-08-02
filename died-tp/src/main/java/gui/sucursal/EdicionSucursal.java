@@ -65,7 +65,7 @@ public class EdicionSucursal extends FormularioSucursal {
 						txtHorarioCierre.getText());
 				JOptionPane.showMessageDialog(
 						frame,
-						"La sucursal ha sido creada correctamente.",
+						"La sucursal ha sido modificada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {

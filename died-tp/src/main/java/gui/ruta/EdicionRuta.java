@@ -59,7 +59,7 @@ public class EdicionRuta extends FormularioRuta {
 						txtCapacidadMaxima.getText());
 				JOptionPane.showMessageDialog(
 						frame,
-						"La ruta ha sido creada correctamente.",
+						"La ruta ha sido modificada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {
