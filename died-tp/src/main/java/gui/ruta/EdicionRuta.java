@@ -72,7 +72,6 @@ public class EdicionRuta extends FormularioRuta {
 			}finally {
 				this.setVisible(false);
 				pantallaAnterior.setVisible(true);
-				((ConsultaRuta) pantallaAnterior).actionBuscar();
 				frame.setContentPane(pantallaAnterior);				
 			}
 			
