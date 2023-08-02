@@ -149,7 +149,7 @@ public class RutaPostgreDAO implements RutaDAO{
 				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
 				"FROM Ruta r, Sucursal o, Sucursal d " +
 				"WHERE r.origen = o.idsucursal AND r.destino = d.idsucursal";
-		if(idRuta != null) statement += " AND r.idruta::TEXT LIKE CONCAT('%',?,'%')"; //puede dar un error.
+		if(idRuta != null) statement += " AND LOWER(r.idruta::TEXT) LIKE LOWER(CONCAT('%',?,'%'))"; //puede dar un error.
 		if(origen != null) statement += " AND r.origen = ?";
 		if(destino != null) statement += " AND r.destino = ?";
 		if(estado != null) statement += " AND r.estado = ?";
