@@ -3,6 +3,8 @@ package gui;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import dal.postgre.Conexion;
 import gui.producto.*;
 import gui.sucursal.*;
 import gui.ruta.*;
@@ -206,6 +208,11 @@ public class MenuPrincipal extends JPanel {
 		int result = JOptionPane.showConfirmDialog(frame,"¿Seguro que quieres salir de la aplicacion?","Salir",JOptionPane.YES_NO_OPTION);
 		if(result==JOptionPane.YES_OPTION)
 			frame.dispose();
+		try {
+			Conexion.getInstance().desconectar();
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,"Hubo un error al desconectarse de la base de datos.","Error de conexion", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	public void actionAltaSucursal() {
