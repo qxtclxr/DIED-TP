@@ -50,7 +50,8 @@ public class AltaRuta extends FormularioRuta{
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(
 						frame,
-						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
+						"Ha habido un error al interactuar con la base de datos, es posible que las modificaciones no se hayan realizado.\n"
+						+ "Intente de nuevo más tarde.",
 						"Error de base de datos",
 						JOptionPane.ERROR_MESSAGE);
 			}finally {

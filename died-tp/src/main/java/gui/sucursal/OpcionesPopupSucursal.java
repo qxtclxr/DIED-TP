@@ -27,11 +27,7 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 			frame.setContentPane(edicionSucursal);
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 		}
 		
 	}
@@ -39,8 +35,14 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 	@Override
 	public void actionEliminar() {
 		// TODO Auto-generated method stub
-		
+		try {
+			Sucursal target = GestorSucursal.getInstance().getByID(id);
+			EdicionSucursal edicionSucursal = new EdicionSucursal(frame,pantalla,target);
+			pantalla.setVisible(false);
+			frame.setContentPane(edicionSucursal);
+		}catch(ClassNotFoundException | SQLException ex) {
+			ex.printStackTrace();
+			DatabaseErrorMessage.showMessageDialog(frame);
+		}
 	}
-	
-	
 }

@@ -1,6 +1,7 @@
 package gui.sucursal;
 
 import datos.*;
+import gui.DatabaseErrorMessage;
 import gui.Pantalla;
 import gui.tabla.TablaDeDatos;
 import logica.GestorRuta;
@@ -289,11 +290,7 @@ public class ConsultaSucursal extends Pantalla {
 				}
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(
-						frame,
-						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-						"Error de base de datos",
-						JOptionPane.ERROR_MESSAGE);
+				DatabaseErrorMessage.showMessageDialog(frame);
 			}
 		}else {
 			JOptionPane.showMessageDialog(

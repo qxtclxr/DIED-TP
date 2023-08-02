@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import datos.Operatividad;
 import datos.TipoSucursal;
+import gui.DatabaseErrorMessage;
 import logica.GestorSucursal;
 
 public class AltaSucursal extends FormularioSucursal{
@@ -49,11 +50,7 @@ public class AltaSucursal extends FormularioSucursal{
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(
-						frame,
-						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-						"Error de base de datos",
-						JOptionPane.ERROR_MESSAGE);
+				DatabaseErrorMessage.showMessageDialog(frame);
 			}finally {
 				this.setVisible(false);
 				pantallaAnterior.setVisible(true);

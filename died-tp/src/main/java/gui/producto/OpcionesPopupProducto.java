@@ -24,11 +24,7 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 			frame.setContentPane(edicionProducto);
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 		}
 	}
 
