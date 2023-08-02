@@ -5,6 +5,7 @@ import java.sql.Time;
 
 import dal.general.FactoryDAO;
 import datos.Operatividad;
+import datos.OrdenDeProvision;
 import datos.Sucursal;
 import datos.TipoSucursal;
 
@@ -32,5 +33,8 @@ private static GestorOrden gestor;
 		FactoryDAO fact= FactoryDAO.getFactory(1);
 		fact.getSucursalDAO().insert(aux);
 		*/
+	}
+	public OrdenDeProvision getByID(Integer id) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getByID(id);
 	}
 }

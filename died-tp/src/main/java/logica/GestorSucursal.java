@@ -90,5 +90,9 @@ public final class GestorSucursal {
 			return fact.getSucursalDAO().searchByAttributes(idSucInt, nombre,tipo, estado, parseHorarioApertura, parseHorarioCierre);
 		
 	}
+	
+	public Sucursal getByID(Integer id) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getByID(id);
+	}
 
 }

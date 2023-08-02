@@ -44,6 +44,9 @@ public class GestorProductos {
 			
 			fact.getProductoDAO().update(aux);
 		}
+	public Producto getByID(Integer id) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getProductoDAO().getByID(id);
+	}
 	
 
 }

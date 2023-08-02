@@ -99,6 +99,9 @@ public final class GestorRuta {
 			return fact.getRutaDAO().searchByAttributes(idRutaInt, origen, destino, estado, duracionDesdeInt, duracionHastaInt, capMaxDesdeFloat, capMaxHastaFloat);
 		
 	}
+	public Ruta getByID(Integer idruta) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getByID(idruta);
+	}
 	
 	
 
