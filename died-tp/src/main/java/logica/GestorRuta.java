@@ -10,42 +10,42 @@ import datos.Ruta;
 import datos.Sucursal;
 import datos.Operatividad;
 
-public final class GestorRutas {
+public final class GestorRuta {
 	/* falta gestionar responsabilidades para esta clase
 	 * 
 	 */
 
-	private static GestorRutas gestor;
+	private static GestorRuta gestor;
 	
-	public synchronized static GestorRutas getInstance() {
+	public synchronized static GestorRuta getInstance() {
 		if(gestor==null) {
-			gestor=new GestorRutas();
+			gestor=new GestorRuta();
 		}
 		return gestor;
 	}
 	
-	private GestorRutas() {
+	private GestorRuta() {
 		super();
 	}
 	
-	public void altaRuta(Integer idSucursalOrigen, Integer idSucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws SQLException, ClassNotFoundException{
+	public void altaRuta(Sucursal sucursalOrigen, Sucursal sucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws SQLException, ClassNotFoundException{
 		
 		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
-		SucursalDAO auxDAOSucursal= fact.getSucursalDAO();
+		
 	/* Coloco un null en el constructor de ruta en la posicion del id, porque eso me lo va a 
 	 * generar como serial la bdd 
 	 */
-		Ruta aux= new Ruta(auxDAOSucursal.getByID(idSucursalOrigen),auxDAOSucursal.getByID(idSucursalDestino),estado,duracion,capacidad);
+		Ruta aux= new Ruta(sucursalOrigen,sucursalDestino,estado,duracion,capacidad);
 		fact.getRutaDAO().insert(aux);
 	}
 	
-	public void modificarRuta(Integer idRuta, Integer idSucursalOrigen, Integer idSucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws ClassNotFoundException, SQLException {
+	public void modificarRuta(Integer idRuta, Sucursal sucursalOrigen, Sucursal sucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws ClassNotFoundException, SQLException {
 		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
-		SucursalDAO auxDAOSucursal= fact.getSucursalDAO();
+		
 	/* Coloco un null en el constructor de ruta en la posicion del id, porque eso me lo va a 
 	 * generar como serial la bdd 
 	 */
-		Ruta aux= new Ruta(idRuta,auxDAOSucursal.getByID(idSucursalOrigen),auxDAOSucursal.getByID(idSucursalDestino),estado,duracion,capacidad);
+		Ruta aux= new Ruta(idRuta,sucursalOrigen,sucursalDestino,estado,duracion,capacidad);
 		fact.getRutaDAO().update(aux);
 	}
 	
@@ -63,23 +63,35 @@ public final class GestorRutas {
 			}
 			Integer duracionDesdeInt;
 			Integer duracionHastaInt;
-			if(duracionDesde.isBlank()||duracionHasta.isBlank()) {
+			if(duracionDesde.isBlank()) {
 				duracionDesdeInt=null;
-				duracionHastaInt=null;
+				
 			}
 			else {
 				duracionDesdeInt=Integer.parseInt(duracionDesde);
+				
+			}
+			if(duracionHasta.isBlank()) {
+				duracionHastaInt=null;
+			}
+			else {
 				duracionHastaInt=Integer.parseInt(duracionHasta);
 			}
 			
 			Float capMaxDesdeFloat;
 			Float capMaxHastaFloat;
-			if(capacMaxDesde.isBlank()||capacMaxHasta.isBlank()) {
+			if(capacMaxDesde.isBlank()) {
 				capMaxDesdeFloat=null;
-				capMaxHastaFloat=null;
+				
 			}
 			else {
 				capMaxDesdeFloat=Float.parseFloat(capacMaxDesde);
+				
+			}
+			if(capacMaxHasta.isBlank()) {
+				capMaxHastaFloat=null;
+			}
+			else {
 				capMaxHastaFloat=Float.parseFloat(capacMaxHasta);
 			}
 			
