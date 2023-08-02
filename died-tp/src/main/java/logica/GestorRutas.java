@@ -49,13 +49,42 @@ public final class GestorRutas {
 		fact.getRutaDAO().update(aux);
 	}
 	
-	public List<Ruta> consultaPorAtributos(Integer idRuta, Sucursal origen, Sucursal destino,
-			 Operatividad estado, Integer duracionDesde, Integer duracionHasta,
-			 Float capacMaxDesde, Float capacMaxHasta) throws ClassNotFoundException, SQLException{
-		
-			FactoryDAO fact=FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+	public List<Ruta> consultaPorAtributos(String idRuta, Sucursal origen, Sucursal destino,
+			 Operatividad estado, String duracionDesde, String duracionHasta,
+			 String capacMaxDesde, String capacMaxHasta) throws ClassNotFoundException, SQLException{
 			
-			return fact.getRutaDAO().searchByAttributes(idRuta, origen, destino, estado, duracionDesde, duracionHasta, capacMaxDesde, capacMaxHasta);
+			FactoryDAO fact=FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+			Integer idRutaInt;
+			if(idRuta.isBlank()) {
+				idRutaInt=null;
+			}
+			else {
+				idRutaInt=Integer.parseInt(idRuta);
+			}
+			Integer duracionDesdeInt;
+			Integer duracionHastaInt;
+			if(duracionDesde.isBlank()||duracionHasta.isBlank()) {
+				duracionDesdeInt=null;
+				duracionHastaInt=null;
+			}
+			else {
+				duracionDesdeInt=Integer.parseInt(duracionDesde);
+				duracionHastaInt=Integer.parseInt(duracionHasta);
+			}
+			
+			Float capMaxDesdeFloat;
+			Float capMaxHastaFloat;
+			if(capacMaxDesde.isBlank()||capacMaxHasta.isBlank()) {
+				capMaxDesdeFloat=null;
+				capMaxHastaFloat=null;
+			}
+			else {
+				capMaxDesdeFloat=Float.parseFloat(capacMaxDesde);
+				capMaxHastaFloat=Float.parseFloat(capacMaxHasta);
+			}
+			
+			
+			return fact.getRutaDAO().searchByAttributes(idRutaInt, origen, destino, estado, duracionDesdeInt, duracionHastaInt, capMaxDesdeFloat, capMaxHastaFloat);
 		
 	}
 	
