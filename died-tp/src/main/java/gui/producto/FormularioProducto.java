@@ -59,7 +59,7 @@ public abstract class FormularioProducto extends Pantalla {
 		add(descPrecio);
 		
 		txtPrecio = new JTextField();
-		txtPrecio.setBounds(415, 135, 355, 20);
+		txtPrecio.setBounds(425, 135, 345, 20);
 		add(txtPrecio);
 		
 		JLabel lblPeso = new JLabel("Peso");
@@ -106,6 +106,12 @@ public abstract class FormularioProducto extends Pantalla {
 		btnConfirmar.setBounds(690, 467, 100, 23);
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnConfirmar);		
+		
+		JLabel iconoPrecio = new JLabel("$");
+		iconoPrecio.setVerticalAlignment(SwingConstants.TOP);
+		iconoPrecio.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		iconoPrecio.setBounds(415, 135, 10, 20);
+		add(iconoPrecio);
 	}
 	
 	public void actionCancelar() {

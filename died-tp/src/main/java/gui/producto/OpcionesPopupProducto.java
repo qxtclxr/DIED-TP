@@ -34,7 +34,7 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 	public void actionEliminar() {
 		int result = JOptionPane.showConfirmDialog(
 				frame,
-				"¿Seguro que quieres eliminar la sucursal?",
+				"¿Seguro que quieres eliminar el producto?",
 				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
 		
 		if(result == JOptionPane.OK_OPTION) {
@@ -44,9 +44,10 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 				gestor.eliminar(target);
 				JOptionPane.showMessageDialog(
 						frame,
-						"La sucursal ha sido eliminada correctamente.",
+						"El producto ha sido eliminada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
+				//Refresca la tabla
 				((ConsultaProducto) pantalla).actionBuscar();
 			}catch(ClassNotFoundException | SQLException ex) {
 				ex.printStackTrace();

@@ -49,6 +49,7 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 						"La sucursal ha sido eliminada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
+				//Refresca la tabla
 				((ConsultaSucursal) pantalla).actionBuscar();
 			}catch(ClassNotFoundException | SQLException ex) {
 				ex.printStackTrace();
