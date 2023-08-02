@@ -2,6 +2,7 @@ package dal.postgre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -24,41 +25,51 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	
 	@Override
 	public void insert(OrdenDeProvision ord) throws SQLException {
-		String statement = "INSERT INTO ordendeprovision (sucursaldestino,fecha,tiempomaximo) VALUES (?,?,?)";
+		boolean successful = true;
+		String statement = "INSERT INTO ordendeprovision (sucursaldestino,fecha,tiempomaximo,estadoorden) VALUES (?,?,?,?) RETURNING idorden";
 		try {
 			conn.setAutoCommit(false);
 			try(PreparedStatement pstm = conn.prepareStatement(statement);) {
 				pstm.setInt(1, ord.getSucursalDestino().getID());
 				pstm.setDate(2, ord.getFecha());
 				pstm.setInt(3, ord.getTiempoMaximo());
-		        pstm.executeUpdate();
+				pstm.setString(4, ord.getEstado().getValueAsString());
+		        try(ResultSet rs =  pstm.executeQuery();){
+		        	if(rs.next())
+		        		ord.setID(rs.getInt(1));
+		        }
 			}
 			insertProductos(ord);
-		}catch(SQLException ex) {
-			conn.rollback();
+			
+		}catch(Exception ex) {
+			successful = false;
+			throw ex;
 		}finally {
+			if(successful) conn.commit();
+			else conn.rollback();
 			conn.setAutoCommit(true);
 		}
 	}
 	
 	public void insertProductos(OrdenDeProvision ord) throws SQLException {
-		Set<Entry<Producto, Integer>> productos = ord.getProductos().entrySet();
+		Set<Entry<Integer, Integer>> productos = ord.getProductos().entrySet();
 		String statement = "INSERT INTO detalleorden(idorden, idproducto, cantidad) VALUES (?,?,?)";
 		try (PreparedStatement pstm = conn.prepareStatement(statement);){
 			int i = 0;
 			/*Se hace un conteo de el numero de fila insertada porque
 			 *las BD tienen un limite de filas por operacion batch.*/
-			for(Entry<Producto, Integer> item : productos) {
-				Producto prod = item.getKey();
+			for(Entry<Integer, Integer> item : productos) {
+				Integer prodID = item.getKey();
 				Integer cantidad = item.getValue();
 				pstm.setInt(1,ord.getID());
-				pstm.setInt(2, prod.getID());
-				pstm.setInt(2, cantidad);
+				pstm.setInt(2, prodID);
+				pstm.setInt(3, cantidad);
 				pstm.addBatch();
 				i++;
-				if(i%BATCH_LIMIT==0 || i==productos.size()-1)
+				if(i%BATCH_LIMIT==0)
 					pstm.executeBatch();
 			}
+			pstm.executeBatch();
 		}
 	}
 

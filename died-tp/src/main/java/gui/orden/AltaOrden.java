@@ -1,7 +1,12 @@
 package gui.orden;
 
 import java.awt.*;
+import java.sql.Date;
+import java.time.LocalDate;
+
 import javax.swing.*;
+import datos.*;
+import gui.InvalidInputMessage;
 
 public class AltaOrden extends FormularioOrden{
 	
@@ -27,8 +32,19 @@ public class AltaOrden extends FormularioOrden{
 	}
 
 	@Override
-	public void actionConfirmar() {
-		// TODO Auto-generated method stub
-		
+	public void actionContinuar() {
+		if(validateInput()) {
+			OrdenDeProvision orden = new OrdenDeProvision();
+			orden.setSucursalDestino((Sucursal) cmbSucursalDestino.getSelectedItem());
+			orden.setTiempoMaximo(Integer.parseInt(txtTiempoMaximo.getText()));
+			orden.setFecha(Date.valueOf(LocalDate.now()));
+			orden.setEstado(EstadoOrden.PENDIENTE);
+			ListarProductosOrden listar = new ListarProductosOrden(frame,this,orden);
+			this.setVisible(false);
+			listar.setVisible(true);
+			frame.setContentPane(listar);
+		}else {
+			InvalidInputMessage.showMessageDialog(frame);
+		}
 	}
 }

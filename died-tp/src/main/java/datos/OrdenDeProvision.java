@@ -9,7 +9,7 @@ public class OrdenDeProvision implements Entidad{
 	private Sucursal sucursalDestino;
 	private Integer tiempoMaximo; //Unidad: minutos
 	private EstadoOrden estado;
-	private Map<Producto,Integer> productos;
+	private Map<Integer,Integer> productos; //Mapaea <idProducto,cantidad>
 	
 	public OrdenDeProvision() {
 		this.productos = new HashMap<>();
@@ -45,10 +45,10 @@ public class OrdenDeProvision implements Entidad{
 	public void setID(Integer idOrden) {
 		this.idOrden = idOrden;
 	}
-	public Map<Producto, Integer> getProductos() {
+	public Map<Integer, Integer> getProductos() {
 		return productos;
 	}
-	public void setProductos(Map<Producto, Integer> productos) {
+	public void setProductos(Map<Integer, Integer> productos) {
 		this.productos = productos;
 	}
 	

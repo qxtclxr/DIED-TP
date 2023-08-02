@@ -255,7 +255,7 @@ public class MenuPrincipal extends JPanel {
 	}
 	
 	public void actionGenerarOrden() {
-		ListarProductosOrden generarOrden = new ListarProductosOrden(frame,this);
+		AltaOrden generarOrden = new AltaOrden(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(generarOrden);
 	}

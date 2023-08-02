@@ -4,6 +4,7 @@ import datos.*;
 import gui.*;
 import gui.tabla.TablaCarrito;
 import gui.tabla.TablaDeDatos;
+import logica.GestorOrden;
 import logica.GestorProducto;
 
 import java.util.*;
@@ -14,6 +15,8 @@ import javax.swing.text.JTextComponent;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class ListarProductosOrden extends Pantalla {
@@ -106,7 +109,7 @@ public class ListarProductosOrden extends Pantalla {
 		add(btnBuscar);
 		
 		JButton btnCancelar = new JButton("Volver");
-		btnCancelar.setBounds(690, 466, 100, 23);
+		btnCancelar.setBounds(580, 467, 100, 23);
 		btnCancelar.addActionListener(act -> this.actionVolver());
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnCancelar);
@@ -150,6 +153,12 @@ public class ListarProductosOrden extends Pantalla {
 		lblProductosSeleccionados.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblProductosSeleccionados.setBounds(10, 326, 780, 20);
 		add(lblProductosSeleccionados);
+		
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(act -> actionConfirmar());
+		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnConfirmar.setBounds(690, 467, 100, 23);
+		add(btnConfirmar);
 		
 		generarTablaDatos();
 		generarTablaSeleccionados();
@@ -262,10 +271,38 @@ public class ListarProductosOrden extends Pantalla {
 		add(panelProductosSeleccionados);
 	}
 	
+	public void actionConfirmar() {
+		HashMap<Integer,Integer> enOrden = new HashMap<>();
+		int cantidadSeleccionados = tablaSeleccionados.getRowCount();
+		for(int i = 0 ; i < cantidadSeleccionados; i++) {
+			Integer idProd = (Integer) tablaSeleccionados.getModel().getValueAt(i,0);
+			Integer cantidad = (Integer) tablaSeleccionados.getModel().getValueAt(i,tablaSeleccionados.getColumnCount()-2);
+			enOrden.put(idProd,cantidad);
+		}
+		orden.setProductos(enOrden);
+		try {
+			GestorOrden.getInstance().altaOrden(orden);
+			JOptionPane.showMessageDialog(
+					frame,
+					"La orden de provision fue generada con exito\n"
+					+ "Su orden ahora se encuentra en estado \"Pendiente\"\n"
+					+ "Puede ponerla \"En proceso\" volviendo al menu principal.",
+					"Generacion de orden exitosa",
+					JOptionPane.INFORMATION_MESSAGE);
+		}catch(SQLException | ClassNotFoundException ex) {
+			DatabaseErrorMessage.showMessageDialog(frame);
+			ex.printStackTrace();
+		}finally {
+			MenuPrincipal menu = new MenuPrincipal(frame);
+			this.setVisible(false);
+			menu.setVisible(true);
+			frame.setContentPane(menu);
+		}
+	}
+	
 	public void actionVolver(){
 		this.setVisible(false);
 		pantallaAnterior.setVisible(true);
 		frame.setContentPane(pantallaAnterior);
 	}
-
 }

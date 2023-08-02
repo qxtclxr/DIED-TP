@@ -23,6 +23,7 @@ import datos.Sucursal;
 import datos.TipoSucursal;
 import gui.DatabaseErrorMessage;
 import gui.Pantalla;
+import gui.SyntaxValidator;
 import logica.GestorSucursal;
 
 import javax.swing.JScrollPane;
@@ -88,10 +89,13 @@ public abstract class FormularioOrden extends Pantalla {
 			add(btnCancelar);
 			
 			JButton btnConfirmar = new JButton("Continuar");
+			btnConfirmar.addActionListener(act -> this.actionContinuar());
 			btnConfirmar.setBackground(new Color(129, 205, 133));
 			btnConfirmar.setBounds(690, 467, 100, 23);
 			btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
 			add(btnConfirmar);
+			
+			fieldsDefaultColor();
 		}catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
@@ -99,6 +103,27 @@ public abstract class FormularioOrden extends Pantalla {
 			pantallaAnterior.setVisible(true);
 			frame.setContentPane(pantallaAnterior);
 		}
+	}
+	
+	public void fieldsDefaultColor() {
+		cmbSucursalDestino.setBackground(Color.WHITE);
+		txtTiempoMaximo.setBackground(Color.WHITE);
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		
+		if(!SyntaxValidator.validCombobox(cmbSucursalDestino)) {
+			cmbSucursalDestino.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!SyntaxValidator.validInteger(txtTiempoMaximo)) {
+			txtTiempoMaximo.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
 	}
 	
 	public void actionCancelar() {
@@ -110,5 +135,5 @@ public abstract class FormularioOrden extends Pantalla {
 		}
 	}
 	
-	public abstract void actionConfirmar();
+	public abstract void actionContinuar();
 }
