@@ -45,6 +45,7 @@ public final class GestorSucursal {
 		Time parseHorarioCierre = Time.valueOf(horarioCierre+":00");
 		Sucursal aux= new Sucursal(idSucursal,nombreSuc,parseHorarioApertura,parseHorarioCierre,operatividad,tipo);
 		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+		System.out.println("oee");
 		fact.getSucursalDAO().update(aux);
 	}
 	

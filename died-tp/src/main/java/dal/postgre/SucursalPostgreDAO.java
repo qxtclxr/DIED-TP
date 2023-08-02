@@ -30,7 +30,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	}
 	
 	public void update(Sucursal suc) throws SQLException {
-		String statement = "UPDATE Sucursal SET nombre = ?, horarioapertura = ?, horariocierre = ?, estado = ?, tiposucursal = ? WHERE idsucursal = ?";
+		String statement = "UPDATE Sucursal SET nombre = ?, horarioapertura = ?, horariocierre = ?, estado = ?, tipo = ? WHERE idsucursal = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			pstm.setString(1, suc.getNombre());
 			pstm.setTime(2, suc.getHorarioApertura());
@@ -38,6 +38,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			pstm.setString(4, suc.getEstado().getValueAsString());
 			pstm.setString(5, suc.getTipo().getValueAsString());
 			pstm.setInt(6, suc.getID());
+			pstm.executeUpdate();
 		}
 	}
 	

@@ -40,7 +40,7 @@ public class RutaPostgreDAO implements RutaDAO{
 
 	@Override
 	public void update(Ruta obj) throws SQLException {
-		String statement = "UPDATE RUTA SET idruta = ?, origen = ?, destino = ?, duracion = ?, capacidadmaxima = ?, estado = ? WHERE idruta = ?";
+		String statement = "UPDATE RUTA SET origen = ?, destino = ?, duracion = ?, capacidadmaxima = ?, estado = ? WHERE idruta = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {			
 	        pstm.setInt(1, obj.getID());
 	        pstm.setInt(2, obj.getOrigen().getID());

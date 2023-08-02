@@ -77,10 +77,10 @@ public class EdicionSucursal extends FormularioSucursal {
 						JOptionPane.ERROR_MESSAGE);
 			}finally {
 				this.setVisible(false);
-				//Refresca la tabla para mostrar las modificaciones
-				((ConsultaSucursal) pantallaAnterior).actionBuscar();
 				pantallaAnterior.setVisible(true);
 				frame.setContentPane(pantallaAnterior);
+				//Refresca la tabla para mostrar las modificaciones
+				((ConsultaSucursal) pantallaAnterior).actionBuscar();
 			}
 			
 		}else {
