@@ -104,7 +104,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		return ruta;
 	}
 	
-	public List<Ruta> searchByAttributes(Integer idRuta, Sucursal origen, Sucursal destino,
+	public List<Ruta> searchByAttributes(String idRuta, Sucursal origen, Sucursal destino,
 										 Operatividad estado, Integer duracionDesde, Integer duracionHasta,
 										 Float capacMaxDesde, Float capacMaxHasta) throws SQLException {
 		List<Ruta> result = new ArrayList<>();
@@ -140,7 +140,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		return result;
 	}
 	
-	private PreparedStatement searchStatement(Integer idRuta, Sucursal origen, Sucursal destino,
+	private PreparedStatement searchStatement(String idRuta, Sucursal origen, Sucursal destino,
 			 								  Operatividad estado, Integer duracionDesde, Integer duracionHasta,
 			 								  Float capacMaxDesde, Float capacMaxHasta) throws SQLException {
 		String statement =
@@ -149,7 +149,7 @@ public class RutaPostgreDAO implements RutaDAO{
 				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
 				"FROM Ruta r, Sucursal o, Sucursal d " +
 				"WHERE r.origen = o.idsucursal AND r.destino = d.idsucursal";
-		if(idRuta != null) statement += " AND r.idruta::TEXT LIKE '%?%'"; //puede dar un error.
+		if(idRuta != null) statement += " AND r.idruta::TEXT LIKE CONCAT('%',?,'%')"; //puede dar un error.
 		if(origen != null) statement += " AND r.origen = ?";
 		if(destino != null) statement += " AND r.destino = ?";
 		if(estado != null) statement += " AND r.estado = ?";
@@ -161,7 +161,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		PreparedStatement pstm = conn.prepareStatement(statement);
 		
 		int paramIndex = 1;
-		if(idRuta != null) pstm.setInt(paramIndex++,idRuta);
+		if(idRuta != null) pstm.setString(paramIndex++,idRuta);
 		if(origen != null) pstm.setInt(paramIndex++,origen.getID());
 		if(destino != null) pstm.setInt(paramIndex++,destino.getID());
 		if(estado != null) pstm.setString(paramIndex++,estado.getValueAsString());

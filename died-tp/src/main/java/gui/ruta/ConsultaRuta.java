@@ -308,7 +308,6 @@ public class ConsultaRuta extends Pantalla {
 						txtDuracionHasta.getText(),
 						txtCapacidadMaximaDesde.getText(),
 						txtCapacidadMaximaHasta.getText());
-				
 				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
 				model.setRowCount(0);
 				for(Ruta ruta : dataList) {

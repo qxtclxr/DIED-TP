@@ -8,7 +8,7 @@ import datos.Ruta;
 import datos.Sucursal;
 
 public interface RutaDAO extends DAO<Ruta>{
-	public List<Ruta> searchByAttributes(Integer idRuta, Sucursal origen, Sucursal destino,
+	public List<Ruta> searchByAttributes(String idRuta, Sucursal origen, Sucursal destino,
 			 Operatividad estado, Integer duracionDesde, Integer duracionHasta,
 			 Float capacMaxDesde, Float capacMaxHasta) throws SQLException;
 }

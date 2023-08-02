@@ -60,9 +60,6 @@ public final class GestorRuta {
 			if(idRuta.isBlank()) {
 				idRutaInt=null;
 			}
-			else {
-				idRutaInt=Integer.parseInt(idRuta);
-			}
 			Integer duracionDesdeInt;
 			Integer duracionHastaInt;
 			if(duracionDesde.isBlank()) {
@@ -96,7 +93,7 @@ public final class GestorRuta {
 			}
 			
 			
-			return fact.getRutaDAO().searchByAttributes(idRutaInt, origen, destino, estado, duracionDesdeInt, duracionHastaInt, capMaxDesdeFloat, capMaxHastaFloat);
+			return fact.getRutaDAO().searchByAttributes(idRuta, origen, destino, estado, duracionDesdeInt, duracionHastaInt, capMaxDesdeFloat, capMaxHastaFloat);
 		
 	}
 	public Ruta getByID(Integer idruta) throws ClassNotFoundException, SQLException {

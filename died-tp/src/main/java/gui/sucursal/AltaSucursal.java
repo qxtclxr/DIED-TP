@@ -44,7 +44,7 @@ public class AltaSucursal extends FormularioSucursal{
 						txtHorarioCierre.getText());
 				JOptionPane.showMessageDialog(
 						frame,
-						"La ruta ha sido creada correctamente.",
+						"La sucursal ha sido creada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {
