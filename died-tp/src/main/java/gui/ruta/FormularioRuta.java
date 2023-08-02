@@ -27,12 +27,13 @@ public abstract class FormularioRuta extends Pantalla {
 		try {
 			setLayout(null);
 			
-			//TODO: Prueba
+			
+			/*TODO: Prueba
 			Sucursal aux = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
 			Sucursal[] auxArr = new Sucursal[100];
 			Arrays.fill(auxArr,aux);
 			ArrayList<Sucursal> todasLasSucursales = new ArrayList<Sucursal>(Arrays.asList(auxArr));
-			//TODO: Prueba
+			*/
 			
 			List<Sucursal> posiblesOrigenes = GestorSucursal.getInstance().getPosiblesOrigenes();
 			
@@ -52,7 +53,7 @@ public abstract class FormularioRuta extends Pantalla {
 			cmbSucursalOrigen.setBounds(30, 135, 355, 20);
 			add(cmbSucursalOrigen);
 			
-			for(Sucursal suc : todasLasSucursales)
+			for(Sucursal suc : posiblesOrigenes)
 				cmbSucursalOrigen.addItem(suc);
 			
 			JLabel lblSucursalDestino = new JLabel("Sucursal de destino");
@@ -65,7 +66,7 @@ public abstract class FormularioRuta extends Pantalla {
 			cmbSucursalDestino.setBounds(415, 135, 355, 20);
 			add(cmbSucursalDestino);
 			
-			for(Sucursal suc : todasLasSucursales)
+			for(Sucursal suc : posiblesDestinos)
 				cmbSucursalDestino.addItem(suc);
 			
 			JLabel lblEstadoDeOperatividad = new JLabel("Estado de operatividad");
