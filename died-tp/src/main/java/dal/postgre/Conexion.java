@@ -6,7 +6,7 @@ public final class Conexion {
 
 	private String url = "jdbc:postgresql://localhost:5432/died-tp";
 	private String username = "postgres";
-	private String password = "postgresql";
+	private String password = "FranPGSU";
 	private boolean estado = false;
 	private Connection con;	
 	private static Conexion obj;

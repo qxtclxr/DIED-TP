@@ -59,13 +59,11 @@ public final class GestorSucursal {
 			 Operatividad estado, String horarioApertura, String horarioCierre) throws ClassNotFoundException, SQLException{
 			
 			FactoryDAO fact=FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
-			Integer idSucInt;
+			
 			if(idSucursal.isBlank()) {
-				idSucInt=null;
+				idSucursal=null;
 			}
-			else {
-				idSucInt=Integer.parseInt(idSucursal);
-			}
+			
 			
 			Time parseHorarioApertura;
 			
@@ -87,7 +85,7 @@ public final class GestorSucursal {
 			
 			
 			
-			return fact.getSucursalDAO().searchByAttributes(idSucInt, nombre,tipo, estado, parseHorarioApertura, parseHorarioCierre);
+			return fact.getSucursalDAO().searchByAttributes(idSucursal, nombre,tipo, estado, parseHorarioApertura, parseHorarioCierre);
 		
 	}
 	

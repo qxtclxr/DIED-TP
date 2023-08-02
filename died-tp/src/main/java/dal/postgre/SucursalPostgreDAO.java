@@ -185,10 +185,10 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	}
 
 	@Override
-	public List<Sucursal> searchByAttributes(Integer idSucInt, String nombre, TipoSucursal tipo, Operatividad estado,
+	public List<Sucursal> searchByAttributes(String idSuc, String nombre, TipoSucursal tipo, Operatividad estado,
 			Time parseHorarioApertura, Time parseHorarioCierre) throws SQLException {
 		List<Sucursal> result = new ArrayList<>();
-		try(PreparedStatement pstm = searchStatement(idSucInt,nombre,tipo,estado,parseHorarioApertura,parseHorarioCierre);
+		try(PreparedStatement pstm = searchStatement(idSuc,nombre,tipo,estado,parseHorarioApertura,parseHorarioCierre);
 				ResultSet rs=pstm.executeQuery()){
 				while(rs.next()) {
 					Sucursal aux=new Sucursal();
@@ -204,12 +204,12 @@ public class SucursalPostgreDAO implements SucursalDAO{
 				
 		return result;
 	}
-		private PreparedStatement searchStatement(Integer idSucInt, String nombre, TipoSucursal tipo, Operatividad estado,
+		private PreparedStatement searchStatement(String idSucInt, String nombre, TipoSucursal tipo, Operatividad estado,
 				Time parseHorarioApertura, Time parseHorarioCierre) throws SQLException {
 			String statement =
 			"SELECT idsucursal, nombre,horarioapertura,horariocierre,estado,tipo FROM sucursal" +
 			"WHERE 1=1";
-			if(idSucInt != null) statement += " AND idsucursal::TEXT LIKE '%?%'"; //puede dar un error.
+			if(idSucInt != null) statement += " AND idsucursal::TEXT LIKE CONCAT('%',?,'%')"; //puede dar un error.
 			if(nombre != null) statement += " AND nombre LIKE '%?%'";
 			if(tipo != null) statement += " AND tipo = ?";
 			if(estado != null) statement += " AND estado = ?";
@@ -221,7 +221,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			PreparedStatement pstm = conn.prepareStatement(statement);
 			
 			int paramIndex = 1;
-			if(idSucInt != null) pstm.setInt(paramIndex++,idSucInt);
+			if(idSucInt != null) pstm.setString(paramIndex++,idSucInt);
 			if(nombre != null) pstm.setString(paramIndex++,nombre);
 			if(tipo != null) pstm.setString(paramIndex++,tipo.getValueAsString());
 			if(estado != null) pstm.setString(paramIndex++,estado.getValueAsString());
