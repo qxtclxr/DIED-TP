@@ -71,9 +71,10 @@ public class EdicionRuta extends FormularioRuta {
 						JOptionPane.ERROR_MESSAGE);
 			}finally {
 				this.setVisible(false);
+				//Refresca la tabla para mostrar las modificaciones
+				((ConsultaRuta) pantallaAnterior).actionBuscar();
 				pantallaAnterior.setVisible(true);
 				frame.setContentPane(pantallaAnterior);
-				((ConsultaRuta) pantallaAnterior).actionBuscar();
 			}
 			
 		}else {

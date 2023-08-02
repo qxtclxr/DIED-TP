@@ -3,15 +3,19 @@ package gui.sucursal;
 import datos.*;
 import gui.Pantalla;
 import gui.tabla.TablaDeDatos;
+import logica.GestorRuta;
+import logica.GestorSucursal;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Point;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 
@@ -156,6 +160,16 @@ public class ConsultaSucursal extends Pantalla {
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnCancelar);
 		
+		fieldsDefaultColor();
+		generarTabla();
+	}
+	
+	protected void fieldsDefaultColor() {
+		txtNombre.setBackground(Color.WHITE);
+		cmbTipoSucursal.setBackground(Color.WHITE);
+		cmbOperatividad.setBackground(Color.WHITE);
+		txtHorarioApertura.setBackground(Color.WHITE);
+		txtHorarioCierre.setBackground(Color.WHITE);
 	}
 	
 	private MaskFormatter createFormatter(String s) {
@@ -170,7 +184,7 @@ public class ConsultaSucursal extends Pantalla {
 
 	private void generarTabla() {
 		tabla = new TablaDeDatos(COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(new ArrayList<>()/*TODO*/));
+		tabla.onPressingButton(act -> actionOpcionesPopup());
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
@@ -193,19 +207,104 @@ public class ConsultaSucursal extends Pantalla {
 		return contenido;
 	}
 	
-	public void actionBuscar() {
-		
-		//TODO: Prueba
-		Sucursal aux = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
-		Sucursal[] auxArr = new Sucursal[100];
-		Arrays.fill(auxArr,aux);
-		ArrayList<Sucursal> auxList = new ArrayList<Sucursal>(Arrays.asList(auxArr));
-		//TODO: Prueba
-		
-		generarTabla(auxList);
+	protected boolean validID() {
+		return true;
+		/* Por mas que ahora sea un metodo practicamente innecesario,
+		 * la implementacion puede cambiar por lo que se deja declarado el metodo*/
 	}
 	
-	public void actionOpcionesPopup(List<Sucursal> data) {
+	protected boolean validNombre() {
+		int len = txtNombre.getText().length();
+		return len <= 256;
+	}
+	
+	protected boolean validHorario(JTextField horario) {
+		return horario.getText().matches("([01][0-9]|2[0-3]):([0-5][0-9])") || horario.getText().equals("--:--");
+	}
+	
+	protected boolean validCombobox(JComboBox combobox) {
+		return true;
+		/* Por mas que ahora sea un metodo practicamente innecesario,
+		 * la implementacion puede cambiar por lo que se deja declarado el metodo*/
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		
+		if(!validID()) {
+			txtIDSucursal.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validNombre()) {
+			txtNombre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbTipoSucursal)) {
+			cmbTipoSucursal.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbOperatividad)) {
+			cmbOperatividad.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validHorario(txtHorarioApertura)) {
+			txtHorarioApertura.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validHorario(txtHorarioCierre)) {
+			txtHorarioCierre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
+	}
+	
+	public void actionBuscar() {
+		
+		List<Sucursal> dataList = new ArrayList<>();
+		if(this.validateInput()) {
+			try {				
+				dataList = GestorSucursal.getInstance().consultaPorAtributos(
+						txtIDSucursal.getText(),
+						txtNombre.getText(),
+						(TipoSucursal) cmbTipoSucursal.getSelectedItem(),
+						(Operatividad) cmbOperatividad.getSelectedItem(),
+						txtHorarioApertura.getText(),
+						txtHorarioCierre.getText());
+				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+				model.setRowCount(0);
+				for(Sucursal suc : dataList) {
+					Object[] fila = {
+							suc.getID(),
+							suc.getNombre(),
+							suc.getTipo(),
+							suc.getEstado(),
+							suc.getHorarioApertura(),
+							suc.getHorarioCierre(),
+							suc.getID()
+					};
+					model.addRow(fila);
+				}
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(
+						frame,
+						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
+						"Error de base de datos",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}else {
+			JOptionPane.showMessageDialog(
+					frame,
+					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
+					"Datos ingresados invalidos",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void actionOpcionesPopup() {
 		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);

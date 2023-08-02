@@ -67,7 +67,7 @@ public final class GestorSucursal {
 			
 			Time parseHorarioApertura;
 			
-			if(horarioApertura.isBlank()) {
+			if(horarioApertura.equals("--:--")) {
 				parseHorarioApertura=null;
 				
 			}
@@ -76,7 +76,7 @@ public final class GestorSucursal {
 				
 			}
 			Time parseHorarioCierre;
-			if(horarioCierre.isBlank()) {
+			if(horarioCierre.equals("--:--")) {
 				parseHorarioCierre=null;
 			}
 			else {
