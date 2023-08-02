@@ -2,10 +2,12 @@ package logica;
 
 
 import java.sql.SQLException;
+import java.util.List;
 
 import dal.general.FactoryDAO;
 import dal.general.SucursalDAO;
 import datos.Ruta;
+import datos.Sucursal;
 import datos.Operatividad;
 
 public final class GestorRutas {
@@ -47,11 +49,16 @@ public final class GestorRutas {
 		fact.getRutaDAO().update(aux);
 	}
 	
+	public List<Ruta> consultaPorAtributos(Integer idRuta, Sucursal origen, Sucursal destino,
+			 Operatividad estado, Integer duracionDesde, Integer duracionHasta,
+			 Float capacMaxDesde, Float capacMaxHasta) throws ClassNotFoundException, SQLException{
+		
+			FactoryDAO fact=FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+			
+			return fact.getRutaDAO().searchByAttributes(idRuta, origen, destino, estado, duracionDesde, duracionHasta, capacMaxDesde, capacMaxHasta);
+		
+	}
 	
-	/*
-	 * List<Ruta> search by attributes
-	 * handling 
-	 */
 	
 
 }
