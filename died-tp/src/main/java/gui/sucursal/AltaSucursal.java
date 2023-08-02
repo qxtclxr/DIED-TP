@@ -8,6 +8,7 @@ import javax.swing.*;
 import datos.Operatividad;
 import datos.TipoSucursal;
 import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
 import logica.GestorSucursal;
 
 public class AltaSucursal extends FormularioSucursal{
@@ -58,11 +59,7 @@ public class AltaSucursal extends FormularioSucursal{
 			}
 			
 		}else {
-			JOptionPane.showMessageDialog(
-					frame,
-					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
-					"Datos ingresados invalidos",
-					JOptionPane.ERROR_MESSAGE);
+			InvalidInputMessage.showMessageDialog(frame);
 		}
 	}
 }

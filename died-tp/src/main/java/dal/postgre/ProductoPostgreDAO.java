@@ -33,6 +33,7 @@ public class ProductoPostgreDAO implements ProductoDAO{
 			pstm.setString(2, obj.getDescripcion());
 			pstm.setDouble(3, obj.getPrecioUnitario());
 			pstm.setDouble(4, obj.getPesoKg());
+			pstm.executeUpdate();
 		}
 	}
 

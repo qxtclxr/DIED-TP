@@ -27,21 +27,25 @@ public class GestorProducto {
 		super();
 	}
 	
-	public void altaProducto(String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException, ClassNotFoundException{
+	public void altaProducto(String nombre,String descripcion, String precioU, String pesoKg) throws SQLException, ClassNotFoundException{
 		
 		FactoryDAO fact= FactoryDAO.getFactory(1);
+		
+		Float parsePrecio = Float.parseFloat(precioU);
+		Float parsePeso = Float.parseFloat(pesoKg);
 	
-	
-		Producto aux= new Producto(nombre,descripcion,precioU,pesoKg);
+		Producto aux= new Producto(nombre,descripcion,parsePrecio,parsePeso);
 		
 		fact.getProductoDAO().insert(aux);
 	}
-	public void modificarProducto(Integer idProducto, String nombre,String descripcion, Float precioU, Float pesoKg) throws SQLException, ClassNotFoundException{
+	public void modificarProducto(Integer idProducto, String nombre,String descripcion, String precioU, String pesoKg) throws SQLException, ClassNotFoundException{
 			
 			FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+			
+			Float parsePrecio = Float.parseFloat(precioU);
+			Float parsePeso = Float.parseFloat(pesoKg);
 		
-		
-			Producto aux= new Producto(idProducto,nombre,descripcion,precioU,pesoKg);
+			Producto aux= new Producto(idProducto,nombre,descripcion,parsePrecio,parsePeso);
 			
 			fact.getProductoDAO().update(aux);
 		}

@@ -1,7 +1,16 @@
 package gui.producto;
 
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
+
+import datos.Operatividad;
+import datos.Sucursal;
+import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
+import logica.GestorProducto;
+import logica.GestorRuta;
 
 public class AltaProducto extends FormularioProducto{
 	
@@ -28,7 +37,29 @@ public class AltaProducto extends FormularioProducto{
 
 	@Override
 	public void actionConfirmar() {
-		// TODO Auto-generated method stub
-		
+		if(this.validateInput()) {
+			try {
+				GestorProducto.getInstance().altaProducto(
+						txtNombre.getText(),
+						txtDescripcion.getText(),
+						txtPrecio.getText(),
+						txtPeso.getText());
+				JOptionPane.showMessageDialog(
+						frame,
+						"El producto ha sido creado correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}finally {
+				this.setVisible(false);
+				pantallaAnterior.setVisible(true);
+				frame.setContentPane(pantallaAnterior);
+			}
+			
+		}else {
+			InvalidInputMessage.showMessageDialog(frame);
+		}		
 	}
 }

@@ -2,8 +2,13 @@ package gui.producto;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import datos.*;
+import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
+import logica.GestorProducto;
 
 public class EdicionProducto extends FormularioProducto {
 	
@@ -42,8 +47,32 @@ public class EdicionProducto extends FormularioProducto {
 
 	@Override
 	public void actionConfirmar() {
-		// TODO Auto-generated method stub
-		
+		if(this.validateInput()) {
+			try {
+				GestorProducto.getInstance().modificarProducto(
+						prod.getID(),
+						txtNombre.getText(),
+						txtDescripcion.getText(),
+						txtPrecio.getText(),
+						txtPeso.getText());
+				JOptionPane.showMessageDialog(
+						frame,
+						"El producto ha sido modificado correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}finally {
+				((ConsultaProducto) pantallaAnterior).actionBuscar();
+				this.setVisible(false);
+				pantallaAnterior.setVisible(true);
+				frame.setContentPane(pantallaAnterior);
+			}
+			
+		}else {
+			InvalidInputMessage.showMessageDialog(frame);
+		}
 	}
 
 }

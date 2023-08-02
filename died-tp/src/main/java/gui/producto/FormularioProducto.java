@@ -4,6 +4,8 @@ import datos.*;
 import gui.Pantalla;
 import logica.*;
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -102,6 +104,7 @@ public abstract class FormularioProducto extends Pantalla {
 		add(btnCancelar);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(act -> actionConfirmar());
 		btnConfirmar.setBackground(new Color(129, 205, 133));
 		btnConfirmar.setBounds(690, 467, 100, 23);
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -112,6 +115,49 @@ public abstract class FormularioProducto extends Pantalla {
 		iconoPrecio.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		iconoPrecio.setBounds(415, 135, 10, 20);
 		add(iconoPrecio);
+		
+		fieldsDefaultColor();
+	}
+	
+	protected void fieldsDefaultColor() {
+		txtNombre.setBackground(Color.WHITE);
+		txtPrecio.setBackground(Color.WHITE);
+		txtPeso.setBackground(Color.WHITE);
+		txtDescripcion.setBackground(Color.WHITE);
+	}
+	
+	public boolean validTextLength(JTextComponent field, int minLen, int maxLen) {
+		int len = field.getText().length();
+		return len > 0 && len <= maxLen;
+	}
+	
+	protected boolean validFloatingPoint(JTextField field) {
+		return field.getText().matches("[0-9]+(\\.[0-9]*)?");
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		
+		if(!validTextLength(txtNombre,0,256)) {
+			txtNombre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validFloatingPoint(txtPrecio)) {
+			txtPrecio.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validFloatingPoint(txtPeso)) {
+			txtPeso.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validTextLength(txtDescripcion,-1,1024)) {
+			//minLen=-1, osea puede ser null. No obligas al tipo a que ponga una descripcion
+			txtDescripcion.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
 	}
 	
 	public void actionCancelar() {

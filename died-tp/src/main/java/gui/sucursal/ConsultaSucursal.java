@@ -2,6 +2,7 @@ package gui.sucursal;
 
 import datos.*;
 import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
 import gui.Pantalla;
 import gui.tabla.TablaDeDatos;
 import logica.GestorRuta;
@@ -275,7 +276,7 @@ public class ConsultaSucursal extends Pantalla {
 						txtHorarioApertura.getText(),
 						txtHorarioCierre.getText());
 				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-				model.setRowCount(0);
+				model.setRowCount(0); //Resetea la tabla
 				for(Sucursal suc : dataList) {
 					Object[] fila = {
 							suc.getID(),
@@ -293,11 +294,7 @@ public class ConsultaSucursal extends Pantalla {
 				DatabaseErrorMessage.showMessageDialog(frame);
 			}
 		}else {
-			JOptionPane.showMessageDialog(
-					frame,
-					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
-					"Datos ingresados invalidos",
-					JOptionPane.ERROR_MESSAGE);
+			InvalidInputMessage.showMessageDialog(frame);
 		}
 	}
 	

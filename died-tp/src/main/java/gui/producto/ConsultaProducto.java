@@ -4,13 +4,19 @@ import datos.*;
 import gui.*;
 import gui.ruta.OpcionesPopupRuta;
 import gui.tabla.TablaDeDatos;
+import logica.GestorProducto;
+import logica.GestorSucursal;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Point;
+import java.sql.SQLException;
 import java.sql.Time;
 
 
@@ -139,47 +145,106 @@ public class ConsultaProducto extends Pantalla {
 		descPesoHasta.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		descPesoHasta.setBounds(665, 133, 121, 14);
 		add(descPesoHasta);
+		
+		fieldsDefaultColor();
+		generarTabla();
+	}
+	
+	protected void fieldsDefaultColor() {
+		txtIDProducto.setBackground(Color.WHITE);
+		txtNombre.setBackground(Color.WHITE);
+		txtPrecioDesde.setBackground(Color.WHITE);
+		txtPrecioHasta.setBackground(Color.WHITE);
+		txtPesoDesde.setBackground(Color.WHITE);
+		txtPesoHasta.setBackground(Color.WHITE);
+	}
+	
+	public boolean validID() {return true;}
+	/* Por mas que ahora sea un metodo practicamente innecesario,
+	 * la implementacion puede cambiar por lo que se deja declarado el metodo*/
+	
+	public boolean validTextLength(JTextComponent field, int maxLen) {
+		int len = field.getText().length();
+		return len <= maxLen;
+	}
+	
+	protected boolean validFloatingPoint(JTextField field) {
+		return field.getText().matches("[0-9]+(\\.[0-9]*)?") || field.getText().isEmpty();
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		if(!validID()) {
+			txtIDProducto.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validTextLength(txtNombre,256)) {
+			txtNombre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validFloatingPoint(txtPrecioDesde)) {
+			txtPrecioDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validFloatingPoint(txtPrecioHasta)) {
+			txtPrecioHasta.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validFloatingPoint(txtPesoDesde)) {
+			txtPesoDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validFloatingPoint(txtPesoHasta)) {
+			txtPesoHasta.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
 	}
 	
 	private void generarTabla() {
 		tabla = new TablaDeDatos(COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(new ArrayList<>()/*TODO*/));
+		tabla.onPressingButton(act -> actionOpcionesPopup());
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
 	}
 	
-	private Object[][] datosTabla(List<Producto> data){
-		Object[][] contenido = new Object[data.size()][COL_NAMES.length];
-		for(int i = 0 ; i < data.size() ; i++) {
-			Object[] fila = {
-				data.get(i).getID(),
-				data.get(i).getNombre(),
-				data.get(i).getDescripcion(),
-				data.get(i).getPrecioUnitario(),
-				data.get(i).getPesoKg(),
-			};
-			contenido[i] = fila;
-		}
-		return contenido;
-	}
-	
 	public void actionBuscar() {
-		
-		//TODO
-		
-		//TODO: Prueba
-		Producto aux = new Producto(12345,"Heladera Phillips","Una heladera con muchas funcionalidades, etc.",120000F,550F);
-		Producto[] auxArr = new Producto[100];
-		Arrays.fill(auxArr,aux);
-		ArrayList<Producto> auxList = new ArrayList<Producto>(Arrays.asList(auxArr));
-		//TODO: Prueba
-		
-		generarTabla(auxList);
-		
+		List<Producto> dataList = new ArrayList<>();
+		if(this.validateInput()) {
+			try {				
+				dataList = GestorProducto.getInstance().consultaPorAtributos(
+						txtIDProducto.getText(),
+						txtNombre.getText(),
+						txtPrecioDesde.getText(),
+						txtPrecioHasta.getText(),
+						txtPesoDesde.getText(),
+						txtPesoHasta.getText());
+				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+				model.setRowCount(0); //Resetea la tabla
+				for(Producto prod : dataList) {
+					Object[] fila = {
+							prod.getID(),
+							prod.getNombre(),
+							prod.getDescripcion(),
+							prod.getPrecioUnitario(),
+							prod.getPesoKg(),
+							prod.getID()
+					};
+					model.addRow(fila);
+				}
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}
+		}else {
+			InvalidInputMessage.showMessageDialog(frame);
+		}		
 	}
 	
-	public void actionOpcionesPopup(List<Producto> data) {
+	public void actionOpcionesPopup() {
 		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);

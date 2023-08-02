@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 import datos.*;
+import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
 import logica.*;
 
 public class AltaRuta extends FormularioRuta{
@@ -48,12 +50,7 @@ public class AltaRuta extends FormularioRuta{
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(
-						frame,
-						"Ha habido un error al interactuar con la base de datos, es posible que las modificaciones no se hayan realizado.\n"
-						+ "Intente de nuevo más tarde.",
-						"Error de base de datos",
-						JOptionPane.ERROR_MESSAGE);
+				DatabaseErrorMessage.showMessageDialog(frame);
 			}finally {
 				this.setVisible(false);
 				pantallaAnterior.setVisible(true);
@@ -61,11 +58,7 @@ public class AltaRuta extends FormularioRuta{
 			}
 			
 		}else {
-			JOptionPane.showMessageDialog(
-					frame,
-					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
-					"Datos ingresados invalidos",
-					JOptionPane.ERROR_MESSAGE);
+			InvalidInputMessage.showMessageDialog(frame);
 		}
 	}
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 import datos.*;
 import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
 import logica.GestorRuta;
 
 public class EdicionRuta extends FormularioRuta {
@@ -75,11 +76,7 @@ public class EdicionRuta extends FormularioRuta {
 			}
 			
 		}else {
-			JOptionPane.showMessageDialog(
-					frame,
-					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
-					"Datos ingresados invalidos",
-					JOptionPane.ERROR_MESSAGE);
+			InvalidInputMessage.showMessageDialog(frame);
 		}		
 	}
 

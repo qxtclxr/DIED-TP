@@ -292,7 +292,7 @@ public class ConsultaRuta extends Pantalla {
 						txtCapacidadMaximaDesde.getText(),
 						txtCapacidadMaximaHasta.getText());
 				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
-				model.setRowCount(0);
+				model.setRowCount(0); //Resetea la tabla
 				for(Ruta ruta : dataList) {
 					Object[] fila = {
 							ruta.getID(),
@@ -307,19 +307,10 @@ public class ConsultaRuta extends Pantalla {
 				}
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(
-						frame,
-						"Ha habido un error al interactuar con la base de datos, es posible que las modificaciones no se hayan realizado.\n"
-						+ "Intente de nuevo más tarde.",
-						"Error de base de datos",
-						JOptionPane.ERROR_MESSAGE);
+				DatabaseErrorMessage.showMessageDialog(frame);
 			}
 		}else {
-			JOptionPane.showMessageDialog(
-					frame,
-					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
-					"Datos ingresados invalidos",
-					JOptionPane.ERROR_MESSAGE);
+			InvalidInputMessage.showMessageDialog(frame);
 		}
 		/*TODO: Prueba
 		Sucursal auxSuc = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
