@@ -4,15 +4,21 @@ import datos.*;
 import gui.*;
 import gui.tabla.TablaCarrito;
 import gui.tabla.TablaDeDatos;
+import logica.GestorProducto;
+
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import javax.swing.text.JTextComponent;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
 
 
 public class ListarProductosOrden extends Pantalla {
-
+	
+	private OrdenDeProvision orden;
 	private static final String[] COL_NAMES = {"ID del producto","Nombre","Descripcion","Precio unitario","Peso (en kg.)",""};
 	private static final String[] COL_NAMES_SELECT = {"ID del producto","Nombre","Descripcion","Precio unitario","Peso (en kg.)","Cantidad",""};
 	private JTextField txtIDProducto;
@@ -28,8 +34,9 @@ public class ListarProductosOrden extends Pantalla {
 	/**
 	 * Create the panel.
 	 */
-	public ListarProductosOrden(JFrame frame, JPanel pantallaAnterior) {
+	public ListarProductosOrden(JFrame frame, JPanel pantallaAnterior, OrdenDeProvision orden) {
 		super(frame,pantallaAnterior);
+		this.orden = orden;
 	}
 	
 	public void inicializarComponentes() {
@@ -144,18 +151,82 @@ public class ListarProductosOrden extends Pantalla {
 		lblProductosSeleccionados.setBounds(10, 326, 780, 20);
 		add(lblProductosSeleccionados);
 		
+		generarTablaDatos();
 		generarTablaSeleccionados();
+		fieldsDefaultColor();
+	}
+	
+	protected void fieldsDefaultColor() {
+		txtIDProducto.setBackground(Color.WHITE);
+		txtNombre.setBackground(Color.WHITE);
+		txtPrecioDesde.setBackground(Color.WHITE);
+		txtPrecioHasta.setBackground(Color.WHITE);
+		txtPesoDesde.setBackground(Color.WHITE);
+		txtPesoHasta.setBackground(Color.WHITE);
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		if(!SyntaxValidator.validID()) {
+			txtIDProducto.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!SyntaxValidator.validTextLength(txtNombre,0,256)) {
+			txtNombre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPrecioDesde)) {
+			txtPrecioDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPrecioHasta)) {
+			txtPrecioHasta.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPesoDesde)) {
+			txtPesoDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPesoHasta)) {
+			txtPesoHasta.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
 	}
 	
 	public void actionBuscar() {
-		//TODO: Prueba
-		Producto aux = new Producto(12345,"Heladera Phillips","Una heladera con muchas funcionalidades, etc.",120000F,550F);
-		Producto[] auxArr = new Producto[100];
-		Arrays.fill(auxArr,aux);
-		ArrayList<Producto> auxList = new ArrayList<Producto>(Arrays.asList(auxArr));
-		//TODO: Prueba
-		
-		//generarTablaDatos(auxList);
+		List<Producto> dataList = new ArrayList<>();
+		if(this.validateInput()) {
+			try {				
+				dataList = GestorProducto.getInstance().consultaPorAtributos(
+						txtIDProducto.getText(),
+						txtNombre.getText(),
+						txtPrecioDesde.getText(),
+						txtPrecioHasta.getText(),
+						txtPesoDesde.getText(),
+						txtPesoHasta.getText());
+				DefaultTableModel model = (DefaultTableModel) tablaDatos.getModel();
+				model.setRowCount(0); //Resetea la tabla
+				for(Producto prod : dataList) {
+					Object[] fila = {
+							prod.getID(),
+							prod.getNombre(),
+							prod.getDescripcion(),
+							prod.getPrecioUnitario(),
+							prod.getPesoKg(),
+							prod.getID()
+					};
+					model.addRow(fila);
+				}
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}
+		} else {
+			InvalidInputMessage.showMessageDialog(frame);
+		}		
 	}
 	
 	private void generarTablaDatos() {
@@ -165,21 +236,6 @@ public class ListarProductosOrden extends Pantalla {
 		panelContenedorTabla = new JScrollPane(tablaDatos);
 		panelContenedorTabla.setBounds(10, 175, 780, 140);
 		add(panelContenedorTabla);
-	}
-	
-	private Object[][] datosTablaDatos(List<Producto> data){
-		Object[][] contenido = new Object[data.size()][COL_NAMES.length];
-		for(int i = 0 ; i < data.size() ; i++) {
-			Object[] fila = {
-				data.get(i).getID(),
-				data.get(i).getNombre(),
-				data.get(i).getDescripcion(),
-				data.get(i).getPrecioUnitario(),
-				data.get(i).getPesoKg(),
-			};
-			contenido[i] = fila;
-		}
-		return contenido;
 	}
 	
 	public void actionAgregar() {

@@ -2,6 +2,7 @@ package gui.sucursal;
 
 import datos.*;
 import gui.Pantalla;
+import gui.SyntaxValidator;
 import logica.*;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
@@ -143,42 +144,29 @@ public abstract class FormularioSucursal extends Pantalla {
 		txtHorarioCierre.setBackground(Color.WHITE);
 	}
 	
-	protected boolean validNombre() {
-		int len = txtNombre.getText().length();
-		return len > 0 && len <= 256;
-	}
-	
-	protected boolean validHorario(JTextField horario) {
-		return horario.getText().matches("([01][0-9]|2[0-3]):([0-5][0-9])");
-	}
-	
-	protected boolean validCombobox(JComboBox combobox) {
-		return combobox.getSelectedItem() != null;
-	}
-	
 	protected boolean validateInput() {
 		fieldsDefaultColor();
 		
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
 		
-		if(!validNombre()) {
+		if(!SyntaxValidator.validTextLength(txtNombre,1,256)) {
 			txtNombre.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbTipoSucursal)) {
+		if(!SyntaxValidator.validCombobox(cmbTipoSucursal)) {
 			cmbTipoSucursal.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbOperatividad)) {
+		if(!SyntaxValidator.validCombobox(cmbOperatividad)) {
 			cmbOperatividad.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validHorario(txtHorarioApertura)) {
+		if(!SyntaxValidator.validHorario(txtHorarioApertura)) {
 			txtHorarioApertura.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validHorario(txtHorarioCierre)) {
+		if(!SyntaxValidator.validHorario(txtHorarioCierre)) {
 			txtHorarioCierre.setBackground(colorInvalid);
 			validInput = false;
 		}

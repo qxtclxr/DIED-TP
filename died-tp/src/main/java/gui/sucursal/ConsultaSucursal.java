@@ -4,6 +4,7 @@ import datos.*;
 import gui.DatabaseErrorMessage;
 import gui.InvalidInputMessage;
 import gui.Pantalla;
+import gui.SyntaxValidator;
 import gui.tabla.TablaDeDatos;
 import logica.GestorRuta;
 import logica.GestorSucursal;
@@ -192,71 +193,33 @@ public class ConsultaSucursal extends Pantalla {
 		add(panelContenedorTabla);
 	}
 	
-	private Object[][] datosTabla(List<Sucursal> data){
-		Object[][] contenido = new Object[data.size()][COL_NAMES.length];
-		for(int i = 0 ; i < data.size() ; i++) {
-			Object[] fila = {
-				data.get(i).getID(),
-				data.get(i).getNombre(),
-				data.get(i).getTipo(),
-				data.get(i).getEstado(),
-				data.get(i).getHorarioApertura(),
-				data.get(i).getHorarioCierre(),
-				data.get(i).getID()
-			};
-			contenido[i] = fila;
-		}
-		return contenido;
-	}
-	
-	protected boolean validID() {
-		return true;
-		/* Por mas que ahora sea un metodo practicamente innecesario,
-		 * la implementacion puede cambiar por lo que se deja declarado el metodo*/
-	}
-	
-	protected boolean validNombre() {
-		int len = txtNombre.getText().length();
-		return len <= 256;
-	}
-	
-	protected boolean validHorario(JTextField horario) {
-		return horario.getText().matches("([01][0-9]|2[0-3]):([0-5][0-9])") || horario.getText().equals("--:--");
-	}
-	
-	protected boolean validCombobox(JComboBox combobox) {
-		return true;
-		/* Por mas que ahora sea un metodo practicamente innecesario,
-		 * la implementacion puede cambiar por lo que se deja declarado el metodo*/
-	}
-	
 	protected boolean validateInput() {
 		fieldsDefaultColor();
 		
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
 		
-		if(!validID()) {
+		if(!SyntaxValidator.validID()) {
 			txtIDSucursal.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validNombre()) {
+		if(!SyntaxValidator.validTextLength(txtNombre,0,256)) {
 			txtNombre.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbTipoSucursal)) {
+		if(!SyntaxValidator.validComboboxOrNull(cmbTipoSucursal)) {
 			cmbTipoSucursal.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbOperatividad)) {
+		if(!SyntaxValidator.validComboboxOrNull(cmbOperatividad)) {
 			cmbOperatividad.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validHorario(txtHorarioApertura)) {
+		if(!SyntaxValidator.validHorarioOrEmpty(txtHorarioApertura)) {
 			txtHorarioApertura.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validHorario(txtHorarioCierre)) {
+		if(!SyntaxValidator.validHorarioOrEmpty(txtHorarioCierre)) {
 			txtHorarioCierre.setBackground(colorInvalid);
 			validInput = false;
 		}

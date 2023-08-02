@@ -159,44 +159,31 @@ public class ConsultaProducto extends Pantalla {
 		txtPesoHasta.setBackground(Color.WHITE);
 	}
 	
-	public boolean validID() {return true;}
-	/* Por mas que ahora sea un metodo practicamente innecesario,
-	 * la implementacion puede cambiar por lo que se deja declarado el metodo*/
-	
-	public boolean validTextLength(JTextComponent field, int maxLen) {
-		int len = field.getText().length();
-		return len <= maxLen;
-	}
-	
-	protected boolean validFloatingPoint(JTextField field) {
-		return field.getText().matches("[0-9]+(\\.[0-9]*)?") || field.getText().isEmpty();
-	}
-	
 	protected boolean validateInput() {
 		fieldsDefaultColor();
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
-		if(!validID()) {
+		if(!SyntaxValidator.validID()) {
 			txtIDProducto.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validTextLength(txtNombre,256)) {
+		if(!SyntaxValidator.validTextLength(txtNombre,0,256)) {
 			txtNombre.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtPrecioDesde)) {
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPrecioDesde)) {
 			txtPrecioDesde.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtPrecioHasta)) {
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPrecioHasta)) {
 			txtPrecioHasta.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtPesoDesde)) {
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPesoDesde)) {
 			txtPesoDesde.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtPesoHasta)) {
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtPesoHasta)) {
 			txtPesoHasta.setBackground(colorInvalid);
 			validInput = false;
 		}
@@ -239,7 +226,7 @@ public class ConsultaProducto extends Pantalla {
 				ex.printStackTrace();
 				DatabaseErrorMessage.showMessageDialog(frame);
 			}
-		}else {
+		} else {
 			InvalidInputMessage.showMessageDialog(frame);
 		}		
 	}

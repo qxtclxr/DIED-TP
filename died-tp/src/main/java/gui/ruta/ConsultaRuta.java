@@ -214,56 +214,40 @@ public class ConsultaRuta extends Pantalla {
 		txtCapacidadMaximaHasta.setBackground(Color.WHITE);
 	}
 	
-	protected boolean validID() {
-		return true;
-	}
-	
-	protected boolean validCombobox(JComboBox combobox) {
-		return true;
-	}
-	
-	protected boolean validFloatingPoint(JTextField field) {
-		return field.getText().matches("[0-9]+(\\.[0-9]*)?") || field.getText().isEmpty();
-	}
-	
-	protected boolean validInteger(JTextField field) {
-		return field.getText().matches("\\d+") || field.getText().isEmpty();
-	}
-	
 	protected boolean validateInput() {
 		fieldsDefaultColor();
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
 		
-		if(!validID()) {
+		if(!SyntaxValidator.validID()) {
 			txtIDRuta.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbSucursalOrigen)) {
+		if(!SyntaxValidator.validComboboxOrNull(cmbSucursalOrigen)) {
 			cmbSucursalOrigen.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbSucursalDestino)) {
+		if(!SyntaxValidator.validComboboxOrNull(cmbSucursalDestino)) {
 			cmbSucursalDestino.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbOperatividad)) {
+		if(!SyntaxValidator.validComboboxOrNull(cmbOperatividad)) {
 			cmbOperatividad.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validInteger(txtDuracionDesde)) {
+		if(!SyntaxValidator.validIntegerOrEmpty(txtDuracionDesde)) {
 			txtDuracionDesde.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validInteger(txtDuracionHasta)) {
+		if(!SyntaxValidator.validIntegerOrEmpty(txtDuracionHasta)) {
 			txtDuracionDesde.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validInteger(txtCapacidadMaximaDesde)) {
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtCapacidadMaximaDesde)) {
 			txtCapacidadMaximaDesde.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validInteger(txtCapacidadMaximaHasta)) {
+		if(!SyntaxValidator.validFloatingPointOrEmpty(txtCapacidadMaximaHasta)) {
 			txtCapacidadMaximaHasta.setBackground(colorInvalid);
 			validInput = false;
 		}
@@ -272,7 +256,7 @@ public class ConsultaRuta extends Pantalla {
 
 	private void generarTabla() {
 		tabla = new TablaDeDatos(COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup(new ArrayList<>()/*TODO*/));
+		tabla.onPressingButton(act -> actionOpcionesPopup());
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 206, 780, 245);
 		add(panelContenedorTabla);
@@ -321,7 +305,7 @@ public class ConsultaRuta extends Pantalla {
 		*/
 	}
 	
-	public void actionOpcionesPopup(List<Ruta> data) {
+	public void actionOpcionesPopup() {
 		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
         Rectangle cellRect = tabla.getCellRect(row, column, true);

@@ -2,6 +2,7 @@ package gui.producto;
 
 import datos.*;
 import gui.Pantalla;
+import gui.SyntaxValidator;
 import logica.*;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -126,33 +127,24 @@ public abstract class FormularioProducto extends Pantalla {
 		txtDescripcion.setBackground(Color.WHITE);
 	}
 	
-	public boolean validTextLength(JTextComponent field, int minLen, int maxLen) {
-		int len = field.getText().length();
-		return len > 0 && len <= maxLen;
-	}
-	
-	protected boolean validFloatingPoint(JTextField field) {
-		return field.getText().matches("[0-9]+(\\.[0-9]*)?");
-	}
-	
 	protected boolean validateInput() {
 		fieldsDefaultColor();
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
 		
-		if(!validTextLength(txtNombre,0,256)) {
+		if(!SyntaxValidator.validTextLength(txtNombre,1,256)) {
 			txtNombre.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtPrecio)) {
+		if(!SyntaxValidator.validFloatingPoint(txtPrecio)) {
 			txtPrecio.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtPeso)) {
+		if(!SyntaxValidator.validFloatingPoint(txtPeso)) {
 			txtPeso.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validTextLength(txtDescripcion,-1,1024)) {
+		if(!SyntaxValidator.validTextLength(txtDescripcion,0,1024)) {
 			//minLen=-1, osea puede ser null. No obligas al tipo a que ponga una descripcion
 			txtDescripcion.setBackground(colorInvalid);
 			validInput = false;

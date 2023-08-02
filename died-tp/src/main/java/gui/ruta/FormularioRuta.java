@@ -3,6 +3,7 @@ package gui.ruta;
 import datos.*;
 import gui.DatabaseErrorMessage;
 import gui.Pantalla;
+import gui.SyntaxValidator;
 import logica.*;
 import javax.swing.*;
 import java.awt.Font;
@@ -148,40 +149,28 @@ public abstract class FormularioRuta extends Pantalla {
 		return !origen.equals(destino);
 	}
 	
-	protected boolean validCombobox(JComboBox combobox) {
-		return combobox.getSelectedItem() != null;
-	}
-	
-	protected boolean validFloatingPoint(JTextField field) {
-		return field.getText().matches("[0-9]+(\\.[0-9]*)?");
-	}
-	
-	protected boolean validInteger(JTextField field) {
-		return field.getText().matches("\\d+");
-	}
-	
 	protected boolean validateInput() {
 		fieldsDefaultColor();
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
 		
-		if(!validCombobox(cmbSucursalOrigen)) {
+		if(!SyntaxValidator.validCombobox(cmbSucursalOrigen)) {
 			cmbSucursalOrigen.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbSucursalDestino)) {
+		if(!SyntaxValidator.validCombobox(cmbSucursalDestino)) {
 			cmbSucursalDestino.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validCombobox(cmbOperatividad)) {
+		if(!SyntaxValidator.validCombobox(cmbOperatividad)) {
 			cmbOperatividad.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validInteger(txtDuracion)) {
+		if(!SyntaxValidator.validInteger(txtDuracion)) {
 			txtDuracion.setBackground(colorInvalid);
 			validInput = false;
 		}
-		if(!validFloatingPoint(txtCapacidadMaxima)) {
+		if(!SyntaxValidator.validFloatingPoint(txtCapacidadMaxima)) {
 			txtCapacidadMaxima.setBackground(colorInvalid);
 			validInput = false;
 		}
