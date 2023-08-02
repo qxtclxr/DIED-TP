@@ -57,6 +57,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		String statement = "DELETE FROM Ruta WHERE idruta = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			pstm.setInt(1,obj.getID());
+			pstm.executeUpdate();
 		}
 		
 	}

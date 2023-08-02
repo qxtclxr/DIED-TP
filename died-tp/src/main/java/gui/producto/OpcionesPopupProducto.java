@@ -2,7 +2,9 @@ package gui.producto;
 
 import datos.*;
 import gui.*;
+import gui.sucursal.ConsultaSucursal;
 import logica.GestorProducto;
+import logica.GestorSucursal;
 import gui.tabla.OpcionesPopup;
 
 import java.sql.SQLException;
@@ -30,7 +32,27 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 
 	@Override
 	public void actionEliminar() {
-		// TODO Auto-generated method stub
+		int result = JOptionPane.showConfirmDialog(
+				frame,
+				"¿Seguro que quieres eliminar la sucursal?",
+				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			try {
+				GestorProducto gestor = GestorProducto.getInstance();
+				Producto target = gestor.getByID(id);
+				gestor.eliminar(target);
+				JOptionPane.showMessageDialog(
+						frame,
+						"La sucursal ha sido eliminada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+				((ConsultaProducto) pantalla).actionBuscar();
+			}catch(ClassNotFoundException | SQLException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}
+		}
 	}
 	
 	

@@ -147,7 +147,7 @@ public class MenuPrincipal extends JPanel {
 		btnConsultaDeRutas.setBounds(10, 79, 755, 23);
 		menuRutas.add(btnConsultaDeRutas);
 		
-		JLabel lblConsultaDeRutas = new JLabel("Realiza una busqueda entre todas las rutas, pudiendo luego editar y/o cualquiera de ellas.");
+		JLabel lblConsultaDeRutas = new JLabel("Realiza una busqueda entre todas las rutas, pudiendo luego editar y/o eliminar cualquiera de ellas.");
 		lblConsultaDeRutas.setForeground(Color.GRAY);
 		lblConsultaDeRutas.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblConsultaDeRutas.setBounds(10, 103, 755, 14);
@@ -179,7 +179,7 @@ public class MenuPrincipal extends JPanel {
 		btnConsultaDeProductos.setBounds(10, 79, 755, 23);
 		menuProductos.add(btnConsultaDeProductos);
 		
-		JLabel lblConsultaDeProductos = new JLabel("Realiza una busqueda entre todos los productos a la venta, pudiendo luego editar y/o cualquiera de ellos.");
+		JLabel lblConsultaDeProductos = new JLabel("Realiza una busqueda entre todos los productos a la venta, pudiendo luego editar y/o eliminar cualquiera de ellos.");
 		lblConsultaDeProductos.setForeground(Color.GRAY);
 		lblConsultaDeProductos.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblConsultaDeProductos.setBounds(10, 103, 755, 14);
@@ -198,7 +198,7 @@ public class MenuPrincipal extends JPanel {
 		btnGenerarUnaOrden.setBounds(10, 21, 755, 23);
 		menuOrdenesDeProvision.add(btnGenerarUnaOrden);
 		
-		JLabel lblGenerarUnaOrden = new JLabel("Genera una Orden de Provision para solicitar el abastecimiento de productos de una Sucursal.");
+		JLabel lblGenerarUnaOrden = new JLabel("Genera una orden de Provision para solicitar el abastecimiento de productos de una sucursal.");
 		lblGenerarUnaOrden.setForeground(Color.GRAY);
 		lblGenerarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblGenerarUnaOrden.setBounds(10, 45, 755, 14);

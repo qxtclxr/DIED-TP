@@ -43,13 +43,9 @@ public class ProductoPostgreDAO implements ProductoDAO{
 			pstm.setString(2, obj.getDescripcion());
 			pstm.setDouble(3, obj.getPrecioUnitario());
 			pstm.setDouble(4, obj.getPesoKg());
-			
 			pstm.setInt(5, obj.getID());
 			pstm.executeUpdate();
-			
-		}
-		
-		
+		}		
 	}
 
 	@Override
@@ -57,6 +53,7 @@ public class ProductoPostgreDAO implements ProductoDAO{
 		String statement = "DELETE FROM Producto WHERE idproducto = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			pstm.setInt(1,obj.getID());
+			pstm.executeUpdate();
 		}
 		
 	}
