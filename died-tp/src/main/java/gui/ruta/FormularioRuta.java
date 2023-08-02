@@ -27,7 +27,6 @@ public abstract class FormularioRuta extends Pantalla {
 		try {
 			setLayout(null);
 			
-			
 			/*TODO: Prueba
 			Sucursal aux = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
 			Sucursal[] auxArr = new Sucursal[100];
@@ -121,6 +120,7 @@ public abstract class FormularioRuta extends Pantalla {
 			add(btnCancelar);
 			
 			JButton btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.addActionListener(act -> actionConfirmar());
 			btnConfirmar.setBackground(new Color(129, 205, 133));
 			btnConfirmar.setBounds(690, 467, 100, 23);
 			btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
