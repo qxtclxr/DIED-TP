@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 import datos.*;
+import gui.DatabaseErrorMessage;
 import logica.GestorRuta;
 
 public class EdicionRuta extends FormularioRuta {
@@ -64,11 +65,7 @@ public class EdicionRuta extends FormularioRuta {
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(
-						frame,
-						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-						"Error de base de datos",
-						JOptionPane.ERROR_MESSAGE);
+				DatabaseErrorMessage.showMessageDialog(frame);
 			}finally {
 				this.setVisible(false);
 				//Refresca la tabla para mostrar las modificaciones

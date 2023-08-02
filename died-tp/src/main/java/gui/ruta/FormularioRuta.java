@@ -1,6 +1,7 @@
 package gui.ruta;
 
 import datos.*;
+import gui.DatabaseErrorMessage;
 import gui.Pantalla;
 import logica.*;
 import javax.swing.*;
@@ -126,11 +127,7 @@ public abstract class FormularioRuta extends Pantalla {
 			fieldsDefaultColor();
 		}catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 			this.setVisible(false);
 			pantallaAnterior.setVisible(true);
 			frame.setContentPane(pantallaAnterior);

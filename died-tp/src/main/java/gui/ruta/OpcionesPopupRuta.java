@@ -2,8 +2,10 @@ package gui.ruta;
 
 import datos.*;
 import gui.*;
+import gui.sucursal.ConsultaSucursal;
 import gui.tabla.OpcionesPopup;
 import logica.GestorRuta;
+import logica.GestorSucursal;
 
 import java.sql.SQLException;
 
@@ -24,17 +26,34 @@ public class OpcionesPopupRuta extends OpcionesPopup{
 			frame.setContentPane(edicionRuta);
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 		}
 	}
 
 	@Override
 	public void actionEliminar() {
-		// TODO Auto-generated method stub
+		int result = JOptionPane.showConfirmDialog(
+				frame,
+				"¿Seguro que quieres eliminar la ruta?",
+				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			try {
+				GestorRuta gestor = GestorRuta.getInstance();
+				Ruta target = gestor.getByID(id);
+				gestor.eliminar(target);
+				JOptionPane.showMessageDialog(
+						frame,
+						"La ruta ha sido eliminada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+				//Refresca la tabla
+				((ConsultaRuta) pantalla).actionBuscar();
+			}catch(ClassNotFoundException | SQLException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}
+		}
 		
 	}
 	

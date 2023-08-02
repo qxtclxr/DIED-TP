@@ -46,6 +46,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		String statement = "DELETE FROM Sucursal WHERE idsucursal = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
 			pstm.setInt(1,suc.getID());
+			pstm.executeUpdate();
 		}
 	}
 	

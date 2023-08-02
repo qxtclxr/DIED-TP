@@ -2,7 +2,9 @@ package gui.producto;
 
 import datos.*;
 import gui.*;
+import gui.sucursal.ConsultaSucursal;
 import logica.GestorProducto;
+import logica.GestorSucursal;
 import gui.tabla.OpcionesPopup;
 
 import java.sql.SQLException;
@@ -24,17 +26,34 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 			frame.setContentPane(edicionProducto);
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 		}
 	}
 
 	@Override
 	public void actionEliminar() {
-		// TODO Auto-generated method stub
+		int result = JOptionPane.showConfirmDialog(
+				frame,
+				"¿Seguro que quieres eliminar el producto?",
+				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			try {
+				GestorProducto gestor = GestorProducto.getInstance();
+				Producto target = gestor.getByID(id);
+				gestor.eliminar(target);
+				JOptionPane.showMessageDialog(
+						frame,
+						"El producto ha sido eliminada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+				//Refresca la tabla
+				((ConsultaProducto) pantalla).actionBuscar();
+			}catch(ClassNotFoundException | SQLException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}
+		}
 	}
 	
 	

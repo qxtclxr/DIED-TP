@@ -195,11 +195,7 @@ public class ConsultaRuta extends Pantalla {
 			
 		}catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 			this.setVisible(false);
 			pantallaAnterior.setVisible(true);
 			frame.setContentPane(pantallaAnterior);
@@ -313,7 +309,8 @@ public class ConsultaRuta extends Pantalla {
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(
 						frame,
-						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
+						"Ha habido un error al interactuar con la base de datos, es posible que las modificaciones no se hayan realizado.\n"
+						+ "Intente de nuevo más tarde.",
 						"Error de base de datos",
 						JOptionPane.ERROR_MESSAGE);
 			}

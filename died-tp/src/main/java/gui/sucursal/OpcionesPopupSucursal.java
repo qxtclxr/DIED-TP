@@ -27,20 +27,35 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 			frame.setContentPane(edicionSucursal);
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(
-					frame,
-					"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
-					"Error de base de datos",
-					JOptionPane.ERROR_MESSAGE);
+			DatabaseErrorMessage.showMessageDialog(frame);
 		}
 		
 	}
 
 	@Override
 	public void actionEliminar() {
-		// TODO Auto-generated method stub
+		int result = JOptionPane.showConfirmDialog(
+				frame,
+				"¿Seguro que quieres eliminar la sucursal?",
+				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			try {
+				GestorSucursal gestor = GestorSucursal.getInstance();
+				Sucursal target = gestor.getByID(id);
+				gestor.eliminar(target);
+				JOptionPane.showMessageDialog(
+						frame,
+						"La sucursal ha sido eliminada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+				//Refresca la tabla
+				((ConsultaSucursal) pantalla).actionBuscar();
+			}catch(ClassNotFoundException | SQLException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}
+		}
 		
 	}
-	
-	
 }
