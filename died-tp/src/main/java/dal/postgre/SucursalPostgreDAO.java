@@ -184,5 +184,51 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return stock;
 	}
 
+	@Override
+	public List<Sucursal> searchByAttributes(Integer idSucInt, String nombre, TipoSucursal tipo, Operatividad estado,
+			Time parseHorarioApertura, Time parseHorarioCierre) throws SQLException {
+		List<Sucursal> result = new ArrayList<>();
+		try(PreparedStatement pstm = searchStatement(idSucInt,nombre,tipo,estado,parseHorarioApertura,parseHorarioCierre);
+				ResultSet rs=pstm.executeQuery()){
+				while(rs.next()) {
+					Sucursal aux=new Sucursal();
+					aux.setID(rs.getInt(1));
+					aux.setNombre(rs.getString(2));
+					aux.setHorarioApertura(rs.getTime(3));
+					aux.setHorarioCierre(rs.getTime(4));
+					aux.setEstado(Operatividad.valueOf(rs.getString(5)));
+					aux.setTipo(TipoSucursal.valueOf(rs.getString(6)));
+					result.add(aux);
+				}
+		}
+				
+		return result;
+	}
+		private PreparedStatement searchStatement(Integer idSucInt, String nombre, TipoSucursal tipo, Operatividad estado,
+				Time parseHorarioApertura, Time parseHorarioCierre) throws SQLException {
+			String statement =
+			"SELECT idsucursal, nombre,horarioapertura,horariocierre,estado,tipo FROM sucursal" +
+			"WHERE 1=1";
+			if(idSucInt != null) statement += " AND idsucursal::TEXT LIKE '%?%'"; //puede dar un error.
+			if(nombre != null) statement += " AND nombre LIKE '%?%'";
+			if(tipo != null) statement += " AND tipo = ?";
+			if(estado != null) statement += " AND estado = ?";
+			if(parseHorarioApertura != null ) statement += " AND horarioapertura <= ?";
+			if(parseHorarioCierre != null ) statement += " AND horariocierre >= ?";
+			//getValueasString
+			statement += " ORDER BY idsucursal";
+			
+			PreparedStatement pstm = conn.prepareStatement(statement);
+			
+			int paramIndex = 1;
+			if(idSucInt != null) pstm.setInt(paramIndex++,idSucInt);
+			if(nombre != null) pstm.setString(paramIndex++,nombre);
+			if(tipo != null) pstm.setString(paramIndex++,tipo.getValueAsString());
+			if(estado != null) pstm.setString(paramIndex++,estado.getValueAsString());
+			if(parseHorarioApertura != null) pstm.setTime(paramIndex++, parseHorarioApertura);
+			if(parseHorarioCierre != null) pstm.setTime(paramIndex++, parseHorarioCierre);
+			return pstm;
+	}
+
 
 }

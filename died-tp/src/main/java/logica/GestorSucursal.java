@@ -7,6 +7,7 @@ import java.util.List;
 
 import dal.general.FactoryDAO;
 import datos.Operatividad;
+import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
 
@@ -54,5 +55,40 @@ public final class GestorSucursal {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getPosiblesDestinos();
 	}
 	
+	public List<Sucursal> consultaPorAtributos(String idSucursal, String nombre, TipoSucursal tipo,
+			 Operatividad estado, String horarioApertura, String horarioCierre) throws ClassNotFoundException, SQLException{
+			
+			FactoryDAO fact=FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
+			Integer idSucInt;
+			if(idSucursal.isBlank()) {
+				idSucInt=null;
+			}
+			else {
+				idSucInt=Integer.parseInt(idSucursal);
+			}
+			
+			Time parseHorarioApertura;
+			
+			if(horarioApertura.isBlank()) {
+				parseHorarioApertura=null;
+				
+			}
+			else {
+				parseHorarioApertura= Time.valueOf(horarioApertura+":00");
+				
+			}
+			Time parseHorarioCierre;
+			if(horarioCierre.isBlank()) {
+				parseHorarioCierre=null;
+			}
+			else {
+				parseHorarioCierre=Time.valueOf(horarioCierre+":00");
+			}
+			
+			
+			
+			return fact.getSucursalDAO().searchByAttributes(idSucInt, nombre,tipo, estado, parseHorarioApertura, parseHorarioCierre);
+		
+	}
 
 }
