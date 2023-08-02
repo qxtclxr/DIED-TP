@@ -2,9 +2,11 @@ package gui.sucursal;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import datos.*;
+import logica.GestorSucursal;
 
 public class EdicionSucursal extends FormularioSucursal {
 	
@@ -52,8 +54,40 @@ public class EdicionSucursal extends FormularioSucursal {
 
 	@Override
 	public void actionConfirmar() {
-		
-		
+		if(this.validateInput()) {
+			try {
+				GestorSucursal.getInstance().modificarSucursal(
+						suc.getID(),
+						txtNombre.getText(),
+						(TipoSucursal) cmbTipoSucursal.getSelectedItem(),
+						(Operatividad) cmbOperatividad.getSelectedItem(),
+						txtHorarioApertura.getText(),
+						txtHorarioCierre.getText());
+				JOptionPane.showMessageDialog(
+						frame,
+						"La sucursal ha sido creada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(
+						frame,
+						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
+						"Error de base de datos",
+						JOptionPane.ERROR_MESSAGE);
+			}finally {
+				this.setVisible(false);
+				pantallaAnterior.setVisible(true);
+				frame.setContentPane(pantallaAnterior);
+			}
+			
+		}else {
+			JOptionPane.showMessageDialog(
+					frame,
+					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
+					"Datos ingresados invalidos",
+					JOptionPane.ERROR_MESSAGE);
+		}		
 	}
 
 }

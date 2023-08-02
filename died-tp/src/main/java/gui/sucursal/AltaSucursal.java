@@ -51,7 +51,7 @@ public class AltaSucursal extends FormularioSucursal{
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(
 						frame,
-						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde",
+						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
 						"Error de base de datos",
 						JOptionPane.ERROR_MESSAGE);
 			}finally {

@@ -28,24 +28,26 @@ public final class GestorRuta {
 		super();
 	}
 	
-	public void altaRuta(Sucursal sucursalOrigen, Sucursal sucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws SQLException, ClassNotFoundException{
+	public void altaRuta(Sucursal sucursalOrigen, Sucursal sucursalDestino ,Operatividad estado, String duracion, String capacidad) throws SQLException, ClassNotFoundException{
 		
 		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
-		
+		Integer duracionParse = Integer.parseInt(duracion);
+		Float capacidadParse = Float.parseFloat(capacidad);
 	/* Coloco un null en el constructor de ruta en la posicion del id, porque eso me lo va a 
 	 * generar como serial la bdd 
 	 */
-		Ruta aux= new Ruta(sucursalOrigen,sucursalDestino,estado,duracion,capacidad);
+		Ruta aux= new Ruta(sucursalOrigen,sucursalDestino,estado,duracionParse,capacidadParse);
 		fact.getRutaDAO().insert(aux);
 	}
 	
-	public void modificarRuta(Integer idRuta, Sucursal sucursalOrigen, Sucursal sucursalDestino ,Operatividad estado, Integer duracion, Float capacidad) throws ClassNotFoundException, SQLException {
+	public void modificarRuta(Integer idRuta, Sucursal sucursalOrigen, Sucursal sucursalDestino ,Operatividad estado, String duracion, String capacidad) throws ClassNotFoundException, SQLException {
 		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
-		
+		Integer duracionParse = Integer.parseInt(duracion);
+		Float capacidadParse = Float.parseFloat(capacidad);
 	/* Coloco un null en el constructor de ruta en la posicion del id, porque eso me lo va a 
 	 * generar como serial la bdd 
 	 */
-		Ruta aux= new Ruta(idRuta,sucursalOrigen,sucursalDestino,estado,duracion,capacidad);
+		Ruta aux= new Ruta(idRuta,sucursalOrigen,sucursalDestino,estado,duracionParse,capacidadParse);
 		fact.getRutaDAO().update(aux);
 	}
 	

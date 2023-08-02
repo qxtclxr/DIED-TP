@@ -5,10 +5,11 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import dal.postgre.Conexion;
+import gui.orden.*;
 import gui.producto.*;
 import gui.sucursal.*;
 import gui.ruta.*;
-import gui.ordenes.*;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

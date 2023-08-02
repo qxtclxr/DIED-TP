@@ -1,4 +1,4 @@
-package gui.ordenes;
+package gui.orden;
 
 import java.awt.*;
 import javax.swing.*;

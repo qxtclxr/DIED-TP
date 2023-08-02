@@ -1,7 +1,12 @@
 package gui.ruta;
 
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
+
+import datos.*;
+import logica.*;
 
 public class AltaRuta extends FormularioRuta{
 	
@@ -28,7 +33,38 @@ public class AltaRuta extends FormularioRuta{
 
 	@Override
 	public void actionConfirmar() {
-		// TODO Auto-generated method stub
-		
+		if(this.validateInput()) {
+			try {
+				GestorRuta.getInstance().altaRuta(
+						(Sucursal) cmbSucursalOrigen.getSelectedItem(),
+						(Sucursal) cmbSucursalDestino.getSelectedItem(),
+						(Operatividad) cmbOperatividad.getSelectedItem(),
+						txtDuracion.getText(),
+						txtCapacidadMaxima.getText());
+				JOptionPane.showMessageDialog(
+						frame,
+						"La sucursal ha sido creada correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(
+						frame,
+						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
+						"Error de base de datos",
+						JOptionPane.ERROR_MESSAGE);
+			}finally {
+				this.setVisible(false);
+				pantallaAnterior.setVisible(true);
+				frame.setContentPane(pantallaAnterior);
+			}
+			
+		}else {
+			JOptionPane.showMessageDialog(
+					frame,
+					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
+					"Datos ingresados invalidos",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

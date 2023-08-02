@@ -40,7 +40,7 @@ public class EdicionRuta extends FormularioRuta {
 		cmbSucursalDestino.setSelectedItem(ruta.getDestino());
 		cmbOperatividad.setSelectedItem(ruta.getEstado());
 		txtDuracion.setText(ruta.getDuracion().toString());
-		txtCapcidadMaxima.setText(ruta.getCapacidadMaxima().toString());
+		txtCapacidadMaxima.setText(ruta.getCapacidadMaxima().toString());
 		
 	}
 
