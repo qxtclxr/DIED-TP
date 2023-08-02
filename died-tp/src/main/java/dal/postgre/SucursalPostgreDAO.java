@@ -23,8 +23,8 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	        pstm.setString(1, suc.getNombre());
 	        pstm.setTime(2, suc.getHorarioApertura());
 	        pstm.setTime(3, suc.getHorarioCierre());
-	        pstm.setString(4, suc.getEstado().toString());
-	        pstm.setString(5, suc.getTipo().toString());
+	        pstm.setString(4, suc.getEstado().getValueAsString());
+	        pstm.setString(5, suc.getTipo().getValueAsString());
 	        pstm.executeUpdate();
 		}
 	}
@@ -35,8 +35,8 @@ public class SucursalPostgreDAO implements SucursalDAO{
 			pstm.setString(1, suc.getNombre());
 			pstm.setTime(2, suc.getHorarioApertura());
 			pstm.setTime(3, suc.getHorarioCierre());
-			pstm.setString(4, suc.getEstado().toString());
-			pstm.setString(5, suc.getTipo().toString());
+			pstm.setString(4, suc.getEstado().getValueAsString());
+			pstm.setString(5, suc.getTipo().getValueAsString());
 			pstm.setInt(6, suc.getID());
 		}
 	}
