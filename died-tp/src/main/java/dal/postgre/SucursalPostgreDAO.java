@@ -207,10 +207,10 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		private PreparedStatement searchStatement(String idSucInt, String nombre, TipoSucursal tipo, Operatividad estado,
 				Time parseHorarioApertura, Time parseHorarioCierre) throws SQLException {
 			String statement =
-			"SELECT idsucursal, nombre,horarioapertura,horariocierre,estado,tipo FROM sucursal" +
+			"SELECT idsucursal, nombre,horarioapertura,horariocierre,estado,tipo FROM sucursal " +
 			"WHERE 1=1";
 			if(idSucInt != null) statement += " AND idsucursal::TEXT LIKE CONCAT('%',?,'%')"; //puede dar un error.
-			if(nombre != null) statement += " AND nombre LIKE '%?%'";
+			if(nombre != null) statement += " AND nombre LIKE CONCAT('%',?,'%')";
 			if(tipo != null) statement += " AND tipo = ?";
 			if(estado != null) statement += " AND estado = ?";
 			if(parseHorarioApertura != null ) statement += " AND horarioapertura <= ?";

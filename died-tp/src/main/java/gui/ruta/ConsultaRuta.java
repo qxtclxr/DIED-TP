@@ -218,6 +218,10 @@ public class ConsultaRuta extends Pantalla {
 		txtCapacidadMaximaHasta.setBackground(Color.WHITE);
 	}
 	
+	protected boolean validID() {
+		return true;
+	}
+	
 	protected boolean validCombobox(JComboBox combobox) {
 		return true;
 	}
@@ -235,7 +239,7 @@ public class ConsultaRuta extends Pantalla {
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
 		
-		if(!validInteger(txtIDRuta)) {
+		if(!validID()) {
 			txtIDRuta.setBackground(colorInvalid);
 			validInput = false;
 		}
@@ -276,23 +280,6 @@ public class ConsultaRuta extends Pantalla {
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 206, 780, 245);
 		add(panelContenedorTabla);
-	}
-	
-	private Object[][] datosTabla(List<Ruta> data){
-		Object[][] contenido = new Object[data.size()][COL_NAMES.length];
-		for(int i = 0 ; i < data.size() ; i++) {
-			Object[] fila = {
-				data.get(i).getID(),
-				data.get(i).getOrigen(),
-				data.get(i).getDestino(),
-				data.get(i).getEstado(),
-				data.get(i).getDuracion(),
-				data.get(i).getCapacidadMaxima(),
-				data.get(i).getID()
-			};
-			contenido[i] = fila;
-		}
-		return contenido;
 	}
 	
 	public void actionBuscar() {
