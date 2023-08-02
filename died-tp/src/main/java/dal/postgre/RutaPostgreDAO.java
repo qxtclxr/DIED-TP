@@ -42,13 +42,12 @@ public class RutaPostgreDAO implements RutaDAO{
 	public void update(Ruta obj) throws SQLException {
 		String statement = "UPDATE RUTA SET origen = ?, destino = ?, duracion = ?, capacidadmaxima = ?, estado = ? WHERE idruta = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {			
-	        pstm.setInt(1, obj.getID());
-	        pstm.setInt(2, obj.getOrigen().getID());
-	        pstm.setInt(3, obj.getDestino().getID());
-	        pstm.setInt(4, obj.getDuracion());
-	        pstm.setFloat(5, obj.getCapacidadMaxima());
-	        pstm.setString(6, obj.getEstado().getValueAsString());
-	        pstm.setInt(7, obj.getID());
+	        pstm.setInt(1, obj.getOrigen().getID());
+	        pstm.setInt(2, obj.getDestino().getID());
+	        pstm.setInt(3, obj.getDuracion());
+	        pstm.setFloat(4, obj.getCapacidadMaxima());
+	        pstm.setString(5, obj.getEstado().getValueAsString());
+	        pstm.setInt(6, obj.getID());
 	        pstm.executeUpdate();
 		}
 	}
