@@ -37,6 +37,7 @@ public abstract class FormularioSucursal extends Pantalla {
 		add(lblNombre);
 		
 		txtNombre = new JTextField();
+		txtNombre.setBackground(new Color(255, 255, 255));
 		txtNombre.setBounds(30, 135, 355, 20);
 		txtNombre.setColumns(10);
 		add(txtNombre);
@@ -121,16 +122,67 @@ public abstract class FormularioSucursal extends Pantalla {
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnConfirmar);
 		
+		fieldsDefaultColor();
 	}
 	
-	private MaskFormatter createFormatter(String s) {
+	protected MaskFormatter createFormatter(String s) {
 	    MaskFormatter formatter = null;
 	    try {
 	        formatter = new MaskFormatter(s);
 	    } catch (java.text.ParseException exc) {
-	    	System.out.println("PEPEEEE");
+	    	//TODO
 	    }
 	    return formatter;
+	}
+	
+	protected void fieldsDefaultColor() {
+		txtNombre.setBackground(Color.WHITE);
+		cmbTipoSucursal.setBackground(Color.WHITE);
+		cmbOperatividad.setBackground(Color.WHITE);
+		txtHorarioApertura.setBackground(Color.WHITE);
+		txtHorarioCierre.setBackground(Color.WHITE);
+	}
+	
+	protected boolean validNombre() {
+		int len = txtNombre.getText().length();
+		return len > 0 && len <= 256;
+	}
+	
+	protected boolean validHorario(JTextField horario) {
+		return horario.getText().matches("([01][0-9]|2[0-3]):([0-5][0-9])");
+	}
+	
+	protected boolean validCombobox(JComboBox combobox) {
+		return combobox.getSelectedItem() != null;
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		
+		if(!validNombre()) {
+			txtNombre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbTipoSucursal)) {
+			cmbTipoSucursal.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbOperatividad)) {
+			cmbOperatividad.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validHorario(txtHorarioApertura)) {
+			txtHorarioApertura.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validHorario(txtHorarioCierre)) {
+			txtHorarioCierre.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
 	}
 	
 	public void actionCancelar() {
