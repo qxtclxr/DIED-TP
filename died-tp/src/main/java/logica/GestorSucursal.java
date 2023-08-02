@@ -3,6 +3,7 @@ package logica;
 
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.List;
 
 import dal.general.FactoryDAO;
 import datos.Operatividad;
@@ -44,6 +45,13 @@ public final class GestorSucursal {
 		Sucursal aux= new Sucursal(idSucursal,nombreSuc,parseHorarioApertura,parseHorarioCierre,operatividad,tipo);
 		FactoryDAO fact= FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY);
 		fact.getSucursalDAO().update(aux);
+	}
+	
+	public List<Sucursal> getPosiblesOrigenes() throws SQLException,ClassNotFoundException{
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getPosiblesOrigenes();
+	}
+	public List<Sucursal> getPosiblesDestinos() throws ClassNotFoundException, SQLException{
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getPosiblesDestinos();
 	}
 	
 
