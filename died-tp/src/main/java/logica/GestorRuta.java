@@ -99,6 +99,10 @@ public final class GestorRuta {
 	public Ruta getByID(Integer idruta) throws ClassNotFoundException, SQLException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getByID(idruta);
 	}
+	public void eliminar(Ruta r) throws ClassNotFoundException, SQLException {
+		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().delete(r);
+	}
+	
 	
 	
 

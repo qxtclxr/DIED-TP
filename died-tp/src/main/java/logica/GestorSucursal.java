@@ -92,5 +92,9 @@ public final class GestorSucursal {
 	public Sucursal getByID(Integer id) throws ClassNotFoundException, SQLException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getByID(id);
 	}
+	public void eliminar(Sucursal s) throws ClassNotFoundException, SQLException {
+		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().delete(s);
+	}
+	
 
 }
