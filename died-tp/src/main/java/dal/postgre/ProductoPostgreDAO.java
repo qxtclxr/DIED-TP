@@ -36,15 +36,17 @@ public class ProductoPostgreDAO implements ProductoDAO{
 
 	@Override
 	public void update(Producto obj) throws SQLException {
-		String statement = "UPDATE Producto SET idproducto = ?, nombre = ?, descripcion = ?, preciounitario = ?, pesokg = ? WHERE idproducto = ?";
+		String statement = "UPDATE Producto SET  nombre = ?, descripcion = ?, preciounitario = ?, pesokg = ? WHERE idproducto = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
 			pstm.setInt(1, obj.getID());
-			pstm.setString(2, obj.getNombre());
-			pstm.setString(3, obj.getDescripcion());
-			pstm.setDouble(4, obj.getPrecioUnitario());
-			pstm.setDouble(5, obj.getPesoKg());
+			pstm.setString(1, obj.getNombre());
+			pstm.setString(2, obj.getDescripcion());
+			pstm.setDouble(3, obj.getPrecioUnitario());
+			pstm.setDouble(4, obj.getPesoKg());
 			
-			pstm.setInt(1, obj.getID());
+			pstm.setInt(5, obj.getID());
+			pstm.executeUpdate();
+			
 		}
 		
 		
