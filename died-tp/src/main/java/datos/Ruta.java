@@ -8,6 +8,7 @@ public class Ruta implements Entidad{
 	private Integer duracion; //Unidad: minutos
 	private Float capacidadMaxima; //Unidad: kg
 	
+	public Ruta() {};
 	
 	public Ruta(Integer idRuta, Sucursal origen, Sucursal destino, Operatividad estado, Integer duracion,
 			Float capacidadMaxima) {
@@ -31,14 +32,57 @@ public class Ruta implements Entidad{
 		this.duracion = duracion;
 		this.capacidadMaxima = capacidadMaxima;
 	}
-
-	public Sucursal getOrigen() {return this.origen;}
-	public Sucursal getDestino() {return this.destino;}
-	public Integer getDuracion() {return this.duracion;}
-	public Integer getID() {return this.idRuta;}
-	public Float getCapacidadMaxima() {return this.capacidadMaxima;}
-	public Operatividad getEstado() {return this.estado;}
 	
+	
+	
+	public Integer getID() {
+		return idRuta;
+	}
+
+	public Sucursal getOrigen() {
+		return origen;
+	}
+
+	public Sucursal getDestino() {
+		return destino;
+	}
+
+	public Operatividad getEstado() {
+		return estado;
+	}
+
+	public Integer getDuracion() {
+		return duracion;
+	}
+
+	public Float getCapacidadMaxima() {
+		return capacidadMaxima;
+	}
+
+	public void setID(Integer idRuta) {
+		this.idRuta = idRuta;
+	}
+
+	public void setOrigen(Sucursal origen) {
+		this.origen = origen;
+	}
+
+	public void setDestino(Sucursal destino) {
+		this.destino = destino;
+	}
+
+	public void setEstado(Operatividad estado) {
+		this.estado = estado;
+	}
+
+	public void setDuracion(Integer duracion) {
+		this.duracion = duracion;
+	}
+
+	public void setCapacidadMaxima(Float capacidadMaxima) {
+		this.capacidadMaxima = capacidadMaxima;
+	}
+
 	@Override
 	public String toString() {
 		return this.origen.getNombre() + " -> " + this.destino.getNombre() + " (" + this.getID() + ", " + this.getDuracion() + "mins)";

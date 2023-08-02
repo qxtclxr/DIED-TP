@@ -94,6 +94,11 @@ public class RutaPostgreDAO implements RutaDAO{
 		try(PreparedStatement pstm = searchStatement(idRuta,origen,destino,estado,duracionDesde,duracionHasta,capacMaxDesde,capacMaxHasta);
 			ResultSet rs = pstm.executeQuery()){
 			while(rs.next()) {
+				Sucursal origen = new Sucursal(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getTime(3),
+						);
 				Ruta ruta = new Ruta(
 						rs.getInt(""),
 						

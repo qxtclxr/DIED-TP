@@ -12,6 +12,10 @@ public class Sucursal implements Comparable<Sucursal>, Entidad{
 	private TipoSucursal tipo;
 	private Map<Producto,Integer> stock;
 	
+	public Sucursal() {
+		this.stock = new HashMap<>();
+	}
+	
 	public Sucursal(Integer idSucursal, String nombre, Time horarioApertura, Time horarioCierre, Operatividad estado, TipoSucursal tipo) {
 		super();
 		this.idSucursal = idSucursal;
@@ -25,14 +29,12 @@ public class Sucursal implements Comparable<Sucursal>, Entidad{
 	
 	public Sucursal( String nombre, Time horarioApertura, Time horarioCierre, Operatividad estado, TipoSucursal tipo) {
 		super();
-		
 		this.nombre = nombre;
 		this.estado = estado;
 		this.tipo = tipo;
 		this.horarioApertura = horarioApertura;
 		this.horarioCierre = horarioCierre;
 	}
-
 
 	public Integer getID() {
 		return idSucursal;
@@ -49,21 +51,50 @@ public class Sucursal implements Comparable<Sucursal>, Entidad{
 	public TipoSucursal getTipo() {
 		return tipo;
 	}
-
-	public Map<Producto, Integer> getStock() {
-		return stock;
-	}
 	
-	public void setStock(Map<Producto, Integer> stock) {
-		this.stock = stock;
-	}
-
 	public Time getHorarioApertura() {
 		return horarioApertura;
 	}
 
 	public Time getHorarioCierre() {
 		return horarioCierre;
+	}
+	
+	public Map<Producto, Integer> getStock() {
+		return stock;
+	}
+	
+	public void setID(Integer idSucursal) {
+		this.idSucursal = idSucursal;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public void setHorarioApertura(Time horarioApertura) {
+		this.horarioApertura = horarioApertura;
+	}
+
+
+	public void setHorarioCierre(Time horarioCierre) {
+		this.horarioCierre = horarioCierre;
+	}
+
+
+	public void setEstado(Operatividad estado) {
+		this.estado = estado;
+	}
+
+
+	public void setTipo(TipoSucursal tipo) {
+		this.tipo = tipo;
+	}
+	
+	public void setStock(Map<Producto, Integer> stock) {
+		this.stock = stock;
 	}
 	
 	public int compareTo(Sucursal suc) {

@@ -11,6 +11,10 @@ public class OrdenDeProvision implements Entidad{
 	private EstadoOrden estado;
 	private Map<Producto,Integer> productos;
 	
+	public OrdenDeProvision() {
+		this.productos = new HashMap<>();
+	};
+	
 	public Date getFecha() {
 		return fecha;
 	}
@@ -47,6 +51,5 @@ public class OrdenDeProvision implements Entidad{
 	public void setProductos(Map<Producto, Integer> productos) {
 		this.productos = productos;
 	}
-	
 	
 }

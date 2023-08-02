@@ -9,6 +9,8 @@ public class Producto implements Entidad{
 	private Float precioUnitario;
 	private Float pesoKg;
 	
+	public Producto() {};
+	
 	public Producto(Integer idProducto, String nombre, String descripcion, Float precioUnitario, Float pesoKg) {
 		super();
 		this.idProducto = idProducto;
@@ -42,6 +44,27 @@ public class Producto implements Entidad{
 	public Float getPesoKg() {
 		return pesoKg;
 	}
+	
+	public void setID(Integer idProducto) {
+		this.idProducto = idProducto;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public void setPrecioUnitario(Float precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+
+	public void setPesoKg(Float pesoKg) {
+		this.pesoKg = pesoKg;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idProducto);
