@@ -7,9 +7,6 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.Color;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class FormularioRuta extends Pantalla {
@@ -148,6 +145,12 @@ public abstract class FormularioRuta extends Pantalla {
 		txtCapacidadMaxima.setBackground(Color.WHITE);
 	}
 	
+	protected boolean validateNoLoops() {
+		Sucursal origen = (Sucursal) cmbSucursalOrigen.getSelectedItem();
+		Sucursal destino = (Sucursal) cmbSucursalDestino.getSelectedItem();
+		return !origen.equals(destino);
+	}
+	
 	protected boolean validCombobox(JComboBox combobox) {
 		return combobox.getSelectedItem() != null;
 	}
@@ -183,6 +186,11 @@ public abstract class FormularioRuta extends Pantalla {
 		}
 		if(!validFloatingPoint(txtCapacidadMaxima)) {
 			txtCapacidadMaxima.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validateNoLoops()) {
+			cmbSucursalOrigen.setBackground(colorInvalid);
+			cmbSucursalDestino.setBackground(colorInvalid);
 			validInput = false;
 		}
 		return validInput;

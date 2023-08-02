@@ -133,7 +133,7 @@ public class RutaPostgreDAO implements RutaDAO{
 				ruta.setCapacidadMaxima(rs.getFloat(15));
 				ruta.setEstado(Operatividad.valueOf(rs.getString(16)));
 				ruta.setOrigen(origenAux);
-				ruta.setOrigen(destinoAux);
+				ruta.setDestino(destinoAux);
 				result.add(ruta);
 			}
 		}
@@ -145,11 +145,11 @@ public class RutaPostgreDAO implements RutaDAO{
 			 								  Operatividad estado, Integer duracionDesde, Integer duracionHasta,
 			 								  Float capacMaxDesde, Float capacMaxHasta) throws SQLException {
 		String statement =
-				"SELECT or.idsucursal,or.nombre,or.horarioapertura,or.horariocierre,or.estado,or.tipo," +
-				"de.idsucursal,de.nombre,de.horarioapertura,de.horariocierre,de.estado,de.tipo," +
+				"SELECT o.idsucursal,o.nombre,o.horarioapertura,o.horariocierre,o.estado,o.tipo," +
+				"d.idsucursal,d.nombre,d.horarioapertura,d.horariocierre,d.estado,d.tipo," +
 				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
-				"FROM Ruta r, Sucursal or, Sucursal de " +
-				"WHERE r.origen = or.idsucursal AND r.destino = de.idsucursal";
+				"FROM Ruta r, Sucursal o, Sucursal d " +
+				"WHERE r.origen = o.idsucursal AND r.destino = d.idsucursal";
 		if(idRuta != null) statement += " AND idruta::TEXT LIKE '%?%'"; //puede dar un error.
 		if(origen != null) statement += " AND origen = ?";
 		if(destino != null) statement += " AND destino = ?";
@@ -157,7 +157,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		if(duracionDesde != null || duracionHasta != null) statement += " AND (duracion BETWEEN ? AND ?)";
 		if(capacMaxDesde != null || capacMaxHasta != null) statement += " AND (capacidadmaxima BETWEEN ? AND ?)";
 		
-		statement += " ORDER BY or.nombre";
+		statement += " ORDER BY o.nombre";
 		
 		PreparedStatement pstm = conn.prepareStatement(statement);
 		
@@ -166,15 +166,18 @@ public class RutaPostgreDAO implements RutaDAO{
 		if(origen != null) pstm.setInt(paramIndex++,origen.getID());
 		if(destino != null) pstm.setInt(paramIndex++,destino.getID());
 		if(estado != null) pstm.setString(paramIndex++,destino.getEstado().getValueAsString());
-		if(duracionDesde != null) pstm.setInt(paramIndex++,duracionDesde);
-		else pstm.setInt(paramIndex++,-1);
-		if(duracionHasta != null) pstm.setInt(paramIndex++,duracionHasta);
-		else pstm.setInt(paramIndex++,Integer.MAX_VALUE);
-		if(capacMaxDesde != null) pstm.setFloat(paramIndex++,capacMaxDesde);
-		else pstm.setFloat(paramIndex++,-1);
-		if(capacMaxHasta != null) pstm.setFloat(paramIndex++,capacMaxHasta);
-		else pstm.setString(paramIndex++,"inf");
-		
+		if(duracionDesde != null || duracionHasta != null) {
+			if(duracionDesde != null) pstm.setInt(paramIndex++,duracionDesde);
+			else pstm.setInt(paramIndex++,-1);
+			if(duracionHasta != null) pstm.setInt(paramIndex++,duracionHasta);
+			else pstm.setInt(paramIndex++,Integer.MAX_VALUE);
+		}
+		if(capacMaxDesde != null || capacMaxHasta != null) {
+			if(capacMaxDesde != null) pstm.setFloat(paramIndex++,capacMaxDesde);
+			else pstm.setFloat(paramIndex++,-1);
+			if(capacMaxHasta != null) pstm.setFloat(paramIndex++,capacMaxHasta);
+			else pstm.setString(paramIndex++,"inf");
+		}
 		return pstm;
 	}
 }

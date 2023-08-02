@@ -13,6 +13,6 @@ public abstract class Pantalla extends JPanel{
 		this.pantallaAnterior = pantallaAnterior;
 		inicializarComponentes();
 	}
-	
+
 	public abstract void inicializarComponentes();
 }

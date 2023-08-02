@@ -3,6 +3,7 @@ package gui.ruta;
 import datos.*;
 import gui.*;
 import gui.tabla.TablaDeDatos;
+import logica.GestorRuta;
 
 import java.util.*;
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Point;
+import java.sql.SQLException;
 import java.sql.Time;
 
 
@@ -181,7 +183,71 @@ public class ConsultaRuta extends Pantalla {
 		btnCancelar.addActionListener(act -> this.actionVolver());
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnCancelar);
-
+		
+		fieldsDefaultColor();
+	}
+	
+	protected void fieldsDefaultColor() {
+		txtIDRuta.setBackground(Color.WHITE);
+		cmbSucursalOrigen.setBackground(Color.WHITE);
+		cmbSucursalDestino.setBackground(Color.WHITE);
+		cmbOperatividad.setBackground(Color.WHITE);
+		txtDuracionDesde.setBackground(Color.WHITE);
+		txtDuracionHasta.setBackground(Color.WHITE);
+		txtCapacidadMaximaDesde.setBackground(Color.WHITE);
+		txtCapacidadMaximaHasta.setBackground(Color.WHITE);
+	}
+	
+	protected boolean validCombobox(JComboBox combobox) {
+		return true;
+	}
+	
+	protected boolean validFloatingPoint(JTextField field) {
+		return field.getText().matches("[0-9]+(\\.[0-9]*)?") || field.getText().isEmpty();
+	}
+	
+	protected boolean validInteger(JTextField field) {
+		return field.getText().matches("\\d+") || field.getText().isEmpty();
+	}
+	
+	protected boolean validateInput() {
+		fieldsDefaultColor();
+		Color colorInvalid = Color.decode("#ff8080");
+		boolean validInput = true;
+		
+		if(!validInteger(txtIDRuta)) {
+			txtIDRuta.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbSucursalOrigen)) {
+			cmbSucursalOrigen.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbSucursalDestino)) {
+			cmbSucursalDestino.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validCombobox(cmbOperatividad)) {
+			cmbOperatividad.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validInteger(txtDuracionDesde)) {
+			txtDuracionDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validInteger(txtDuracionHasta)) {
+			txtDuracionDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validInteger(txtCapacidadMaximaDesde)) {
+			txtCapacidadMaximaDesde.setBackground(colorInvalid);
+			validInput = false;
+		}
+		if(!validInteger(txtCapacidadMaximaHasta)) {
+			txtCapacidadMaximaHasta.setBackground(colorInvalid);
+			validInput = false;
+		}
+		return validInput;
 	}
 
 	private void generarTabla(List<Ruta> data) {
@@ -211,16 +277,42 @@ public class ConsultaRuta extends Pantalla {
 	}
 	
 	public void actionBuscar() {
-		
-		//TODO: Prueba
+		List<Ruta> dataList = new ArrayList<>();
+		if(this.validateInput()) {
+			try {				
+				dataList = GestorRuta.getInstance().consultaPorAtributos(
+						txtIDRuta.getText(),
+						(Sucursal) cmbSucursalOrigen.getSelectedItem(),
+						(Sucursal) cmbSucursalDestino.getSelectedItem(),
+						(Operatividad) cmbOperatividad.getSelectedItem(),
+						txtDuracionDesde.getText(),
+						txtDuracionHasta.getText(),
+						txtCapacidadMaximaDesde.getText(),
+						txtCapacidadMaximaHasta.getText());
+			}catch (SQLException | ClassNotFoundException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(
+						frame,
+						"Ha habido un error al interactuar con la base de datos.\nIntente de nuevo más tarde.",
+						"Error de base de datos",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}else {
+			JOptionPane.showMessageDialog(
+					frame,
+					"Algunos de los datos ingresados son invalidos.\nRevise los campos marcados en rojo.",
+					"Datos ingresados invalidos",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		/*TODO: Prueba
 		Sucursal auxSuc = new Sucursal(13245,"Moron",Time.valueOf("8:00:00"),Time.valueOf("16:00:00"),Operatividad.OPERATIVA,TipoSucursal.COMERCIAL);
 		Ruta aux = new Ruta(12345,auxSuc,auxSuc,Operatividad.OPERATIVA,120,6000F);
 		Ruta[] auxArr = new Ruta[100];
 		Arrays.fill(auxArr,aux);
 		ArrayList<Ruta> auxList = new ArrayList<Ruta>(Arrays.asList(auxArr));
-		//TODO: Prueba
+		*/
 		
-		generarTabla(auxList);
+		generarTabla(dataList);
 	}
 	
 	public void actionOpcionesPopup(List<Ruta> data) {

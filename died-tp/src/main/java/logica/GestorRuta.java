@@ -67,7 +67,6 @@ public final class GestorRuta {
 			Integer duracionHastaInt;
 			if(duracionDesde.isBlank()) {
 				duracionDesdeInt=null;
-				
 			}
 			else {
 				duracionDesdeInt=Integer.parseInt(duracionDesde);
@@ -88,7 +87,6 @@ public final class GestorRuta {
 			}
 			else {
 				capMaxDesdeFloat=Float.parseFloat(capacMaxDesde);
-				
 			}
 			if(capacMaxHasta.isBlank()) {
 				capMaxHastaFloat=null;
