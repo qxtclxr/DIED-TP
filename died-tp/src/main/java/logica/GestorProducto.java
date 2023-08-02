@@ -8,6 +8,7 @@ import dal.general.FactoryDAO;
 import dal.general.SucursalDAO;
 import datos.Operatividad;
 import datos.Producto;
+import datos.Sucursal;
 
 public class GestorProducto {
 	/* falta gestionar responsabilidades para esta clase
@@ -91,6 +92,9 @@ public class GestorProducto {
 		
 		
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getProductoDAO().searchByAttributes(idProducto,nombre,precioUDesdeF,precioUHastaF,pesoDesdeF,pesoHastaF);
+	}
+	public void eliminar(Producto p) throws ClassNotFoundException, SQLException {
+		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getProductoDAO().delete(p);
 	}
 	
 
