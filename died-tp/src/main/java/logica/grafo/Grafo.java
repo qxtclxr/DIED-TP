@@ -9,6 +9,7 @@ import died.estructuras.Vertex;
 public class Grafo {
 	private List<Sucursal> vertices;
 	private List<Ruta> aristas;
+	private static final Double ERROR_CUADRATICO=1*Math.pow(10, -6);
 	
 	public Grafo() {
 		this.vertices = new ArrayList<Sucursal>();
@@ -189,6 +190,56 @@ public class Grafo {
 			
 		}
 		return result;
+	}
+	
+	public Map<Sucursal,Double> pageRank(){
+		Map<Sucursal,Double> actual=new HashMap<Sucursal,Double>();
+		Double d=(double) 0.5;
+		for(Sucursal s:this.vertices)
+			actual.put(s, (double)1);
+		
+		Map<Sucursal,Double> siguiente=this.iteracionPageRank(actual,d);
+		double e=0;
+		for(Sucursal s:this.vertices) {
+			e+=Math.pow(siguiente.get(s)-actual.get(s),2);
+		}
+		e=Math.sqrt(e);
+		while(e>Grafo.ERROR_CUADRATICO) {
+			actual=siguiente;
+			siguiente=this.iteracionPageRank(actual,d);
+			e=0;
+			for(Sucursal s:this.vertices) {
+				e+=Math.pow(siguiente.get(s)-actual.get(s),2);
+			}
+			e=Math.sqrt(e);
+			
+		}
+		return actual;
+	}
+	
+	private Map<Sucursal,Double> iteracionPageRank(Map<Sucursal,Double>res,Double d) {
+		Map<Sucursal,Double> result=new HashMap<Sucursal,Double>();
+		 for(Sucursal s:this.vertices)
+			 result.put(s, Double.valueOf(res.get(s)));
+		
+		 for(Sucursal s:this.vertices) {
+			 double m=d;
+			 for(Sucursal ady:this.getEntrantes(s)) {
+				 m+=(1-d)*(res.get(ady)/this.gradoSalida(ady));
+			 }
+			 result.put(s,m);
+		 }
+		 return result;
+			 
+	}
+	private List<Sucursal> getEntrantes(Sucursal s){
+		List<Sucursal> res=new ArrayList<>();
+		for(Ruta rut : this.aristas) {
+			if(rut.getDestino().equals(s))
+				res.add(rut.getOrigen());
+		}
+		
+		return res;
 	}
 	
 	

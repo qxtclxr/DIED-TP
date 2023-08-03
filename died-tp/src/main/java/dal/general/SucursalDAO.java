@@ -16,5 +16,6 @@ public interface SucursalDAO extends DAO<Sucursal> {
 	public List<Sucursal> getPosiblesOrigenes() throws SQLException;
 	public List<Sucursal> getPosiblesDestinos() throws SQLException;
 	public List<Sucursal> searchByAttributes(String idSuc, String nombre,TipoSucursal tipo,Operatividad estado, Time parseHorarioApertura, Time parseHorarioCierre) throws SQLException;
+	public List<Sucursal> getAll()throws SQLException;
 	
 }

@@ -179,4 +179,55 @@ public class RutaPostgreDAO implements RutaDAO{
 		}
 		return pstm;
 	}
+
+
+	@Override
+	public List<Ruta> getAll() throws SQLException {
+		List<Ruta> result = new ArrayList<>();
+		try(PreparedStatement pstm = getAllStatement();
+				ResultSet rs = pstm.executeQuery()){
+				while(rs.next()) {
+					Sucursal origenAux  = new Sucursal();
+					origenAux.setID(rs.getInt(1));
+					origenAux.setNombre(rs.getString(2));
+					origenAux.setHorarioApertura(rs.getTime(3));
+					origenAux.setHorarioCierre(rs.getTime(4));
+					origenAux.setEstado(Operatividad.valueOf(rs.getString(5)));
+					origenAux.setTipo(TipoSucursal.valueOf(rs.getString(6)));
+					Sucursal destinoAux = new Sucursal();
+					destinoAux.setID(rs.getInt(7));
+					destinoAux.setNombre(rs.getString(8));
+					destinoAux.setHorarioApertura(rs.getTime(9));
+					destinoAux.setHorarioCierre(rs.getTime(10));
+					destinoAux.setEstado(Operatividad.valueOf(rs.getString(11)));
+					destinoAux.setTipo(TipoSucursal.valueOf(rs.getString(12)));
+					Ruta ruta = new Ruta();
+					ruta.setID(rs.getInt(13));
+					ruta.setDuracion(rs.getInt(14));
+					ruta.setCapacidadMaxima(rs.getFloat(15));
+					ruta.setEstado(Operatividad.valueOf(rs.getString(16)));
+					ruta.setOrigen(origenAux);
+					ruta.setDestino(destinoAux);
+					result.add(ruta);
+				}
+			}
+		
+		return result;
+	}
+
+
+	private PreparedStatement getAllStatement() throws SQLException {
+		String statement =
+				"SELECT o.idsucursal,o.nombre,o.horarioapertura,o.horariocierre,o.estado,o.tipo," +
+				"d.idsucursal,d.nombre,d.horarioapertura,d.horariocierre,d.estado,d.tipo," +
+				"r.idruta,r.duracion,r.capacidadmaxima,r.estado " +
+				"FROM Ruta r, Sucursal o, Sucursal d " +
+				"WHERE r.origen = o.idsucursal AND r.destino = d.idsucursal";
+		
+		statement += " ORDER BY o.nombre";
+		
+		PreparedStatement pstm = conn.prepareStatement(statement);
+		
+		return pstm;
+	}
 }
