@@ -2,6 +2,7 @@ package logica;
 
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.List;
 
 import dal.general.FactoryDAO;
 import datos.Operatividad;
@@ -26,6 +27,10 @@ private static GestorOrden gestor;
 	
 	public void altaOrden(OrdenDeProvision orden) throws ClassNotFoundException, SQLException {
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().insert(orden);
+	}
+	
+	public List<OrdenDeProvision> getPendientes() throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getPendientes();
 	}
 	
 	public OrdenDeProvision getByID(Integer id) throws ClassNotFoundException, SQLException {

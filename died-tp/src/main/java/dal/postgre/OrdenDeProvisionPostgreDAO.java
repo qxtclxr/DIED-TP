@@ -118,26 +118,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 
 	@Override
 	public void update(OrdenDeProvision obj) throws SQLException {
-		/*String statement = "UPDATE ordendeprovision SET idorden = ?, sucursaldestino = ?, fecha= ? , tiempomaximo = ? WHERE idorden = ?";
-		try(PreparedStatement pstm = conn.prepareStatement(statement);){
-
-			pstm.setInt(1, obj.getID());
-			pstm.setInt(2, obj.getSucursalDestino().getID());
-			pstm.setDate(3, obj.getFecha());
-			pstm.setInt(4, obj.getTiempoMaximo());
-			pstm.setInt(5, obj.getID());
-		}
-		
-		obj.getProductos().forEach((prod, cant) -> {
-			String statment = "UPDATE detalleorden SET idorden = ?, idproducto = ?, cantidad = ? WHERE idorden = ? AND idproducto = ?";
-			try(PreparedStatement pstm = conn.prepareStatement(statement);){
-				pstm.setInt(1, obj.getID());
-				pstm.setInt(2, prod.getID());
-				pstm.setInt(3, cant);
-				pstm.setInt(4, obj.getID());
-				pstm.setInt(5, prod.getID());
-			}
-		});*/
+		//No implementa.
 	}
 
 	@Override
@@ -151,8 +132,31 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 
 	@Override
 	public OrdenDeProvision getByID(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		OrdenDeProvision orden = null;
+		String statement =
+				"SELECT s.idsucurusal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
+				"o.idorden,o.fecha,o.tiempomaximo,o.estadoorden "+
+				"FROM ordendeprovision o, Sucursal s "+ 
+				"WHERE o.sucursaldestino = s.idsucursal";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);
+				ResultSet rs = pstm.executeQuery();){
+				while(rs.next()) {
+					Sucursal suc = new Sucursal();
+					suc.setID(rs.getInt(1));
+					suc.setNombre(rs.getString(2));
+					suc.setHorarioApertura(rs.getTime(3));
+					suc.setHorarioCierre(rs.getTime(4));
+					suc.setEstado(Operatividad.valueOf(rs.getString(5)));
+					suc.setTipo(TipoSucursal.valueOf(rs.getString(6)));
+					orden = new OrdenDeProvision();
+					orden.setID(rs.getInt(7));
+					orden.setFecha(rs.getDate(8));
+					orden.setTiempoMaximo(rs.getInt(9));
+					orden.setEstado(EstadoOrden.valueOf(rs.getString(10)));
+				}
+			}
+			orden.setProductos(this.getProductos(orden));
+			return orden;
 	}
 	
 	

@@ -21,9 +21,15 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 	public void actionEditar(){
 		try {
 			Producto target = GestorProducto.getInstance().getByID(id);
-			EdicionProducto edicionProducto = new EdicionProducto(frame,pantalla,target);
-			pantalla.setVisible(false);
-			frame.setContentPane(edicionProducto);
+			if(target!=null) {
+				EdicionProducto edicionProducto = new EdicionProducto(frame,pantalla,target);
+				pantalla.setVisible(false);
+				frame.setContentPane(edicionProducto);
+			}else {
+				ObjectNotFoundMessage.showMessageDialog(frame);
+				//Refresca la tabla
+				((ConsultaProducto) pantalla).actionBuscar();
+			}
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
