@@ -35,7 +35,4 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="died-tp/src/main/java"/>
-	<classpathentry kind="output" path="bin"/>
 </classpath>
