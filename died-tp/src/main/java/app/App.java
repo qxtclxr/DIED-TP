@@ -12,8 +12,14 @@ import logica.grafo.Grafo;
 
 public class App {
 
+
 	public static void main(String[] args) {
-		try{
+<<<<<<< HEAD
+		try {		
+=======
+		probarGrafos();
+		try {	
+>>>>>>> branch 'main' of https://github.com/qxtclxr/DIED-TP
 			Ventana frame = new Ventana();
 			frame.setVisible(true);
 		} catch (Exception e) {
