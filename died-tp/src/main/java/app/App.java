@@ -12,8 +12,9 @@ import logica.grafo.Grafo;
 
 public class App {
 
+
 	public static void main(String[] args) {
-		probarGrafos();
+
 		try {	
 
 			Ventana frame = new Ventana();
