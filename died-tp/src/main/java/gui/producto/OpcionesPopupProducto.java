@@ -44,7 +44,7 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 				gestor.eliminar(target);
 				JOptionPane.showMessageDialog(
 						frame,
-						"El producto ha sido eliminada correctamente.",
+						"El producto ha sido eliminado correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
 				//Refresca la tabla

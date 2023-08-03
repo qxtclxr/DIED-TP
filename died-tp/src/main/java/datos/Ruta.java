@@ -14,7 +14,10 @@ public class Ruta implements Entidad{
 			Float capacidadMaxima) {
 		super();
 		this.idRuta = idRuta;
-		this.origen = origen;
+		if(origen.getTipo().equals(TipoSucursal.SUMIDERO)) {throw new IllegalArgumentException();}
+		else {this.origen = origen;}
+		if(destino.getTipo().equals(TipoSucursal.FUENTE)) {throw new IllegalArgumentException();}
+		else {this.destino = destino;}
 		this.destino = destino;
 		this.estado = estado;
 		this.duracion = duracion;
@@ -25,9 +28,10 @@ public class Ruta implements Entidad{
 	public Ruta( Sucursal origen, Sucursal destino, Operatividad estado, Integer duracion,
 			Float capacidadMaxima) {
 		super();
-		
-		this.origen = origen;
-		this.destino = destino;
+		if(origen.getTipo().equals(TipoSucursal.SUMIDERO)) {throw new IllegalArgumentException();}
+		else {this.origen = origen;}
+		if(destino.getTipo().equals(TipoSucursal.FUENTE)) {throw new IllegalArgumentException();}
+		else {this.destino = destino;}
 		this.estado = estado;
 		this.duracion = duracion;
 		this.capacidadMaxima = capacidadMaxima;
@@ -35,7 +39,7 @@ public class Ruta implements Entidad{
 	
 	
 	
-	public Integer getID() {
+	public Integer getID(){
 		return idRuta;
 	}
 
@@ -64,11 +68,17 @@ public class Ruta implements Entidad{
 	}
 
 	public void setOrigen(Sucursal origen) {
-		this.origen = origen;
+		if(origen.getTipo().equals(TipoSucursal.SUMIDERO))
+			throw new IllegalArgumentException();
+		else
+			this.origen = origen;
 	}
 
 	public void setDestino(Sucursal destino) {
-		this.destino = destino;
+		if(destino.getTipo().equals(TipoSucursal.FUENTE))
+			throw new IllegalArgumentException();
+		else
+			this.destino = destino;
 	}
 
 	public void setEstado(Operatividad estado) {

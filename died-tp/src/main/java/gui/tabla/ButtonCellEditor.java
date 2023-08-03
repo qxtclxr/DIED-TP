@@ -5,10 +5,10 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.event.ActionListener;
 
-public class OpcionesCellEditor extends AbstractCellEditor implements TableCellEditor {
+public class ButtonCellEditor extends AbstractCellEditor implements TableCellEditor {
     private JButton button;
 
-    public OpcionesCellEditor() {
+    public ButtonCellEditor() {
         button = new JButton("Opciones"); //Label default es "Opciones"
         button.setFont(new Font("Tahoma", Font.BOLD, 11));
     }

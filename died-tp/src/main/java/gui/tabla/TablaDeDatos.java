@@ -6,8 +6,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class TablaDeDatos extends JTable{
 	
-	protected OpcionesCellRenderer cellRenderer;
-	protected OpcionesCellEditor cellEditor;
+	protected ButtonCellRenderer cellRenderer;
+	protected ButtonCellEditor cellEditor;
 	
 	public TablaDeDatos(String[] colNames) {
 		super();
@@ -17,8 +17,8 @@ public class TablaDeDatos extends JTable{
 			//Se edita solo la ultima columna que es la que tiene el boton de opciones.
 		};
 		this.setModel(modeloTabla);
-		this.cellRenderer = new OpcionesCellRenderer();
-		this.cellEditor = new OpcionesCellEditor();
+		this.cellRenderer = new ButtonCellRenderer();
+		this.cellEditor = new ButtonCellEditor();
 		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellRenderer(cellRenderer);
 		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellEditor(cellEditor);
 	}
