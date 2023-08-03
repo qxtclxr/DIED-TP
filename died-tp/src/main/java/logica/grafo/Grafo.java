@@ -75,27 +75,31 @@ public class Grafo {
 		return sol;
 	}
 	
-	public Map<List<Sucursal>,Integer> caminosEntreDosSucursales(Sucursal ini, Sucursal fin){
-		Map<List<Sucursal>,Integer> sol = new HashMap<List<Sucursal>,Integer>();
-		caminosEntreDosSucursales(ini,fin,new ArrayList<Sucursal>(),0,sol);
+	public Map<List<Ruta>,Integer> caminosEntreDosNodos(Sucursal ini, Sucursal fin){
+		Map<List<Ruta>,Integer> sol = new HashMap<>();
+		caminosEntreDosNodos(ini,fin,new ArrayList<Ruta>(),new HashSet<Sucursal>(),sol);
 		return sol;
 	}
 	
-	private void caminosEntreDosSucursales
-	(Sucursal actual,Sucursal fin, List<Sucursal> caminoActual, Integer duracion, Map<List<Sucursal>,Integer> sol) {
-		caminoActual.add(actual);
+	private void caminosEntreDosNodos(Sucursal actual,Sucursal fin, List<Ruta> caminoActual,
+									  HashSet<Sucursal> visitados, Map<List<Ruta>,Integer> sol) {
 		if(actual.equals(fin)) {
-			sol.put(caminoActual,duracion);
+			Integer duracionTotal = caminoActual.stream().
+					mapToInt(rut -> rut.getDuracion()).
+					sum();
+			sol.put(caminoActual,duracionTotal);
 			return;
 		}
 		for(Ruta rut : this.rutasSalientes(actual)) {
-			if(!caminoActual.contains(rut.getDestino())) {
-				caminosEntreDosSucursales(
-						rut.getDestino(),
-						fin,
-						caminoActual.stream().collect(Collectors.toList()),
-						duracion+rut.getDuracion(),
-						sol);
+			Sucursal nodoNuevo = rut.getDestino();
+			if(!visitados.contains(nodoNuevo)) {
+				//Copia de la lista caminoActual
+				List<Ruta> caminoNuevo = caminoActual.stream().collect(Collectors.toList());
+				caminoNuevo.add(rut);
+				//Copia del set visitados
+				HashSet<Sucursal> visitadosNuevo = (HashSet<Sucursal>) visitados.stream().collect(Collectors.toSet());
+				visitadosNuevo.add(nodoNuevo);
+				caminosEntreDosNodos(nodoNuevo,fin,caminoNuevo,visitadosNuevo,sol);
 			}
 		}
 		return;
