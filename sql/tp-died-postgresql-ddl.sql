@@ -35,7 +35,7 @@ PRIMARY KEY (idproducto, idsucursal)
 CREATE TABLE ordendeprovision (
 idorden			SERIAL PRIMARY KEY,
 sucursalDestino	INTEGER,
-fecha			TIMESTAMP,
+fecha			DATE,
 tiempomaximo	INTEGER,
 estadoorden		VARCHAR	CHECK (estadoorden IN ('PENDIENTE','EN_PROCESO'))
 );
@@ -45,6 +45,13 @@ idorden		INTEGER,
 idproducto	INTEGER,
 cantidad	INTEGER,
 PRIMARY KEY (idorden, idproducto)
+);
+
+CREATE TABLE caminos(
+idorden		INTEGER,
+idruta		INTEGER,
+step		INTEGER	CHECK (step >= 1),
+PRIMARY KEY (idorden,idruta,step)
 );
 
 ALTER TABLE ordendeprovision
