@@ -107,24 +107,25 @@ public class Grafo {
 		return;
 	}
 	
-	public float flujoMaximo(Sucursal origen, Sucursal destino) {
+	public float flujoMaximo(Sucursal origen, Sucursal destino, List<List<Ruta>> result) {
 		float flujoMaximo= 0;
 		List<Sucursal> copiaNodos =this.vertices.stream().collect(Collectors.toList());
 		List<Ruta> copiaArista =this.aristas.stream().collect(Collectors.toList());
-		flujoMaximo=flujoMaximoAux(origen,destino);
+		flujoMaximo=flujoMaximoAux(origen,destino,result);
 		
 		this.aristas=copiaArista;
 		this.vertices=copiaNodos;
 		
 		return flujoMaximo;
 	}
-	private Float flujoMaximoAux(Sucursal origen, Sucursal destino) {
+	private Float flujoMaximoAux(Sucursal origen, Sucursal destino, List<List<Ruta>> res) {
 		float flujoMax=0;
 		while(true) {
 			List<Sucursal> listaNodos=this.augmentingBFS(origen,destino);
 			if(listaNodos==null)
 				break;
 			List<Ruta> camino=this.reconstruirCaminoNoNulo(listaNodos);
+			res.add(camino);
 			Float capMin=Float.MAX_VALUE;
 			for(Ruta r:camino) {
 				capMin=Math.min(capMin, r.getCapacidadMaxima());
