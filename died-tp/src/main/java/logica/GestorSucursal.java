@@ -5,13 +5,15 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
 import java.util.Map;
-
 import dal.general.FactoryDAO;
 import datos.Operatividad;
 import datos.Producto;
 import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
+import java.util.stream.Collectors;
+
+import logica.grafo.Grafo;
 
 public final class GestorSucursal {
 	/* Responsabilidades que tendria esta clas:
@@ -108,5 +110,19 @@ public final class GestorSucursal {
 	
 	public void setStock(Sucursal s, Producto p, Integer stock) throws ClassNotFoundException, SQLException {
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().setStock(s,p,stock);
+	}
+	
+	public Float getFlujoMaximo(Sucursal origen,Sucursal destino, List<List<Ruta>> res) throws ClassNotFoundException, SQLException {
+		Grafo g=new Grafo();
+		g.addArista(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getAll());
+		g.addVertice(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getAll());
+		return g.flujoMaximo(origen, destino, res);
+	}
+	public Map<Sucursal,Double> pageRank() throws ClassNotFoundException, SQLException{
+		Grafo g=new Grafo();
+		g.addArista(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getAll());
+		g.addVertice(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getAll());
+		//return g.pageRank().entrySet().stream().sorted((t1,t2)->t1.getValue().compareTo(t2.getValue())).map(t->t.getKey()).collect(Collectors.toList());
+		return g.pageRank();
 	}
 }
