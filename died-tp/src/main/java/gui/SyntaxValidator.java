@@ -45,4 +45,8 @@ public class SyntaxValidator {
 	public static boolean validFloatingPointOrEmpty(JTextComponent field) {
 		return field.getText().matches("[0-9]+(\\.[0-9]*)?") || field.getText().isEmpty();
 	}
+
+	public static boolean validInteger(String input) {
+		return input.matches("\\d+");
+	}
 }

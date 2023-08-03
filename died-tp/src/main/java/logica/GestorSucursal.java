@@ -4,9 +4,11 @@ package logica;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
+import java.util.Map;
 
 import dal.general.FactoryDAO;
 import datos.Operatividad;
+import datos.Producto;
 import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
@@ -96,5 +98,15 @@ public final class GestorSucursal {
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().delete(s);
 	}
 	
-
+	public Map<Producto, Integer> getAllStock(Sucursal s) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getStock(s);
+	}
+	
+	public Integer getStock(Sucursal s, Producto p) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getStock(s,p);
+	}
+	
+	public void setStock(Sucursal s, Producto p, Integer stock) throws ClassNotFoundException, SQLException {
+		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().setStock(s,p,stock);
+	}
 }

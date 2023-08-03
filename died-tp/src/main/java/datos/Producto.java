@@ -9,7 +9,9 @@ public class Producto implements Entidad{
 	private Float precioUnitario;
 	private Float pesoKg;
 	
-	public Producto() {};
+	public Producto() {}
+	
+	public Producto(Integer id) {this.idProducto = id;}
 	
 	public Producto(Integer idProducto, String nombre, String descripcion, Float precioUnitario, Float pesoKg) {
 		super();

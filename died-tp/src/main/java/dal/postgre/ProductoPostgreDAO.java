@@ -90,9 +90,9 @@ public class ProductoPostgreDAO implements ProductoDAO{
 			return p;
 
 	}
-
+	
 	public List<Producto> searchByAttributes(String idProducto, String nombre, Float precioUDesdeF, Float precioUHastaF,
-			Float pesoDesdeF, Float pesoHastaF) throws SQLException {
+											 Float pesoDesdeF, Float pesoHastaF) throws SQLException {
 		List<Producto> result = new ArrayList<>();
 		try(PreparedStatement pstm = searchStatement(idProducto,nombre,precioUDesdeF,precioUHastaF,pesoDesdeF,pesoHastaF);
 				ResultSet rs=pstm.executeQuery()){
@@ -109,35 +109,36 @@ public class ProductoPostgreDAO implements ProductoDAO{
 		return result;
 	}
 }
-		private PreparedStatement searchStatement(String idProducto, String nombre, Float precioUDesdeF, Float precioUHastaF,
-				Float pesoDesdeF, Float pesoHastaF) throws SQLException {
-			String statement =
-			"SELECT idproducto,nombre,descripcion,preciounitario,pesokg FROM producto " +
-			"WHERE 1=1";
-			if(idProducto != null) statement += " AND LOWER(idproducto::TEXT) LIKE LOWER(CONCAT('%',?,'%'))";
-			if(nombre != null) statement += " AND LOWER(nombre) LIKE LOWER(CONCAT('%',?,'%'))";
-			if(precioUDesdeF != null || precioUHastaF != null) statement += " AND (preciounitario BETWEEN ? AND ?)";
-			if(pesoDesdeF != null || pesoHastaF != null) statement += " AND (pesokg BETWEEN ? AND ?)";
-			//getValueasString
-			statement += " ORDER BY idproducto";
-			
-			PreparedStatement pstm = conn.prepareStatement(statement);
-			
-			int paramIndex = 1;
-			if(idProducto != null) pstm.setString(paramIndex++,idProducto);
-			if(nombre != null) pstm.setString(paramIndex++,nombre);
-			if(precioUDesdeF != null || precioUHastaF != null) {
-				if(precioUDesdeF != null) pstm.setFloat(paramIndex++,precioUDesdeF);
-				else pstm.setFloat(paramIndex++,-1);
-				if(precioUHastaF != null) pstm.setFloat(paramIndex++,precioUHastaF);
-				else pstm.setString(paramIndex++,"inf");
-			}
-			if(pesoDesdeF != null || pesoHastaF != null) {
-				if(pesoDesdeF != null) pstm.setFloat(paramIndex++,pesoDesdeF);
-				else pstm.setFloat(paramIndex++,-1);
-				if(pesoHastaF != null) pstm.setFloat(paramIndex++,pesoHastaF);
-				else pstm.setString(paramIndex++,"inf");
-			}
+
+	private PreparedStatement searchStatement(String idProducto, String nombre, Float precioUDesdeF, Float precioUHastaF,
+											  Float pesoDesdeF, Float pesoHastaF) throws SQLException {
+		String statement =
+		"SELECT idproducto,nombre,descripcion,preciounitario,pesokg FROM producto " +
+		"WHERE 1=1";
+		if(idProducto != null) statement += " AND LOWER(idproducto::TEXT) LIKE LOWER(CONCAT('%',?,'%'))";
+		if(nombre != null) statement += " AND LOWER(nombre) LIKE LOWER(CONCAT('%',?,'%'))";
+		if(precioUDesdeF != null || precioUHastaF != null) statement += " AND (preciounitario BETWEEN ? AND ?)";
+		if(pesoDesdeF != null || pesoHastaF != null) statement += " AND (pesokg BETWEEN ? AND ?)";
+		//getValueasString
+		statement += " ORDER BY idproducto";
+		
+		PreparedStatement pstm = conn.prepareStatement(statement);
+		
+		int paramIndex = 1;
+		if(idProducto != null) pstm.setString(paramIndex++,idProducto);
+		if(nombre != null) pstm.setString(paramIndex++,nombre);
+		if(precioUDesdeF != null || precioUHastaF != null) {
+			if(precioUDesdeF != null) pstm.setFloat(paramIndex++,precioUDesdeF);
+			else pstm.setFloat(paramIndex++,-1);
+			if(precioUHastaF != null) pstm.setFloat(paramIndex++,precioUHastaF);
+			else pstm.setString(paramIndex++,"inf");
+		}
+		if(pesoDesdeF != null || pesoHastaF != null) {
+			if(pesoDesdeF != null) pstm.setFloat(paramIndex++,pesoDesdeF);
+			else pstm.setFloat(paramIndex++,-1);
+			if(pesoHastaF != null) pstm.setFloat(paramIndex++,pesoHastaF);
+			else pstm.setString(paramIndex++,"inf");
+		}
 			
 			
 			return pstm;

@@ -1,57 +1,65 @@
-package gui.producto;
+package gui.sucursal;
 
-import datos.*;
-import gui.*;
-import gui.ruta.OpcionesPopupRuta;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.table.*;
+
+import datos.Producto;
+import datos.Sucursal;
+import gui.DatabaseErrorMessage;
+import gui.InvalidInputMessage;
+import gui.SyntaxValidator;
 import gui.tabla.TablaDeDatos;
 import logica.GestorProducto;
 import logica.GestorSucursal;
-
-import java.util.*;
+import gui.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
-
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.sql.SQLException;
-import java.sql.Time;
 
 
-public class ConsultaProducto extends Pantalla {
 
-	protected static final String[] COL_NAMES = {"ID del producto","Nombre","Descripcion","Precio unitario","Peso (en kg.)",""};
-	protected JLabel lblTitulo;
-	protected JLabel descTitulo;
-	protected JTextField txtIDProducto;
-	protected JTextField txtNombre;
-	protected JTextField txtPrecioDesde;
-	protected JTextField txtPrecioHasta;
-	protected JTextField txtPesoDesde;
-	protected JTextField txtPesoHasta;
-	protected TablaDeDatos tabla;
-	protected JScrollPane panelContenedorTabla;
-	protected JButton btnBuscar;
+public class ModificarStockSucursal extends Pantalla {
 	
-	/**
-	 * Create the panel.
-	 */
-	public ConsultaProducto(JFrame frame, JPanel pantallaAnterior) {
-		super(frame,pantallaAnterior);
+	private static final String[] COL_NAMES = {"ID del producto","Nombre","Descripcion","Precio unitario","Peso (en kg.)","Stock",""};
+	private JLabel lblTitulo;
+	private JLabel descTitulo;
+	private JTextField txtIDProducto;
+	private JTextField txtNombre;
+	private JTextField txtPrecioDesde;
+	private JTextField txtPrecioHasta;
+	private JTextField txtPesoDesde;
+	private JTextField txtPesoHasta;
+	private TablaDeDatos tabla;
+	private JScrollPane panelContenedorTabla;
+	private JButton btnBuscar;
+	private Sucursal suc;
+
+	public ModificarStockSucursal(JFrame frame, JPanel pantallaAnterior, Sucursal suc) {
+		super(frame, pantallaAnterior);
+		this.suc = suc;
 	}
 	
 	public void inicializarComponentes() {
 		setLayout(null);
 		
-		lblTitulo = new JLabel("Consulta de productos");
+		lblTitulo = new JLabel("Modificar stock en sucursal");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 32));
 		lblTitulo.setBounds(10, 11, 780, 30);
 		add(lblTitulo);
 		
-		descTitulo = new JLabel("Completa los campos para filtrar la busqueda. A continuacion presiona el boton \"Buscar\".");
+		descTitulo = new JLabel("Completa los campos para filtrar los productos. Una vez realizada la busqueda podras modificar el stock disponible de cada uno.");
 		descTitulo.setForeground(Color.GRAY);
 		descTitulo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		descTitulo.setBounds(10, 50, 780, 14);
@@ -152,7 +160,7 @@ public class ConsultaProducto extends Pantalla {
 		generarTabla();
 	}
 	
-	protected void fieldsDefaultColor() {
+	private void fieldsDefaultColor() {
 		txtIDProducto.setBackground(Color.WHITE);
 		txtNombre.setBackground(Color.WHITE);
 		txtPrecioDesde.setBackground(Color.WHITE);
@@ -161,7 +169,7 @@ public class ConsultaProducto extends Pantalla {
 		txtPesoHasta.setBackground(Color.WHITE);
 	}
 	
-	protected boolean validateInput() {
+	private boolean validateInput() {
 		fieldsDefaultColor();
 		Color colorInvalid = Color.decode("#ff8080");
 		boolean validInput = true;
@@ -192,9 +200,10 @@ public class ConsultaProducto extends Pantalla {
 		return validInput;
 	}
 	
-	protected void generarTabla() {
+	private void generarTabla() {
 		tabla = new TablaDeDatos(COL_NAMES);
-		tabla.onPressingButton(act -> actionOpcionesPopup());
+		tabla.onPressingButton(act -> actionModificar());
+		tabla.setButtonLabel("Modif. stock");
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 174, 780, 277);
 		add(panelContenedorTabla);
@@ -214,12 +223,15 @@ public class ConsultaProducto extends Pantalla {
 				DefaultTableModel model = (DefaultTableModel) tabla.getModel();
 				model.setRowCount(0); //Resetea la tabla
 				for(Producto prod : dataList) {
+					Integer stock = suc.getStock().get(prod);
+					stock = stock == null ? 0 : stock;
 					Object[] fila = {
 							prod.getID(),
 							prod.getNombre(),
 							prod.getDescripcion(),
 							prod.getPrecioUnitario(),
 							prod.getPesoKg(),
+							stock,
 							prod.getID()
 					};
 					model.addRow(fila);
@@ -233,14 +245,39 @@ public class ConsultaProducto extends Pantalla {
 		}		
 	}
 	
-	public void actionOpcionesPopup() {
-		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
-        int column = tabla.convertColumnIndexToModel(tabla.getEditingColumn());
-        Rectangle cellRect = tabla.getCellRect(row, column, true);
-        Point popupLocation = new Point(cellRect.x + cellRect.width, cellRect.y);
-        Integer idSelected = (Integer) tabla.getModel().getValueAt(row,0);
-        OpcionesPopupProducto popupMenu = new OpcionesPopupProducto(idSelected,frame,this);
-        popupMenu.show(tabla, popupLocation.x, popupLocation.y);
+	public void actionModificar() {
+		try {
+			int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
+			Integer prodID = (Integer) tabla.getModel().getValueAt(row,0);
+			Producto target = GestorProducto.getInstance().getByID(prodID);
+			Integer stockActual = GestorSucursal.getInstance().getStock(suc, target);
+			String input = JOptionPane.showInputDialog(frame,"Ingrese el valor del stock:",stockActual);
+			if(input!=null) {
+				if(SyntaxValidator.validInteger(input)) {
+					GestorSucursal.getInstance().setStock(suc, target, Integer.parseInt(input));
+					JOptionPane.showMessageDialog(
+							frame,
+							"El stock ha sido modificado correctamente.",
+							"Datos guardados",
+							JOptionPane.INFORMATION_MESSAGE);
+					suc.setStock(GestorSucursal.getInstance().getAllStock(suc));
+					this.actionBuscar(); //Refrescar la tabla
+				}else{
+					JOptionPane.showMessageDialog(
+							frame,
+							"El stock ingresado es invalido. Intente de nuevo.",
+							"Datos ingresados invalidos",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}else {
+				/*Si el input es null es porque el usuario apreto "Cancelar"
+				 * Basicamente no se hace nada y se vuelve a como estaba.*/
+			}
+		}catch(SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			DatabaseErrorMessage.showMessageDialog(frame);
+		}
+		
 	}
 	
 	public void actionVolver(){

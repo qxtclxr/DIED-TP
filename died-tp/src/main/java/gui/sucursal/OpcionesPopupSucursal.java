@@ -16,6 +16,7 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 	public OpcionesPopupSucursal(Integer id, JFrame frame, JPanel pantallaAnterior) {
 		super(id,frame,pantallaAnterior);
 		add(modifStock);
+		modifStock.addActionListener(act -> actionModifStock());
 	}
 
 	@Override
@@ -57,5 +58,19 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 			}
 		}
 		
+	}
+	
+	public void actionModifStock() {
+		try {
+			GestorSucursal gestor = GestorSucursal.getInstance();
+			Sucursal target = gestor.getByID(id);
+			target.setStock(gestor.getAllStock(target));
+			ModificarStockSucursal modifStockSucursal = new ModificarStockSucursal(frame,pantalla,target);
+			pantalla.setVisible(false);
+			frame.setContentPane(modifStockSucursal);
+		}catch(ClassNotFoundException | SQLException ex) {
+			ex.printStackTrace();
+			DatabaseErrorMessage.showMessageDialog(frame);
+		}
 	}
 }

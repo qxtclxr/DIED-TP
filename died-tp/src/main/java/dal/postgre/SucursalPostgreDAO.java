@@ -166,10 +166,49 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return pstm;
 	}
 	
+	public Integer getStock(Sucursal suc, Producto prod) throws SQLException {
+		Integer stock = 0;
+		String statement = "SELECT cantidad FROM Stock WHERE idsucursal = ? AND idproducto = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setInt(1,suc.getID());
+			pstm.setInt(2,prod.getID());
+			try(ResultSet rs = pstm.executeQuery()){
+				if(rs.next())
+					stock = rs.getInt(1);
+			}
+		}
+		return stock;
+	}
+	
+	public void setStock(Sucursal suc, Producto prod, Integer stock) throws SQLException{
+		if(stock > 0) {
+			String statement =
+					"INSERT INTO Stock (idsucursal,idproducto,cantidad) VALUES (?,?,?) " +
+					"ON CONFLICT (idsucursal,idproducto) DO UPDATE SET cantidad = ? WHERE stock.idsucursal = ? AND stock.idproducto = ?";
+			try(PreparedStatement pstm = conn.prepareStatement(statement);){
+				pstm.setInt(1,suc.getID());
+				pstm.setInt(2,prod.getID());
+				pstm.setInt(3,stock);
+				pstm.setInt(4,stock);
+				pstm.setInt(5,suc.getID());
+				pstm.setInt(6,prod.getID());
+				pstm.executeUpdate();
+			}
+		}else {
+			String statement = "DELETE FROM stock WHERE idsucursal = ? AND idproducto = ?";
+			try(PreparedStatement pstm = conn.prepareStatement(statement);){
+				pstm.setInt(1,suc.getID());
+				pstm.setInt(2,prod.getID());
+				pstm.executeUpdate();
+			}
+		}
+	}
+	
 	public void setStock(Sucursal suc) throws SQLException{
 		Set<Entry<Producto, Integer>> stock = suc.getStock().entrySet();
-		String statement = "INSERT Stock SET idproducto = ?, idsucursal = ?, cantidad = ? " +
-						   "ON CONFLICT DO UPDATE cantidad = ? WHERE idproducto = ? AND idsucursal = ?";
+		String statement =
+				"INSERT INTO Stock (idsucursal,idproducto,cantidad) VALUES (1,1,59) " +
+				"ON CONFLICT (idsucursal,idproducto) DO UPDATE SET cantidad = 59 WHERE stock.idsucursal = 1 AND stock.idproducto = 1";
 		/*La anterior sentencia es una sentencia "UPSERT", si la fila no
 		 *existe se inserta y si existe se modifica.*/
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){

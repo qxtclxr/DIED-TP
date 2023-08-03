@@ -4,13 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.Map.Entry;
 
 import dal.general.OrdenDeProvisionDAO;
-import datos.OrdenDeProvision;
-import datos.Producto;
+import dal.general.SucursalDAO;
+import datos.*;
 
 public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 
@@ -40,7 +39,6 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 		        }
 			}
 			insertProductos(ord);
-			
 		}catch(Exception ex) {
 			successful = false;
 			throw ex;
@@ -49,6 +47,37 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 			else conn.rollback();
 			conn.setAutoCommit(true);
 		}
+	}
+	
+	public List<OrdenDeProvision> getPendientes() throws SQLException {
+		List<OrdenDeProvision> ordenes = new ArrayList<>();
+		String statement =
+				"SELECT s.idsucurusal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
+				"o.idorden,o.fecha,o.tiempomaximo,o.estadoorden "+
+				"FROM ordendeprovision o, Sucursal s "+ 
+				"WHERE o.sucursaldestino = s.idsucursal AND o.estadoorden = 'PENDIENTE'";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);
+			ResultSet rs = pstm.executeQuery();){
+			while(rs.next()) {
+				Sucursal suc = new Sucursal();
+				suc.setID(rs.getInt(1));
+				suc.setNombre(rs.getString(2));
+				suc.setHorarioApertura(rs.getTime(3));
+				suc.setHorarioCierre(rs.getTime(4));
+				suc.setEstado(Operatividad.valueOf(rs.getString(5)));
+				suc.setTipo(TipoSucursal.valueOf(rs.getString(6)));
+				OrdenDeProvision orden = new OrdenDeProvision();
+				orden.setID(rs.getInt(7));
+				orden.setFecha(rs.getDate(8));
+				orden.setTiempoMaximo(rs.getInt(9));
+				orden.setEstado(EstadoOrden.valueOf(rs.getString(10)));
+				ordenes.add(orden);
+			}
+		}
+		for(OrdenDeProvision orden : ordenes) {
+			orden.setProductos(this.getProductos(orden));
+		}
+		return ordenes;
 	}
 	
 	public void insertProductos(OrdenDeProvision ord) throws SQLException {
@@ -71,6 +100,20 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 			}
 			pstm.executeBatch();
 		}
+	}
+	
+	public Map<Integer,Integer> getProductos(OrdenDeProvision ord) throws SQLException{
+		Map<Integer,Integer> productos = new HashMap<>();
+		String statement = "SELECT idproducto,cantidad FROM detalleorden WHERE idorden = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setInt(1,ord.getID());
+			try(ResultSet rs = pstm.executeQuery();){
+				while(rs.next()) {
+					productos.put(rs.getInt(1), rs.getInt(2));
+				}
+			}
+		}
+		return productos;
 	}
 
 	@Override
