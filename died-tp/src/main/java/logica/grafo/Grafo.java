@@ -3,8 +3,6 @@ package logica.grafo;
 import java.util.*;
 import java.util.stream.*;
 import datos.*;
-import died.estructuras.Edge;
-import died.estructuras.Vertex;
 
 public class Grafo {
 	private List<Sucursal> vertices;
@@ -94,7 +92,9 @@ public class Grafo {
 		}
 		for(Ruta rut : this.rutasSalientes(actual)) {
 			Sucursal nodoNuevo = rut.getDestino();
-			if(!visitados.contains(nodoNuevo)) {
+			if(!(rut.getEstado().equals(Operatividad.NO_OPERATIVA) ||
+				 nodoNuevo.getEstado().equals(Operatividad.NO_OPERATIVA) ||
+				 visitados.contains(nodoNuevo))) {
 				//Copia de la lista caminoActual
 				List<Ruta> caminoNuevo = caminoActual.stream().collect(Collectors.toList());
 				caminoNuevo.add(rut);
@@ -115,8 +115,6 @@ public class Grafo {
 		
 		this.aristas=copiaArista;
 		this.vertices=copiaNodos;
-		
-		
 		
 		return flujoMaximo;
 	}
