@@ -77,7 +77,9 @@ public class Grafo {
 	
 	public Map<List<Ruta>,Integer> caminosEntreDosNodos(Sucursal ini, Sucursal fin){
 		Map<List<Ruta>,Integer> sol = new HashMap<>();
-		caminosEntreDosNodos(ini,fin,new ArrayList<Ruta>(),new HashSet<Sucursal>(),sol);
+		HashSet<Sucursal> visitados = new HashSet<>();
+		visitados.add(ini);
+		caminosEntreDosNodos(ini,fin,new ArrayList<Ruta>(),visitados,sol);
 		return sol;
 	}
 	

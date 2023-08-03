@@ -18,8 +18,8 @@ public class TablaCarrito extends TablaDeDatos{
 		};
 		this.setModel(modeloTabla);
 		this.setModel(modeloTabla);
-		this.cellRenderer = new OpcionesCellRenderer();
-		this.cellEditor = new OpcionesCellEditor();
+		this.cellRenderer = new ButtonCellRenderer();
+		this.cellEditor = new ButtonCellEditor();
 		this.spinnerEditor = new SpinnerCellEditor();
 		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellRenderer(cellRenderer);
 		this.getColumnModel().getColumn(this.getColumnCount()-1).setCellEditor(cellEditor);

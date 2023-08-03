@@ -4,10 +4,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class OpcionesCellRenderer extends DefaultTableCellRenderer {
+public class ButtonCellRenderer extends DefaultTableCellRenderer {
     private JButton button;
 
-    public OpcionesCellRenderer() {
+    public ButtonCellRenderer() {
         button = new JButton("Opciones"); //Label default es "Opciones"
         button.setFont(new Font("Tahoma", Font.BOLD, 11));
         button.setBorderPainted(false);
