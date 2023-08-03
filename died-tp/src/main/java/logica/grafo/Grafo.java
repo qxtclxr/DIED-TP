@@ -3,6 +3,8 @@ package logica.grafo;
 import java.util.*;
 import java.util.stream.*;
 import datos.*;
+import died.estructuras.Edge;
+import died.estructuras.Vertex;
 
 public class Grafo {
 	private List<Sucursal> vertices;
@@ -100,4 +102,93 @@ public class Grafo {
 		}
 		return;
 	}
+	
+	public float flujoMaximo(Sucursal origen, Sucursal destino) {
+		float flujoMaximo= 0;
+		List<Sucursal> copiaNodos =this.vertices.stream().collect(Collectors.toList());
+		List<Ruta> copiaArista =this.aristas.stream().collect(Collectors.toList());
+		flujoMaximo=flujoMaximoAux(origen,destino);
+		
+		this.aristas=copiaArista;
+		this.vertices=copiaNodos;
+		
+		
+		
+		return flujoMaximo;
+	}
+	private Float flujoMaximoAux(Sucursal origen, Sucursal destino) {
+		float flujoMax=0;
+		while(true) {
+			List<Sucursal> listaNodos=this.augmentingBFS(origen,destino);
+			if(listaNodos==null)
+				break;
+			List<Ruta> camino=this.reconstruirCaminoNoNulo(listaNodos);
+			Float capMin=Float.MAX_VALUE;
+			for(Ruta r:camino) {
+				capMin=Math.min(capMin, r.getCapacidadMaxima());
+			}
+			for(Ruta r:camino) {
+				r.setCapacidadMaxima(r.getCapacidadMaxima()-capMin);
+			}
+			flujoMax+=capMin;
+		
+			
+		}
+		return flujoMax;
+	}
+	
+	
+	public List<Sucursal> augmentingBFS(Sucursal inicio,Sucursal fin){
+		List<Sucursal> resultado = new ArrayList<Sucursal>();
+		//estructuras auxiliares
+		Queue<Sucursal> pendientes = new LinkedList<Sucursal>();
+		HashSet<Sucursal> marcados = new HashSet<Sucursal>();
+		marcados.add(inicio);
+		pendientes.add(inicio);
+		
+		while(!pendientes.isEmpty()){
+			Sucursal actual = pendientes.poll();
+			if(actual.equals(fin)) {
+				resultado.add(actual);
+				return resultado;
+			}
+			List<Ruta> salientes = this.rutasSalientes(actual);
+			resultado.add(actual);
+			for(Ruta r : salientes){
+				if(!marcados.contains(r.getDestino()) && r.getCapacidadMaxima()>0){ 
+					pendientes.add(r.getDestino());
+					marcados.add(r.getDestino());
+				}
+			}
+		}		
+		//System.out.println(resultado);
+		return null;
+ 	}
+	private List<Sucursal> getNeighbourhood(Sucursal unNodo){ 
+		List<Sucursal> salida = new ArrayList<Sucursal>();
+		for(Ruta enlace : this.aristas){
+			if( enlace.getOrigen().equals(unNodo)){
+				salida.add(enlace.getDestino());
+			}
+		}
+		return salida;
+	}
+	
+	private List<Ruta> reconstruirCaminoNoNulo(List<Sucursal> listaNodos){
+		List<Ruta> result=new ArrayList<Ruta>();
+		int i=0; 
+		int max=listaNodos.size();
+		for(i=0;i<max-1;i++) {
+			Sucursal actual=listaNodos.get(i);
+			List<Ruta> salientes=this.rutasSalientes(actual);
+			int m=0;
+			while(!(salientes.get(m).getDestino().equals(listaNodos.get(i+1)) && salientes.get(m).getCapacidadMaxima()>0) &&  m<salientes.size())
+				m++;
+			result.add(salientes.get(m));
+			
+		}
+		return result;
+	}
+	
+	
 }
