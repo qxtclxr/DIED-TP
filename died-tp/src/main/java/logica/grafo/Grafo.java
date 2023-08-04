@@ -116,25 +116,76 @@ public class Grafo {
 		return;
 	}
 	
-	public float flujoMaximo(Sucursal origen, Sucursal destino, List<List<Ruta>> result) {
+	public Float flujoMaximo1(Sucursal inicio, Sucursal fin) {
+		ArrayList<Ruta> copiaAristas = new ArrayList<>();
+		Collections.copy(aristas,copiaAristas);
+		
+		Float flujoMax = 0F;
+		
+		HashSet<Sucursal> visitados = new HashSet<>();
+		visitados.add(inicio);
+		Float flujoEnCamino = flujoMaximo1(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
+		
+		while(flujoEnCamino != null){
+			flujoMax += flujoEnCamino;
+			visitados = new HashSet<>();
+			visitados.add(inicio);
+			flujoEnCamino = Float.MAX_VALUE;
+			flujoEnCamino = flujoMaximo1(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
+		}
+		
+		return flujoMax;
+	}
+	
+	public Float flujoMaximo1(Sucursal actual, Sucursal fin, List<Ruta> caminoActual, HashSet<Sucursal> visitados, float flujoEnCamino) {
+		
+		if(actual.equals(fin)) {
+			for (Ruta ruta : caminoActual) {
+	            ruta.setCapacidadMaxima(ruta.getCapacidadMaxima() - flujoEnCamino);
+	        }
+			return flujoEnCamino;
+		}
+			
+		for(Ruta rut : this.rutasSalientes(actual)) {
+			Sucursal nodoNuevo = rut.getDestino();
+			
+			if(!(rut.getCapacidadMaxima() == 0 ||
+				 rut.getEstado().equals(Operatividad.NO_OPERATIVA) ||
+				 nodoNuevo.getEstado().equals(Operatividad.NO_OPERATIVA) ||
+				 visitados.contains(nodoNuevo))) {
+				
+				//Copia de la lista caminoActual
+				List<Ruta> caminoNuevo = caminoActual.stream().collect(Collectors.toList());
+				caminoNuevo.add(rut);
+				//Copia del set visitados
+				HashSet<Sucursal> visitadosNuevo = (HashSet<Sucursal>) visitados.stream().collect(Collectors.toSet());
+				visitadosNuevo.add(nodoNuevo);
+				Float result = flujoMaximo1(nodoNuevo,fin,caminoNuevo,visitadosNuevo,Float.min(flujoEnCamino,rut.getCapacidadMaxima()));
+				if(result != null) return result;
+			}
+		}
+		
+		return null;
+	}
+	
+	public float flujoMaximo(Sucursal origen, Sucursal destino) {
 		float flujoMaximo= 0;
 		List<Sucursal> copiaNodos =this.vertices.stream().collect(Collectors.toList());
 		List<Ruta> copiaArista =this.aristas.stream().collect(Collectors.toList());
-		flujoMaximo=flujoMaximoAux(origen,destino,result);
+		flujoMaximo=flujoMaximoAux(origen,destino);
 		
 		this.aristas=copiaArista;
 		this.vertices=copiaNodos;
 		
 		return flujoMaximo;
 	}
-	private Float flujoMaximoAux(Sucursal origen, Sucursal destino, List<List<Ruta>> res) {
+	private Float flujoMaximoAux(Sucursal origen, Sucursal destino) {
 		float flujoMax=0;
 		while(true) {
 			List<Sucursal> listaNodos=this.augmentingBFS(origen,destino);
 			if(listaNodos==null)
 				break;
 			List<Ruta> camino=this.reconstruirCaminoNoNulo(listaNodos);
-			res.add(camino);
 			Float capMin=Float.MAX_VALUE;
 			for(Ruta r:camino) {
 				capMin=Math.min(capMin, r.getCapacidadMaxima());

@@ -238,7 +238,7 @@ public class MenuPrincipal extends JPanel {
 	}
 	
 	public void actionFlujoMaximo() {
-		GrafoPrueba flujoMaximo = new GrafoPrueba(frame,this);
+		FlujoMaximo flujoMaximo = new FlujoMaximo(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(flujoMaximo);
 	}

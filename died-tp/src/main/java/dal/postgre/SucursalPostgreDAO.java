@@ -375,5 +375,47 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		}
 		return essumidero;
 	}
+	
+	public List<Sucursal> getSumideros() throws SQLException {
+		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo FROM Sucursal WHERE tipo = 'SUMIDERO' ORDER BY nombre";
+		ArrayList<Sucursal> result = new ArrayList<Sucursal>();
+		
+		try(PreparedStatement pstm = conn.prepareStatement(statement);
+			ResultSet rs = pstm.executeQuery();){
+			while(rs.next()) {
+				result.add(new Sucursal(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getTime(3),
+						rs.getTime(4),
+						Operatividad.valueOf(rs.getString(5)), 
+						TipoSucursal.valueOf(rs.getString(6))
+						)
+					);
+			}
+		}		
+		return result;
+	}
+	
+	public List<Sucursal> getFuentes() throws SQLException {
+		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo FROM Sucursal WHERE tipo = 'FUENTE' ORDER BY nombre";
+		ArrayList<Sucursal> result = new ArrayList<Sucursal>();
+		
+		try(PreparedStatement pstm = conn.prepareStatement(statement);
+			ResultSet rs = pstm.executeQuery();){
+			while(rs.next()) {
+				result.add(new Sucursal(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getTime(3),
+						rs.getTime(4),
+						Operatividad.valueOf(rs.getString(5)), 
+						TipoSucursal.valueOf(rs.getString(6))
+						)
+					);
+			}
+		}
+		return result;
+	}
 
 }

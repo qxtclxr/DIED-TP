@@ -23,4 +23,6 @@ public interface SucursalDAO extends DAO<Sucursal> {
 	public abstract List<Sucursal> hasStock(OrdenDeProvision ord) throws SQLException;
 	public abstract boolean esFuente(Sucursal suc) throws SQLException;
 	public abstract boolean esSumidero(Sucursal suc) throws SQLException;
+	public abstract List<Sucursal> getFuentes() throws SQLException;
+	public abstract List<Sucursal> getSumideros() throws SQLException;
 }

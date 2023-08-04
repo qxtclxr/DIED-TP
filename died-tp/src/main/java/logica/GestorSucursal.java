@@ -130,11 +130,19 @@ public final class GestorSucursal {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().hasStock(ord);
 	}
 	
-	public Float getFlujoMaximo(Sucursal origen,Sucursal destino, List<List<Ruta>> res) throws ClassNotFoundException, SQLException {
+	public List<Sucursal> getFuentes() throws SQLException, ClassNotFoundException{
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getFuentes();
+	}
+	
+	public List<Sucursal> getSumideros() throws SQLException, ClassNotFoundException{
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getSumideros();
+	}
+	
+	public Float getFlujoMaximo(Sucursal origen,Sucursal destino) throws ClassNotFoundException, SQLException {
 		Grafo g=new Grafo();
 		g.addArista(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getAll());
 		g.addVertice(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getAll());
-		return g.flujoMaximo(origen, destino, res);
+		return g.flujoMaximo1(origen, destino);
 	}
 	public Map<Sucursal,Double> pageRank() throws ClassNotFoundException, SQLException{
 		Grafo g=new Grafo();
