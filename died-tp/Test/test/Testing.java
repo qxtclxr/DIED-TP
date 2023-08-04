@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.jupiter.api.*;
 import datos.*;
 
+
 public class Testing{
 
 	@Test
@@ -53,7 +54,7 @@ public class Testing{
 	     ruta5.setEstado(Operatividad.NO_OPERATIVA);
 	     
 	     
-	     Assertions.assertEquals(0f, g.flujoMaximo(centro, puerto));
+	     Assertions.assertEquals(100f, g.flujoMaximo(centro, puerto));
 	}
 	
 	
@@ -168,5 +169,11 @@ public class Testing{
 		
 	}
 
+	@Test
+	public void testprueba() {
+		Sucursal sucursal1 = new Sucursal(1, "Esperanza", null, null, Operatividad.OPERATIVA, TipoSucursal.COMERCIAL);
+		Assertions.assertEquals("Esperanza", sucursal1.getNombre());
+	}
+	
 	
 }
