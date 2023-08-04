@@ -148,7 +148,6 @@ public final class GestorSucursal {
 		Grafo g=new Grafo();
 		g.addArista(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getAll());
 		g.addVertice(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getAll());
-		//return g.pageRank().entrySet().stream().sorted((t1,t2)->t1.getValue().compareTo(t2.getValue())).map(t->t.getKey()).collect(Collectors.toList());
 		return g.pageRank();
 	}
 }

@@ -51,7 +51,7 @@ public class CaminoGrafoPanel extends JPanel {
 		add(longitudText);
 		
 		JButton elegirCamino = new JButton("Elegir camino");
-		elegirCamino.addActionListener(act -> contenedor.actionElegirCamino());
+		elegirCamino.addActionListener(act -> contenedor.actionElegirCamino(this.camino));
 		elegirCamino.setFont(new Font("Tahoma", Font.BOLD, 11));
 		elegirCamino.setBounds(658, 235, 112, 23);
 		add(elegirCamino);

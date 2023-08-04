@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 public class ButtonCellRenderer extends DefaultTableCellRenderer {
-    private JButton button;
+    protected JButton button;
 
     public ButtonCellRenderer() {
         button = new JButton("Opciones"); //Label default es "Opciones"

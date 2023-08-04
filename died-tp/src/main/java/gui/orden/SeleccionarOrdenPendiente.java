@@ -1,41 +1,14 @@
 package gui.orden;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import datos.OrdenDeProvision;
-import datos.Producto;
-import datos.Sucursal;
+import datos.*;
 import excepciones.IDNotFoundException;
-import gui.DatabaseErrorMessage;
-import gui.InvalidInputMessage;
-import gui.Pantalla;
-import gui.SyntaxValidator;
-import gui.producto.ConsultaProducto;
-import gui.producto.OpcionesPopupProducto;
-import gui.tabla.ButtonCellEditor;
-import gui.tabla.ButtonCellRenderer;
-import gui.tabla.TablaDeDatos;
-import logica.GestorOrden;
-import logica.GestorProducto;
-import logica.GestorSucursal;
+import gui.*;
+import gui.tabla.*;
+import logica.*;
 
 public class SeleccionarOrdenPendiente extends Pantalla {
 	
@@ -45,7 +18,27 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 	protected JLabel descTitulo;
 	protected JTable tabla;
 	protected JScrollPane panelContenedorTabla;
-
+	
+	private class SetEnableButtonCellEditor extends ButtonCellEditor{
+	    @Override
+	    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	    	//Checkea el valor de la columna "estado" para saber si es modificable (todavia esta pendiente) o no
+	    	boolean isEnabled = table.getValueAt(row,4) == EstadoOrden.PENDIENTE;
+	        button.setEnabled(isEnabled);
+	        return button;
+	    }
+	}
+	
+	private class SetEnableButtonCellRenderer extends ButtonCellRenderer{
+		@Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			//Checkea el valor de la columna "estado" para saber si es modificable (todavia esta pendiente) o no
+	    	 boolean isEnabled = table.getValueAt(row,4) == EstadoOrden.PENDIENTE;
+	         button.setEnabled(isEnabled);
+	         return button;
+	    }
+	}
+	
 	public SeleccionarOrdenPendiente(JFrame frame, JPanel pantallaAnterior) {
 		super(frame, pantallaAnterior);
 		// TODO Auto-generated constructor stub
@@ -54,13 +47,13 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 	public void inicializarComponentes() {
 		setLayout(null);
 		
-		lblTitulo = new JLabel("Modificar ordenes de provision pendientes");
+		lblTitulo = new JLabel("Consulta de ordenes de provision");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 32));
 		lblTitulo.setBounds(10, 11, 780, 30);
 		add(lblTitulo);
 		
-		descTitulo = new JLabel("A continuacion se encuentran todas las ordenes de provision pendientes. Puedes confirmarlas o eliminarlas.");
+		descTitulo = new JLabel("A continuacion se encuentran todas las ordenes de provision. Si la orden todavia esta pendiente puedes confirmarlas o eliminarlas.");
 		descTitulo.setForeground(Color.GRAY);
 		descTitulo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		descTitulo.setBounds(10, 50, 780, 14);
@@ -88,8 +81,8 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 		tabla.setModel(modeloTabla);
 		
 		//Setear renderers y editors para columna eliminar.
-		ButtonCellRenderer eliminarRenderer = new ButtonCellRenderer();
-		ButtonCellEditor eliminarEditor = new ButtonCellEditor();
+		SetEnableButtonCellRenderer eliminarRenderer = new SetEnableButtonCellRenderer();
+		SetEnableButtonCellEditor eliminarEditor = new SetEnableButtonCellEditor();
 		eliminarRenderer.setLabel("Eliminar");
 		eliminarEditor.setLabel("Eliminar");
 		eliminarEditor.setActionListener(act -> actionEliminar());
@@ -97,8 +90,8 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 		tabla.getColumnModel().getColumn(tabla.getColumnCount()-1).setCellEditor(eliminarEditor);
 		
 		//Setear renderers y editors para columna confirmar
-		ButtonCellRenderer confirmarRenderer = new ButtonCellRenderer();
-		ButtonCellEditor confirmarEditor = new ButtonCellEditor();
+		SetEnableButtonCellRenderer confirmarRenderer = new SetEnableButtonCellRenderer();
+		SetEnableButtonCellEditor confirmarEditor = new SetEnableButtonCellEditor();
 		confirmarRenderer.setLabel("Confirmar");
 		confirmarEditor.setLabel("Confirmar");
 		confirmarEditor.setActionListener(act -> actionConfirmar());
@@ -114,10 +107,10 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 	
 	public void generarData() {
 		try {
-			List<OrdenDeProvision> ordenesPend = GestorOrden.getInstance().getPendientes();
+			java.util.List<OrdenDeProvision> ordenes = GestorOrden.getInstance().getAll();
 			DefaultTableModel model = (DefaultTableModel) tabla.getModel();
 			model.setRowCount(0); //Resetea la tabla
-			for(OrdenDeProvision orden : ordenesPend) {
+			for(OrdenDeProvision orden : ordenes) {
 				Object[] fila = {
 						orden.getID(),
 						orden.getFecha(),
@@ -170,7 +163,7 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 			Integer id = (Integer) tabla.getModel().getValueAt(row,0);
 			GestorOrden gestor = GestorOrden.getInstance();
 			OrdenDeProvision target = gestor.getByID(id);
-			List<Sucursal> tienenStock = GestorSucursal.getInstance().hasStock(target);
+			java.util.List<Sucursal> tienenStock = GestorSucursal.getInstance().hasStock(target);
 			if(!tienenStock.isEmpty()) {
 				SeleccionarCaminoOrden selectCamino = new SeleccionarCaminoOrden(frame,this,target,tienenStock);
 				this.setVisible(false);

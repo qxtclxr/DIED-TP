@@ -10,7 +10,8 @@ public class OrdenDeProvision implements Entidad{
 	private Integer tiempoMaximo; //Unidad: minutos
 	private EstadoOrden estado;
 	private Map<Integer,Integer> productos; //Mapaea <idProducto,cantidad>
-	
+	private List<Ruta> caminoElegido;
+
 	public OrdenDeProvision() {
 		this.productos = new HashMap<>();
 	};
@@ -52,4 +53,11 @@ public class OrdenDeProvision implements Entidad{
 		this.productos = productos;
 	}
 	
+	public List<Ruta> getCamino() {
+		return caminoElegido;
+	}
+
+	public void setCamino(List<Ruta> caminoElegido) {
+		this.caminoElegido = caminoElegido;
+	}	
 }

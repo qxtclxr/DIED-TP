@@ -110,6 +110,7 @@ public class MenuPrincipal extends JPanel {
 		menuSucursal.add(lblFlujoMaximo);
 		
 		JButton btnRankingDeSucursales = new JButton("Ranking de sucursales");
+		btnRankingDeSucursales.addActionListener(act -> actionPageRank());
 		btnRankingDeSucursales.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRankingDeSucursales.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnRankingDeSucursales.setBounds(10, 196, 755, 23);
@@ -204,14 +205,14 @@ public class MenuPrincipal extends JPanel {
 		lblGenerarUnaOrden.setBounds(10, 45, 755, 14);
 		menuOrdenesDeProvision.add(lblGenerarUnaOrden);
 		
-		JButton btnConfirmarUnaOrden = new JButton("Confirmar una orden de produccion");
+		JButton btnConfirmarUnaOrden = new JButton("Consulta de ordenes de provision");
 		btnConfirmarUnaOrden.addActionListener(act -> actionConfirmarOrden());
 		btnConfirmarUnaOrden.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConfirmarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConfirmarUnaOrden.setBounds(10, 79, 755, 23);
 		menuOrdenesDeProvision.add(btnConfirmarUnaOrden);
 		
-		JLabel lblConfirmaUnaOrden = new JLabel("Confirma una orden de provision pendiente para ponerla en proceso, o bien eliminala.");
+		JLabel lblConfirmaUnaOrden = new JLabel("Visualiza todas las ordenes de provision. Si la orden esta pendiente, puedes ponerla en proceso, o bien eliminala.");
 		lblConfirmaUnaOrden.setForeground(Color.GRAY);
 		lblConfirmaUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblConfirmaUnaOrden.setBounds(10, 103, 755, 14);
@@ -241,6 +242,12 @@ public class MenuPrincipal extends JPanel {
 		FlujoMaximo flujoMaximo = new FlujoMaximo(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(flujoMaximo);
+	}
+	
+	public void actionPageRank() {
+		PageRank pageRank = new PageRank(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(pageRank);
 	}
 	
 	public void actionAltaRuta() {

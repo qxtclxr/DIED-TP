@@ -3,10 +3,12 @@ package logica.grafo;
 import java.util.*;
 import java.util.stream.*;
 import datos.*;
+import org.apache.commons.math3.linear.*;
 
 public class Grafo {
 	private List<Sucursal> vertices;
 	private List<Ruta> aristas;
+	private static final int ITERACIONES_PAGERANK = 100;
 	private static final Double ERROR_CUADRATICO=1*Math.pow(10, -6);
 	
 	public Grafo() {
@@ -131,7 +133,6 @@ public class Grafo {
 			flujoMax += flujoEnCamino;
 			visitados = new HashSet<>();
 			visitados.add(inicio);
-			flujoEnCamino = Float.MAX_VALUE;
 			flujoEnCamino = flujoMaximo(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
 		}
 		
@@ -230,7 +231,7 @@ public class Grafo {
 		//System.out.println(resultado);
 		return null;
  	}
-	private List<Sucursal> getNeighbourhood(Sucursal unNodo){ 
+	private List<Sucursal> getNeighbourhood(Sucursal unNodo){
 		List<Sucursal> salida = new ArrayList<Sucursal>();
 		for(Ruta enlace : this.aristas){
 			if( enlace.getOrigen().equals(unNodo)){
@@ -257,6 +258,54 @@ public class Grafo {
 	}
 	
 	public Map<Sucursal,Double> pageRank(){
+		HashMap<Sucursal,Double> pageRank = new HashMap<>();
+		int cantVert = vertices.size();
+		
+		if(cantVert==0)
+			return pageRank;
+		
+		double alpha = 0.15;
+		double[][] dataP = new double[cantVert][cantVert];
+		double[][] dataJ = new double[cantVert][cantVert];
+		//J es la matriz de todos 1s
+		for (double[] row: dataJ)
+		    Arrays.fill(row, 1.0);
+		
+		//Se genera la matriz de probabilidades inicial, hay igual probabilidad de, en un nodo, salir a cualquier ruta.
+		for(int i = 0 ; i < cantVert ; i++) {
+			Sucursal suc = this.vertices.get(i);
+			List<Sucursal> vecinas = this.getNeighbourhood(suc);
+			double prob = 1.0/(vecinas.size()+1); //Puede tomar alguna de las rutas, o quedarse en su lugar. (Se agrega un bucle)
+			dataP[i][i] = prob;
+			for(Sucursal vecina : vecinas) {
+				dataP[i][vertices.indexOf(vecina)] += prob;
+			}
+		}
+		
+		RealMatrix P = new Array2DRowRealMatrix(dataP);
+		RealMatrix J = new Array2DRowRealMatrix(dataJ);
+		
+		P = P.scalarMultiply(1-alpha);
+		J = J.scalarMultiply(alpha/cantVert);
+		RealMatrix Phat = P.add(J);
+		
+		double[] stateData = new double[cantVert];
+		Arrays.fill(stateData,1.0/cantVert);
+		RealVector state = new ArrayRealVector(stateData, false);
+		
+		for(int i = 0 ; i < ITERACIONES_PAGERANK ; i++) {
+			state = Phat.preMultiply(state);
+		}
+		
+		for(int i = 0 ; i < cantVert ; i++) {
+			pageRank.put(vertices.get(i),state.getEntry(i));
+		}
+		
+		return pageRank;
+	}
+	
+	/*
+	public Map<Sucursal,Double> pageRank(){
 		Map<Sucursal,Double> actual=new HashMap<Sucursal,Double>();
 		Double d=(double) 0.5;
 		for(Sucursal s:this.vertices)
@@ -280,6 +329,7 @@ public class Grafo {
 		}
 		return actual;
 	}
+	
 	
 	private Map<Sucursal,Double> iteracionPageRank(Map<Sucursal,Double>res,Double d) {
 		Map<Sucursal,Double> result=new HashMap<Sucursal,Double>();
@@ -305,5 +355,6 @@ public class Grafo {
 		
 		return res;
 	}
+	*/
 	
 }

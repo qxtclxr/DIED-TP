@@ -50,13 +50,14 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 		}
 	}
 	
-	public List<OrdenDeProvision> getPendientes() throws SQLException {
+	public List<OrdenDeProvision> getAll() throws SQLException {
 		List<OrdenDeProvision> ordenes = new ArrayList<>();
 		String statement =
 				"SELECT s.idsucursal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
 				"o.idorden,o.fecha,o.tiempomaximo,o.estadoorden "+
 				"FROM ordendeprovision o, Sucursal s "+ 
-				"WHERE o.sucursaldestino = s.idsucursal AND o.estadoorden = 'PENDIENTE'";
+				"WHERE o.sucursaldestino = s.idsucursal " + 
+				"ORDER BY o.estadoorden DESC,o.fecha DESC";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);
 			ResultSet rs = pstm.executeQuery();){
 			while(rs.next()) {
@@ -124,9 +125,39 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	}
 	
 	public void setEnProceso(OrdenDeProvision ord) throws SQLException{
-		String statement = "UPDATE OrdenDeProvision SET estadoorden = 'EN_PROCESO' WHERE idorden = ?";
-		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
-			pstm.setInt(1,ord.getID());
+		boolean successful = true;
+		try {
+			conn.setAutoCommit(false);
+			String statement = "UPDATE OrdenDeProvision SET estadoorden = 'EN_PROCESO' WHERE idorden = ?";
+			try(PreparedStatement pstm = conn.prepareStatement(statement);) {
+				pstm.setInt(1,ord.getID());
+				pstm.executeUpdate();
+			}
+			this.setCaminoOrden(ord);
+		}catch(SQLException ex) {
+			successful = false;
+			throw ex;
+		}finally {
+			if(successful) conn.commit();
+			else conn.rollback();
+			conn.setAutoCommit(true);
+		}
+		
+	}
+	
+	private void setCaminoOrden(OrdenDeProvision ord) throws SQLException {
+		StringBuilder stmtBuilder = new StringBuilder("INSERT INTO Caminos(idorden,idruta,step) VALUES ");
+		int len = ord.getCamino().size();
+		for(int i = 0 ; i < len ; i++) {
+			stmtBuilder.append("(?,?," + (i+1) + "),");
+		}
+		stmtBuilder.setCharAt(stmtBuilder.length()-1,';');
+		try(PreparedStatement pstm = conn.prepareStatement(stmtBuilder.toString());){
+			int paramIndex = 1;
+			for(Ruta rut : ord.getCamino()) {
+				pstm.setInt(paramIndex++,ord.getID());
+				pstm.setInt(paramIndex++,rut.getID());
+			}
 			pstm.executeUpdate();
 		}
 	}

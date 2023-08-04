@@ -30,8 +30,8 @@ private static GestorOrden gestor;
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().insert(orden);
 	}
 	
-	public List<OrdenDeProvision> getPendientes() throws ClassNotFoundException, SQLException {
-		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getPendientes();
+	public List<OrdenDeProvision> getAll() throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getAll();
 	}
 	
 	public OrdenDeProvision getByID(Integer id) throws ClassNotFoundException, SQLException, IDNotFoundException {

@@ -102,7 +102,6 @@ public class SeleccionarCaminoOrden extends Pantalla {
 			Grafo grafo = new Grafo(allSucursales,allRutas);
 			GrafoGUI grafoGUI = new GrafoGUI(grafo);
 			Map<List<Ruta>,Integer> caminos = grafo.caminosEntreDosNodos(sucursalElegida, orden.getSucursalDestino());
-			System.out.println(caminos.size());
 			List<Entry<List<Ruta>, Integer>> caminosEntrySet =
 					caminos.entrySet().stream().
 					sorted((a,b) -> a.getValue().compareTo(b.getValue())).
@@ -134,8 +133,9 @@ public class SeleccionarCaminoOrden extends Pantalla {
 		generarGrafoGUI((Sucursal) cmbSucursales.getSelectedItem());
 	}
 	
-	public void actionElegirCamino() {
+	public void actionElegirCamino(List<Ruta> camino) {
 		try {
+			orden.setCamino(camino);
 			GestorOrden.getInstance().setEnProceso(orden);
 			JOptionPane.showMessageDialog(
 					frame,

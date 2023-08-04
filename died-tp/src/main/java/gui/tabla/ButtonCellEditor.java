@@ -6,7 +6,7 @@ import javax.swing.table.*;
 import java.awt.event.ActionListener;
 
 public class ButtonCellEditor extends AbstractCellEditor implements TableCellEditor {
-    private JButton button;
+    protected JButton button;
 
     public ButtonCellEditor() {
         button = new JButton("Opciones"); //Label default es "Opciones"
