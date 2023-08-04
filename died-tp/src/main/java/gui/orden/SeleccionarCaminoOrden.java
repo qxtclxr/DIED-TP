@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Set;
 import datos.*;
 import gui.*;
@@ -47,7 +48,7 @@ public class SeleccionarCaminoOrden extends Pantalla {
 		lblTitulo.setBounds(10, 11, 780, 30);
 		add(lblTitulo);
 		
-		JLabel descTitulo = new JLabel("Selecciona una sucursal de origen y a continuación selecciona el camino por el que llegará la mercaderia.");
+		JLabel descTitulo = new JLabel("Selecciona una sucursal de origen y a continuación selecciona el camino por el que llegará la mercaderia. Los caminos estarán ordenados por duracion.");
 		descTitulo.setForeground(Color.GRAY);
 		descTitulo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		descTitulo.setBounds(10, 50, 780, 14);
@@ -88,6 +89,7 @@ public class SeleccionarCaminoOrden extends Pantalla {
 		add(btnCancelar);
 		
 		selectorCaminos = new JTabbedPane(JTabbedPane.TOP);
+		selectorCaminos.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		selectorCaminos.setBounds(10, 163, 780, 293);
 		add(selectorCaminos);
 		
@@ -100,8 +102,11 @@ public class SeleccionarCaminoOrden extends Pantalla {
 			Grafo grafo = new Grafo(allSucursales,allRutas);
 			GrafoGUI grafoGUI = new GrafoGUI(grafo);
 			Map<List<Ruta>,Integer> caminos = grafo.caminosEntreDosNodos(sucursalElegida, orden.getSucursalDestino());
-			Set<Entry<List<Ruta>, Integer>> caminosEntrySet = caminos.entrySet();
-			
+			System.out.println(caminos.size());
+			List<Entry<List<Ruta>, Integer>> caminosEntrySet =
+					caminos.entrySet().stream().
+					sorted((a,b) -> a.getValue().compareTo(b.getValue())).
+					collect(Collectors.toList());
 			selectorCaminos.removeAll();
 			int panelIndex = 1;
 			for(Entry<List<Ruta>, Integer> camino : caminosEntrySet) {
