@@ -203,6 +203,19 @@ public class MenuPrincipal extends JPanel {
 		lblGenerarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblGenerarUnaOrden.setBounds(10, 45, 755, 14);
 		menuOrdenesDeProvision.add(lblGenerarUnaOrden);
+		
+		JButton btnConfirmarUnaOrden = new JButton("Confirmar una orden de produccion");
+		btnGenerarUnaOrden.addActionListener(act -> actionConfirmarOrden());
+		btnConfirmarUnaOrden.setHorizontalAlignment(SwingConstants.LEFT);
+		btnConfirmarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnConfirmarUnaOrden.setBounds(10, 79, 755, 23);
+		menuOrdenesDeProvision.add(btnConfirmarUnaOrden);
+		
+		JLabel lblConfirmaUnaOrden = new JLabel("Confirma una orden de provision pendiente para ponerla en proceso, o bien eliminala.");
+		lblConfirmaUnaOrden.setForeground(Color.GRAY);
+		lblConfirmaUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblConfirmaUnaOrden.setBounds(10, 103, 755, 14);
+		menuOrdenesDeProvision.add(lblConfirmaUnaOrden);
 	}
 	
 	public void actionSalir() {
@@ -258,6 +271,12 @@ public class MenuPrincipal extends JPanel {
 		AltaOrden generarOrden = new AltaOrden(frame,this);
 		this.setVisible(false);
 		frame.setContentPane(generarOrden);
+	}
+	
+	public void actionConfirmarOrden() {
+		SeleccionarOrdenPendiente confrimarOrden = new SeleccionarOrdenPendiente(frame,this);
+		this.setVisible(false);
+		frame.setContentPane(confrimarOrden);
 	}
 	
 }

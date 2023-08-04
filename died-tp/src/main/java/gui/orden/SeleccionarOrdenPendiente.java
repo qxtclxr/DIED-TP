@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -21,16 +22,20 @@ import javax.swing.table.DefaultTableModel;
 
 import datos.OrdenDeProvision;
 import datos.Producto;
+import datos.Sucursal;
+import excepciones.IDNotFoundException;
 import gui.DatabaseErrorMessage;
 import gui.InvalidInputMessage;
 import gui.Pantalla;
 import gui.SyntaxValidator;
+import gui.producto.ConsultaProducto;
 import gui.producto.OpcionesPopupProducto;
 import gui.tabla.ButtonCellEditor;
 import gui.tabla.ButtonCellRenderer;
 import gui.tabla.TablaDeDatos;
 import logica.GestorOrden;
 import logica.GestorProducto;
+import logica.GestorSucursal;
 
 public class SeleccionarOrdenPendiente extends Pantalla {
 	
@@ -46,9 +51,6 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 		// TODO Auto-generated constructor stub
 	}
 	
-	/**
-	 * Create the panel.
-	 */
 	public void inicializarComponentes() {
 		setLayout(null);
 		
@@ -109,14 +111,86 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 	}
 	
 	public void generarData() {
-		List<OrdenDeProvision> ordenesPend = GestorOrden.getInstance().getPendientes();
+		try {
+			List<OrdenDeProvision> ordenesPend = GestorOrden.getInstance().getPendientes();
+			DefaultTableModel model = (DefaultTableModel) tabla.getModel();
+			model.setRowCount(0); //Resetea la tabla
+			for(OrdenDeProvision orden : ordenesPend) {
+				Object[] fila = {
+						orden.getID(),
+						orden.getFecha(),
+						orden.getSucursalDestino(),
+						orden.getTiempoMaximo(),
+						orden.getProductos().size()
+				};
+				model.addRow(fila);
+			}
+		}catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			DatabaseErrorMessage.showMessageDialog(frame);
+		}
 	}
 	
 	public void actionEliminar() {
-			
+		int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
+		Integer id = (Integer) tabla.getModel().getValueAt(row,0);
+		int result = JOptionPane.showConfirmDialog(
+				frame,
+				"¿Seguro que quieres eliminar el producto?",
+				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			try {
+				GestorOrden gestor = GestorOrden.getInstance();
+				OrdenDeProvision target = gestor.getByID(id);
+				gestor.eliminar(target);
+				JOptionPane.showMessageDialog(
+						frame,
+						"El producto ha sido eliminado correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+			}catch(ClassNotFoundException | SQLException ex) {
+				ex.printStackTrace();
+				DatabaseErrorMessage.showMessageDialog(frame);
+			}catch(IDNotFoundException ex) {
+				ex.getMessage();
+			}finally {
+				//Refresca la tabla
+				this.generarData();
+			}
+		}
 	}
 	
 	public void actionConfirmar() {
+		try {
+			int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
+			Integer id = (Integer) tabla.getModel().getValueAt(row,0);
+			GestorOrden gestor = GestorOrden.getInstance();
+			OrdenDeProvision target = gestor.getByID(id);
+			List<Sucursal> tienenStock = GestorSucursal.getInstance().hasStock(target.getProductos());
+			if(!tienenStock.isEmpty()) {
+				SeleccionarCaminoOrden selectCamino = new SeleccionarCaminoOrden(frame,this,target,tienenStock);
+				this.setVisible(false);
+				selectCamino.setVisible(true);
+				frame.setContentPane(selectCamino);
+			}else {
+				JOptionPane.showMessageDialog(
+						frame,
+						"En este momento no existen sucursales con los productos que se solicitan\n"
+						+ "Intente de nuevo más tarde.",
+						"Error: No existen sucursales con stock",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}catch(SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+			DatabaseErrorMessage.showMessageDialog(frame);
+			//Refresca la tabla
+			this.generarData();
+		}catch(IDNotFoundException ex) {
+			ex.getMessage();
+			//Refresca la tabla
+			this.generarData();
+		}
 		
 	}
 	
@@ -125,7 +199,5 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 		pantallaAnterior.setVisible(true);
 		frame.setContentPane(pantallaAnterior);
 	}
-
-
 
 }

@@ -170,7 +170,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return pstm;
 	}
 	
-	public Integer getStock(Sucursal suc, Producto prod) throws SQLException {
+	public Integer getStockOfProduct(Sucursal suc, Producto prod) throws SQLException {
 		Integer stock = 0;
 		String statement = "SELECT cantidad FROM Stock WHERE idsucursal = ? AND idproducto = ?";
 		try(PreparedStatement pstm = conn.prepareStatement(statement);){
@@ -302,12 +302,24 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return pstm;
 	}
 	
-	public List<Sucursal> hasStock(Map<Integer,Integer> stockRequired){
+	public List<Sucursal> hasStock(Map<Integer,Integer> stockRequired) throws SQLException{
 		List<Sucursal> sucursales = new ArrayList<>();
+		try(PreparedStatement pstm = hasStockStatement(stockRequired);
+			ResultSet rs = pstm.executeQuery()){
+			while(rs.next()) {
+				sucursales.add(new Sucursal(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getTime(3),
+						rs.getTime(4),
+						Operatividad.valueOf(rs.getString(5)), 
+						TipoSucursal.valueOf(rs.getString(6))
+						)
+				);
+			}
+		}
 		
-		
-		
-		return null;
+		return sucursales;
 	}
 	
 	private PreparedStatement hasStockStatement(Map<Integer,Integer> stockRequired) throws SQLException {

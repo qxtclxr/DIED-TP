@@ -9,4 +9,6 @@ public interface OrdenDeProvisionDAO extends DAO<OrdenDeProvision>{
 
 	public abstract List<OrdenDeProvision> getPendientes() throws SQLException;
 
+	public abstract void setEnProceso(OrdenDeProvision obj) throws SQLException;
+
 }

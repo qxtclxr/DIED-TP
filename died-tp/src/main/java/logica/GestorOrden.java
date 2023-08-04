@@ -37,4 +37,12 @@ private static GestorOrden gestor;
 	public OrdenDeProvision getByID(Integer id) throws ClassNotFoundException, SQLException, IDNotFoundException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getByID(id);
 	}
+
+	public void eliminar(OrdenDeProvision obj) throws ClassNotFoundException, SQLException {
+		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().delete(obj);
+	}
+	
+	public void setEnProceso(OrdenDeProvision obj) throws ClassNotFoundException, SQLException {
+		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().setEnProceso(obj);
+	}
 }

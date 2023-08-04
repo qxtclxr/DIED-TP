@@ -14,5 +14,9 @@ public abstract class Pantalla extends JPanel{
 		inicializarComponentes();
 	}
 
+	public Pantalla() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public abstract void inicializarComponentes();
 }

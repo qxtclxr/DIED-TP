@@ -261,7 +261,7 @@ public class ModificarStockSucursal extends Pantalla {
 	}
 	
 	public void modificarStockDialog(Producto target) throws ClassNotFoundException, SQLException {
-		Integer stockActual = GestorSucursal.getInstance().getStock(suc, target);
+		Integer stockActual = GestorSucursal.getInstance().getStockOfProduct(suc, target);
 		String input = JOptionPane.showInputDialog(frame,"Ingrese el valor del stock:",stockActual);
 		if(input!=null) {
 			if(SyntaxValidator.validInteger(input)) {
@@ -272,7 +272,7 @@ public class ModificarStockSucursal extends Pantalla {
 						"El stock ha sido modificado correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
-				suc.setStock(GestorSucursal.getInstance().getAllStock(suc));
+				suc.setStock(GestorSucursal.getInstance().getStock(suc));
 			}else{
 				JOptionPane.showMessageDialog(
 						frame,

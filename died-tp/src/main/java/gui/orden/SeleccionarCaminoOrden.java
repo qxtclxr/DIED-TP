@@ -2,25 +2,41 @@ package gui.orden;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import datos.*;
-import gui.Pantalla;
-
+import gui.*;
+import gui.grafo.*;
+import logica.*;
+import logica.grafo.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
-public class SeleccionarCaminoOrden extends JPanel {
+public class SeleccionarCaminoOrden extends Pantalla {
 	
-	List<Sucursal> sucursales;
-	/**
-	 * Create the panel.
-	 */
-	public SeleccionarCaminoOrden() {
+	private OrdenDeProvision orden;
+	private List<Sucursal> sucursales;
+	private JTabbedPane selectorCaminos;
+	private JComboBox<Sucursal> cmbSucursales;
+	
+	public SeleccionarCaminoOrden(JFrame frame, JPanel pantallaAnterior, OrdenDeProvision orden, List<Sucursal> sucursales) {
+		super(frame, pantallaAnterior);
+		this.orden = orden;
+		this.sucursales = sucursales;
+	}
+	
+	@Override
+	public void inicializarComponentes() {
 		setLayout(null);
 		JLabel lblTitulo = new JLabel("Seleccion de camino");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
@@ -38,24 +54,28 @@ public class SeleccionarCaminoOrden extends JPanel {
 		separadorTituloContenido.setBounds(10, 77, 780, 2);
 		add(separadorTituloContenido);
 		
-		JComboBox<Sucursal> comboBox = new JComboBox<>();
-		comboBox.setBounds(10, 111, 250, 22);
-		add(comboBox);
+		cmbSucursales = new JComboBox<>();
+		cmbSucursales.setBounds(10, 111, 250, 22);
+		for(Sucursal suc : sucursales) {
+			cmbSucursales.addItem(suc);
+		}
+		add(cmbSucursales);
 		
 		JLabel lblSucursalDeDestino = new JLabel("Sucursal de destino");
 		lblSucursalDeDestino.setVerticalAlignment(SwingConstants.TOP);
 		lblSucursalDeDestino.setBounds(10, 90, 250, 20);
 		lblSucursalDeDestino.setFont(new Font("Tahoma", Font.BOLD, 14));
 		add(lblSucursalDeDestino);
+
+		JButton btnBuscarCaminos = new JButton("Buscar caminos");
+		btnBuscarCaminos.addActionListener(act -> actionBuscarCaminos());
+		btnBuscarCaminos.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnBuscarCaminos.setBounds(273, 111, 126, 23);
+		add(btnBuscarCaminos);
 		
-		JButton btnNewButton = new JButton("Buscar caminos");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(273, 111, 126, 23);
-		add(btnNewButton);
-		
-		JSeparator separadorTituloContenido_1 = new JSeparator();
-		separadorTituloContenido_1.setBounds(10, 150, 780, 2);
-		add(separadorTituloContenido_1);
+		JSeparator separadorBuscarCaminos = new JSeparator();
+		separadorBuscarCaminos.setBounds(10, 150, 780, 2);
+		add(separadorBuscarCaminos);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBackground(new Color(255, 159, 162));
@@ -64,9 +84,32 @@ public class SeleccionarCaminoOrden extends JPanel {
 		btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		add(btnCancelar);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 187, 780, 269);
-		add(tabbedPane);
+		selectorCaminos = new JTabbedPane(JTabbedPane.TOP);
+		selectorCaminos.setBounds(10, 187, 780, 269);
+		add(selectorCaminos);
+		
+	}
+	
+	public void generarGrafoGUI(Sucursal sucursalElegida) {
+		try {
+			List<Sucursal> allSucursales = GestorSucursal.getInstance().getAll();
+			List<Ruta> allRutas = GestorRuta.getInstance().getAll();
+			Grafo grafo = new Grafo(allSucursales,allRutas);
+			GrafoGUI grafoGUI = new GrafoGUI(grafo);
+			Map<List<Ruta>,Integer> caminos = grafo.caminosEntreDosNodos(sucursalElegida, orden.getSucursalDestino());
+			Set<Entry<List<Ruta>, Integer>> caminosEntrySet = caminos.entrySet();
+			
+			int panelIndex = 1;
+			for(Entry<List<Ruta>, Integer> camino : caminosEntrySet) {
+				CaminoGrafoPanel nuevoPanel = new CaminoGrafoPanel(this,grafoGUI,camino.getKey(),camino.getValue());
+				selectorCaminos.addTab("Opcion " + panelIndex++,null,nuevoPanel,null);
+			}
+			
+		} catch (ClassNotFoundException | SQLException ex) {
+			DatabaseErrorMessage.showMessageDialog(frame);
+			ex.printStackTrace();
+		}
+		
 	}
 	
 	public void actionCancelar() {
@@ -77,4 +120,29 @@ public class SeleccionarCaminoOrden extends JPanel {
 			frame.setContentPane(pantallaAnterior);
 		}
 	}
+	
+	public void actionBuscarCaminos() {
+		generarGrafoGUI((Sucursal) cmbSucursales.getSelectedItem());
+	}
+	
+	public void actionElegirCamino() {
+		try {
+			GestorOrden.getInstance().setEnProceso(orden);
+			JOptionPane.showMessageDialog(
+					frame,
+					"La orden ha sido puesta en proceso.\n"
+					+ "Si no recibe la mercaderia en las proximas (" + orden.getTiempoMaximo() + ") horas, contactese con la sucursal elegida como origen.",
+					"Orden en proceso.",
+					JOptionPane.INFORMATION_MESSAGE);
+			MenuPrincipal menu = new MenuPrincipal(frame);
+			this.setVisible(false);
+			menu.setVisible(true);
+			frame.setContentPane(menu);
+		} catch (ClassNotFoundException | SQLException e) {
+			DatabaseErrorMessage.showMessageDialog(frame);
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

@@ -1,18 +1,17 @@
 package gui.grafo;
 
 import datos.*;
-import logica.*;
 import logica.grafo.Grafo;
-
 import org.jgrapht.graph.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
+import javax.swing.SwingConstants;
 import org.jgrapht.ext.JGraphXAdapter;
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.layout.hierarchical.*;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxPoint;
+import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxGraph;
 
 
@@ -23,41 +22,42 @@ public class GrafoGUI {
 		public LabeledRuta(Ruta ruta) {this.ruta = ruta;}
 		public String toString() {return ruta.getDuracion() + "mins";}
 	}
-	private DirectedMultigraph<Sucursal,LabeledRuta> grafo;
+	private Grafo grafo;
+	private DirectedMultigraph<Sucursal,LabeledRuta> jgraphtGrafo;
 	public static final String FILL_NO_OPERATIVA = "#878787";
 	public static final String FONT_NO_OPERATIVA = "#ffffff";
 	public static final int OPACITY_NO_OPERATIVA = 60;
 	public static final int OPACITY_DISABLED = 20;
 	
 	public GrafoGUI() {
-		this.grafo = new DirectedMultigraph<Sucursal,LabeledRuta>(LabeledRuta.class);
+		this.jgraphtGrafo = new DirectedMultigraph<Sucursal,LabeledRuta>(LabeledRuta.class);
 	}
 	
 	public GrafoGUI(Grafo grafo) {
 		this();
-		
+		this.grafo = grafo;
 		for(Sucursal vertice : grafo.getVertices()) {
-			this.grafo.addVertex(vertice);
+			this.jgraphtGrafo.addVertex(vertice);
 		}
 		
 		for(Ruta arista : grafo.getAristas()) {
-			this.grafo.addEdge(arista.getOrigen(), arista.getDestino(),new LabeledRuta(arista));
+			this.jgraphtGrafo.addEdge(arista.getOrigen(), arista.getDestino(),new LabeledRuta(arista));
 		}
 	}
 
 	public mxGraphComponent getGraphComponent() {
-		JGraphXAdapter<Sucursal,LabeledRuta> jgxAdapter = new JGraphXAdapter<>(grafo);
+		JGraphXAdapter<Sucursal,LabeledRuta> jgxAdapter = new JGraphXAdapter<>(jgraphtGrafo);
 				
 		jgxAdapter.setCellsEditable(false);
 		jgxAdapter.setCellsMovable(false);
 		jgxAdapter.setCellsResizable(false);
-		jgxAdapter.setCellsSelectable(false);
+		jgxAdapter.setCellsSelectable(false);	
 		
 		this.styleNoOperativa(jgxAdapter);
 		
-		mxHierarchicalLayout layout = new mxHierarchicalLayout(jgxAdapter);
-		layout.execute(jgxAdapter.getDefaultParent());
-			
+	    mxHierarchicalLayout layout = new mxHierarchicalLayout(jgxAdapter, SwingConstants.WEST);
+	    layout.execute(jgxAdapter.getDefaultParent());
+		
 		mxGraphComponent graphComponent = new mxGraphComponent(jgxAdapter);
 		graphComponent.setConnectable(false);
 			
@@ -65,7 +65,7 @@ public class GrafoGUI {
 	}
 	
 	public mxGraphComponent getGraphComponent(List<Ruta> highlightedPath) {
-		JGraphXAdapter<Sucursal,LabeledRuta> jgxAdapter = new JGraphXAdapter<>(grafo);
+		JGraphXAdapter<Sucursal,LabeledRuta> jgxAdapter = new JGraphXAdapter<>(jgraphtGrafo);
 		
 		this.styleNoOperativa(jgxAdapter);
 		this.styleHighlightedPath(jgxAdapter,highlightedPath);
@@ -75,13 +75,12 @@ public class GrafoGUI {
 		jgxAdapter.setCellsResizable(false);
 		jgxAdapter.setCellsSelectable(false);
 		
-		mxHierarchicalLayout layout = new mxHierarchicalLayout(jgxAdapter);
-		System.out.println(layout.getOrientation());
+		mxHierarchicalLayout layout = new mxHierarchicalLayout(jgxAdapter,SwingConstants.WEST);
 		layout.execute(jgxAdapter.getDefaultParent());
 			
 		mxGraphComponent graphComponent = new mxGraphComponent(jgxAdapter);
 		graphComponent.setConnectable(false);
-			
+		
 		return graphComponent;
 	}
 	

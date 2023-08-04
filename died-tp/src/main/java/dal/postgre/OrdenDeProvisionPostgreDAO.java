@@ -22,7 +22,6 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 		this.conn = Conexion.getInstance().getConn();
 	}
 	
-	
 	@Override
 	public void insert(OrdenDeProvision ord) throws SQLException {
 		boolean successful = true;
@@ -120,6 +119,14 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	@Override
 	public void update(OrdenDeProvision obj) throws SQLException {
 		//No implementa.
+	}
+	
+	public void setEnProceso(OrdenDeProvision ord) throws SQLException{
+		String statement = "UPDATE OrdenDeProvision SET estadoorden = 'EN_PROCESO' WHERE idorden = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);) {
+			pstm.setInt(1,ord.getID());
+			pstm.executeUpdate();
+		}
 	}
 
 	@Override

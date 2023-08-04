@@ -104,7 +104,9 @@ public final class GestorRuta {
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().delete(r);
 	}
 	
-	
+	public List<Ruta> getAll() throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getAll();
+	}
 	
 
 }

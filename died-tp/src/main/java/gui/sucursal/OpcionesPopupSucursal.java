@@ -71,7 +71,7 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 		try {
 			GestorSucursal gestor = GestorSucursal.getInstance();
 			Sucursal target = gestor.getByID(id);
-			target.setStock(gestor.getAllStock(target));
+			target.setStock(gestor.getStock(target));
 			ModificarStockSucursal modifStockSucursal = new ModificarStockSucursal(frame,pantalla,target);
 			pantalla.setVisible(false);
 			frame.setContentPane(modifStockSucursal);

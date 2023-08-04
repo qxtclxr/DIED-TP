@@ -14,6 +14,12 @@ public class Grafo {
 		this.aristas = new ArrayList<Ruta>();
 	}
 	
+	public Grafo(List<Sucursal> vertices, List<Ruta> aristas) {
+		super();
+		this.vertices = vertices;
+		this.aristas = aristas;
+	}
+
 	public List<Sucursal> getVertices() {
 		return vertices;
 	}

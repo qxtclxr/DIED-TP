@@ -102,16 +102,24 @@ public final class GestorSucursal {
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().delete(s);
 	}
 	
-	public Map<Producto, Integer> getAllStock(Sucursal s) throws ClassNotFoundException, SQLException {
+	public List<Sucursal> getAll() throws ClassNotFoundException, SQLException{
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getAll();
+	}
+	
+	public Map<Producto, Integer> getStock(Sucursal s) throws ClassNotFoundException, SQLException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getStock(s);
 	}
 	
-	public Integer getStock(Sucursal s, Producto p) throws ClassNotFoundException, SQLException {
-		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getStock(s,p);
+	public Integer getStockOfProduct(Sucursal s, Producto p) throws ClassNotFoundException, SQLException {
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getStockOfProduct(s,p);
 	}
 	
 	public void setStock(Sucursal s, Producto p, Integer stock) throws ClassNotFoundException, SQLException {
 		FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().setStock(s,p,stock);
+	}
+	
+	public List<Sucursal> hasStock(Map<Integer,Integer> stockRequired) throws SQLException, ClassNotFoundException{
+		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().hasStock(stockRequired);
 	}
 	
 	public Float getFlujoMaximo(Sucursal origen,Sucursal destino, List<List<Ruta>> res) throws ClassNotFoundException, SQLException {

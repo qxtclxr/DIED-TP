@@ -2,6 +2,7 @@ package app;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 
 import datos.Operatividad;
 import datos.Ruta;
@@ -13,7 +14,7 @@ import logica.grafo.Grafo;
 public class App {
 
 	public static void main(String[] args) {
-		//probarGrafos();
+		probarGrafos();
 		try {	
 			Ventana frame = new Ventana();
 			frame.setVisible(true);
@@ -34,13 +35,14 @@ public class App {
 		ruta.add(new Ruta(12345,suc.get(1),suc.get(2),Operatividad.OPERATIVA,120,6000F));
 		ruta.add(new Ruta(12345,suc.get(2),suc.get(0),Operatividad.OPERATIVA,120,6000F));
 		ruta.add(new Ruta(12345,suc.get(0),suc.get(3),Operatividad.OPERATIVA,120,6000F));
-		ruta.add(new Ruta(12345,suc.get(1),suc.get(3),Operatividad.OPERATIVA,120,6000F));
+		ruta.add(new Ruta(12345,suc.get(1),suc.get(3),Operatividad.OPERATIVA,120,1F));
 		ruta.add(new Ruta(12345,suc.get(2),suc.get(3),Operatividad.OPERATIVA,120,6000F));
 		
 		Grafo grafo = new Grafo();
 		grafo.addVertice(suc);
 		grafo.addArista(ruta);
 		
+		System.out.println(grafo.flujoMaximo(suc.get(1),suc.get(3),new ArrayList<List<Ruta>>()));
 		System.out.println(grafo.caminosEntreDosNodos(suc.get(0),suc.get(3)));
 	}
 }
