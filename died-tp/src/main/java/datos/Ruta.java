@@ -8,7 +8,9 @@ public class Ruta implements Entidad{
 	private Integer duracion; //Unidad: minutos
 	private Float capacidadMaxima; //Unidad: kg
 	
-	public Ruta() {};
+	public Ruta() {
+		super();
+	};
 	
 	public Ruta(Integer idRuta, Sucursal origen, Sucursal destino, Operatividad estado, Integer duracion,
 			Float capacidadMaxima) {
