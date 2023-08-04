@@ -1,14 +1,11 @@
 package gui.producto;
 
 import datos.*;
+import excepciones.IDNotFoundException;
 import gui.*;
-import gui.sucursal.ConsultaSucursal;
 import logica.GestorProducto;
-import logica.GestorSucursal;
 import gui.tabla.OpcionesPopup;
-
 import java.sql.SQLException;
-
 import javax.swing.*;
 
 public class OpcionesPopupProducto extends OpcionesPopup{
@@ -21,18 +18,16 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 	public void actionEditar(){
 		try {
 			Producto target = GestorProducto.getInstance().getByID(id);
-			if(target!=null) {
-				EdicionProducto edicionProducto = new EdicionProducto(frame,pantalla,target);
-				pantalla.setVisible(false);
-				frame.setContentPane(edicionProducto);
-			}else {
-				ObjectNotFoundMessage.showMessageDialog(frame);
-				//Refresca la tabla
-				((ConsultaProducto) pantalla).actionBuscar();
-			}
+			EdicionProducto edicionProducto = new EdicionProducto(frame,pantalla,target);
+			pantalla.setVisible(false);
+			frame.setContentPane(edicionProducto);
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
+		}catch(IDNotFoundException ex) {
+			ex.getMessage();
+			//Refresca la tabla
+			((ConsultaProducto) pantalla).actionBuscar();
 		}
 	}
 
@@ -53,11 +48,14 @@ public class OpcionesPopupProducto extends OpcionesPopup{
 						"El producto ha sido eliminado correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
-				//Refresca la tabla
-				((ConsultaProducto) pantalla).actionBuscar();
 			}catch(ClassNotFoundException | SQLException ex) {
 				ex.printStackTrace();
 				DatabaseErrorMessage.showMessageDialog(frame);
+			}catch(IDNotFoundException ex) {
+				ex.getMessage();
+			}finally {
+				//Refresca la tabla
+				((ConsultaProducto) pantalla).actionBuscar();
 			}
 		}
 	}

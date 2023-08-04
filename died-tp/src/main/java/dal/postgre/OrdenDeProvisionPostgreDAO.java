@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import dal.general.OrdenDeProvisionDAO;
 import dal.general.SucursalDAO;
 import datos.*;
+import excepciones.IDNotFoundException;
 
 public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 
@@ -131,7 +132,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	}
 
 	@Override
-	public OrdenDeProvision getByID(Integer id) throws SQLException {
+	public OrdenDeProvision getByID(Integer id) throws SQLException,IDNotFoundException {
 		OrdenDeProvision orden = null;
 		String statement =
 				"SELECT s.idsucurusal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
@@ -155,8 +156,13 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 					orden.setEstado(EstadoOrden.valueOf(rs.getString(10)));
 				}
 			}
-			orden.setProductos(this.getProductos(orden));
-			return orden;
+			if(orden!=null) {
+				orden.setProductos(this.getProductos(orden));
+				return orden;
+			}
+			else{
+				throw new IDNotFoundException();
+			}
 	}
 	
 	

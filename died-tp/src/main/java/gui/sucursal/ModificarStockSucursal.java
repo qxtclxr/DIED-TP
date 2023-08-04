@@ -15,9 +15,7 @@ import javax.swing.table.*;
 
 import datos.Producto;
 import datos.Sucursal;
-import gui.DatabaseErrorMessage;
-import gui.InvalidInputMessage;
-import gui.SyntaxValidator;
+import excepciones.IDNotFoundException;
 import gui.tabla.TablaDeDatos;
 import logica.GestorProducto;
 import logica.GestorSucursal;
@@ -250,34 +248,42 @@ public class ModificarStockSucursal extends Pantalla {
 			int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
 			Integer prodID = (Integer) tabla.getModel().getValueAt(row,0);
 			Producto target = GestorProducto.getInstance().getByID(prodID);
-			Integer stockActual = GestorSucursal.getInstance().getStock(suc, target);
-			String input = JOptionPane.showInputDialog(frame,"Ingrese el valor del stock:",stockActual);
-			if(input!=null) {
-				if(SyntaxValidator.validInteger(input)) {
-					GestorSucursal.getInstance().setStock(suc, target, Integer.parseInt(input));
-					JOptionPane.showMessageDialog(
-							frame,
-							"El stock ha sido modificado correctamente.",
-							"Datos guardados",
-							JOptionPane.INFORMATION_MESSAGE);
-					suc.setStock(GestorSucursal.getInstance().getAllStock(suc));
-					this.actionBuscar(); //Refrescar la tabla
-				}else{
-					JOptionPane.showMessageDialog(
-							frame,
-							"El stock ingresado es invalido. Intente de nuevo.",
-							"Datos ingresados invalidos",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}else {
-				/*Si el input es null es porque el usuario apreto "Cancelar"
-				 * Basicamente no se hace nada y se vuelve a como estaba.*/
-			}
+			this.modificarStockDialog(target);
 		}catch(SQLException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
+		} catch (IDNotFoundException ex) {
+			ex.getMessage();
+		}finally {
+			this.actionBuscar(); //Refrescar la tabla
 		}
 		
+	}
+	
+	public void modificarStockDialog(Producto target) throws ClassNotFoundException, SQLException {
+		Integer stockActual = GestorSucursal.getInstance().getStock(suc, target);
+		String input = JOptionPane.showInputDialog(frame,"Ingrese el valor del stock:",stockActual);
+		if(input!=null) {
+			if(SyntaxValidator.validInteger(input)) {
+				Integer inputInt = Integer.parseInt(input);
+				GestorSucursal.getInstance().setStock(suc, target, inputInt);
+				JOptionPane.showMessageDialog(
+						frame,
+						"El stock ha sido modificado correctamente.",
+						"Datos guardados",
+						JOptionPane.INFORMATION_MESSAGE);
+				suc.setStock(GestorSucursal.getInstance().getAllStock(suc));
+			}else{
+				JOptionPane.showMessageDialog(
+						frame,
+						"El stock ingresado es invalido. Intente de nuevo.",
+						"Datos ingresados invalidos",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}else {
+			/*Si el input es null es porque el usuario apreto "Cancelar"
+			 * Basicamente no se hace nada y se vuelve a como estaba.*/
+		}
 	}
 	
 	public void actionVolver(){

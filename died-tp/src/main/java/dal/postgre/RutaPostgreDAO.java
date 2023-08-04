@@ -11,6 +11,7 @@ import datos.Operatividad;
 import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
+import excepciones.IDNotFoundException;
 
 
 public class RutaPostgreDAO implements RutaDAO{
@@ -60,7 +61,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		}
 		
 	}
-	public Ruta getByID(Integer id) throws SQLException {
+	public Ruta getByID(Integer id) throws SQLException,IDNotFoundException {
 		String statement =
 				"SELECT o.idsucursal,o.nombre,o.horarioapertura,o.horariocierre,o.estado,o.tipo," +
 				"d.idsucursal,d.nombre,d.horarioapertura,d.horariocierre,d.estado,d.tipo," +
@@ -100,8 +101,10 @@ public class RutaPostgreDAO implements RutaDAO{
 				
 			}
 		}
-		
-		return ruta;
+		if(ruta!=null)
+			return ruta;
+		else
+			throw new IDNotFoundException();
 	}
 	
 	public List<Ruta> searchByAttributes(String idRuta, Sucursal origen, Sucursal destino,

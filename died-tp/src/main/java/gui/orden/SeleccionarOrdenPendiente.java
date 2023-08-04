@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import datos.OrdenDeProvision;
 import datos.Producto;
 import gui.DatabaseErrorMessage;
 import gui.InvalidInputMessage;
@@ -28,6 +29,7 @@ import gui.producto.OpcionesPopupProducto;
 import gui.tabla.ButtonCellEditor;
 import gui.tabla.ButtonCellRenderer;
 import gui.tabla.TablaDeDatos;
+import logica.GestorOrden;
 import logica.GestorProducto;
 
 public class SeleccionarOrdenPendiente extends Pantalla {
@@ -107,7 +109,7 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 	}
 	
 	public void generarData() {
-		
+		List<OrdenDeProvision> ordenesPend = GestorOrden.getInstance().getPendientes();
 	}
 	
 	public void actionEliminar() {

@@ -8,6 +8,7 @@ import dal.general.FactoryDAO;
 import dal.general.SucursalDAO;
 import datos.Ruta;
 import datos.Sucursal;
+import excepciones.IDNotFoundException;
 import datos.Operatividad;
 
 public final class GestorRuta {
@@ -96,7 +97,7 @@ public final class GestorRuta {
 			return fact.getRutaDAO().searchByAttributes(idRuta, origen, destino, estado, duracionDesdeInt, duracionHastaInt, capMaxDesdeFloat, capMaxHastaFloat);
 		
 	}
-	public Ruta getByID(Integer idruta) throws ClassNotFoundException, SQLException {
+	public Ruta getByID(Integer idruta) throws ClassNotFoundException, SQLException, IDNotFoundException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getByID(idruta);
 	}
 	public void eliminar(Ruta r) throws ClassNotFoundException, SQLException {

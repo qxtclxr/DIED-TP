@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import dal.general.SucursalDAO;
 import datos.*;
+import excepciones.IDNotFoundException;
 
 public class SucursalPostgreDAO implements SucursalDAO{
 	
@@ -50,7 +51,7 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		}
 	}
 	
-	public Sucursal getByID(Integer id) throws SQLException { //Si no existe, se devuelve null. Podria cambiarse por una exception
+	public Sucursal getByID(Integer id) throws SQLException, IDNotFoundException { //Si no existe, se devuelve null. Podria cambiarse por una exception
 		String statement = "SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo " +
 						   "FROM Sucursal " +
 						   "WHERE idsucursal = ?";
@@ -74,7 +75,10 @@ public class SucursalPostgreDAO implements SucursalDAO{
 				}
 			}
 		}
-		return suc;
+		if(suc!=null)
+			return suc;
+		else
+			throw new IDNotFoundException();
 	}
 	
 	public List<Sucursal> getPosiblesOrigenes() throws SQLException {

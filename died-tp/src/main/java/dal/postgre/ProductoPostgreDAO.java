@@ -13,6 +13,7 @@ import datos.Operatividad;
 import datos.Producto;
 import datos.Sucursal;
 import datos.TipoSucursal;
+import excepciones.IDNotFoundException;
 
 public class ProductoPostgreDAO implements ProductoDAO{
 
@@ -61,7 +62,7 @@ public class ProductoPostgreDAO implements ProductoDAO{
 	}
 
 	@Override
-	public Producto getByID(Integer id) throws SQLException {
+	public Producto getByID(Integer id) throws SQLException,IDNotFoundException {
 	
 		String statement = "SELECT idproducto, nombre, descripcion, preciounitario, pesokg " +
 				   "FROM Producto " +
@@ -87,7 +88,10 @@ public class ProductoPostgreDAO implements ProductoDAO{
 										}
 								}
 			}
-			return p;
+			if(p!=null)
+				return p;
+			else
+				throw new IDNotFoundException();
 
 	}
 	

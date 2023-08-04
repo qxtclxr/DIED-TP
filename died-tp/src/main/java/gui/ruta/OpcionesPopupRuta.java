@@ -1,7 +1,9 @@
 package gui.ruta;
 
 import datos.*;
+import excepciones.IDNotFoundException;
 import gui.*;
+import gui.producto.ConsultaProducto;
 import gui.sucursal.ConsultaSucursal;
 import gui.tabla.OpcionesPopup;
 import logica.GestorRuta;
@@ -27,6 +29,10 @@ public class OpcionesPopupRuta extends OpcionesPopup{
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
+		} catch (IDNotFoundException ex) {
+			ex.getMessage();
+			//Refresca la tabla
+			((ConsultaRuta) pantalla).actionBuscar();
 		}
 	}
 
@@ -47,11 +53,15 @@ public class OpcionesPopupRuta extends OpcionesPopup{
 						"La ruta ha sido eliminada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
-				//Refresca la tabla
-				((ConsultaRuta) pantalla).actionBuscar();
+				
 			}catch(ClassNotFoundException | SQLException ex) {
 				ex.printStackTrace();
 				DatabaseErrorMessage.showMessageDialog(frame);
+			} catch (IDNotFoundException ex) {
+				ex.getMessage();
+			}finally {
+				//Refresca la tabla
+				((ConsultaRuta) pantalla).actionBuscar();
 			}
 		}
 		

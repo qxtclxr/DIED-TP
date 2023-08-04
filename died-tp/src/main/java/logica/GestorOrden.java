@@ -9,6 +9,7 @@ import datos.Operatividad;
 import datos.OrdenDeProvision;
 import datos.Sucursal;
 import datos.TipoSucursal;
+import excepciones.IDNotFoundException;
 
 public final class GestorOrden {
 private static GestorOrden gestor;
@@ -33,7 +34,7 @@ private static GestorOrden gestor;
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getPendientes();
 	}
 	
-	public OrdenDeProvision getByID(Integer id) throws ClassNotFoundException, SQLException {
+	public OrdenDeProvision getByID(Integer id) throws ClassNotFoundException, SQLException, IDNotFoundException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getOrdenDeProvisionDAO().getByID(id);
 	}
 }

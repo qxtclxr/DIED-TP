@@ -9,6 +9,7 @@ import dal.general.SucursalDAO;
 import datos.Operatividad;
 import datos.Producto;
 import datos.Sucursal;
+import excepciones.IDNotFoundException;
 
 public class GestorProducto {
 	/* falta gestionar responsabilidades para esta clase
@@ -50,7 +51,7 @@ public class GestorProducto {
 			
 			fact.getProductoDAO().update(aux);
 		}
-	public Producto getByID(Integer id) throws ClassNotFoundException, SQLException {
+	public Producto getByID(Integer id) throws ClassNotFoundException, SQLException, IDNotFoundException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getProductoDAO().getByID(id);
 	}
 	public List<Producto> consultaPorAtributos(String idProducto, String nombre, String precioUDesde, String precioUHasta,String pesoDesde, String pesoHasta) throws ClassNotFoundException, SQLException{

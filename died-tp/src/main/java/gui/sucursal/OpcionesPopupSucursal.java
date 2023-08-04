@@ -1,6 +1,7 @@
 package gui.sucursal;
 
 import datos.*;
+import excepciones.IDNotFoundException;
 import gui.*;
 import gui.tabla.OpcionesPopup;
 import logica.GestorSucursal;
@@ -29,6 +30,9 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
+		} catch (IDNotFoundException ex) {
+			ex.getMessage();
+			((ConsultaSucursal) pantalla).actionBuscar();
 		}
 		
 	}
@@ -50,11 +54,14 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 						"La sucursal ha sido eliminada correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
-				//Refresca la tabla
-				((ConsultaSucursal) pantalla).actionBuscar();
 			}catch(ClassNotFoundException | SQLException ex) {
 				ex.printStackTrace();
 				DatabaseErrorMessage.showMessageDialog(frame);
+			} catch (IDNotFoundException ex) {
+				ex.getMessage();
+			}finally {
+				//Refresca la tabla
+				((ConsultaSucursal) pantalla).actionBuscar();
 			}
 		}
 		
@@ -71,6 +78,9 @@ public class OpcionesPopupSucursal extends OpcionesPopup{
 		}catch(ClassNotFoundException | SQLException ex) {
 			ex.printStackTrace();
 			DatabaseErrorMessage.showMessageDialog(frame);
+		} catch (IDNotFoundException ex) {
+			ex.getMessage();
+			((ConsultaSucursal) pantalla).actionBuscar();
 		}
 	}
 }

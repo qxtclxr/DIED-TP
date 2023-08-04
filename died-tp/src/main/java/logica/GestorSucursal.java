@@ -11,6 +11,8 @@ import datos.Producto;
 import datos.Ruta;
 import datos.Sucursal;
 import datos.TipoSucursal;
+import excepciones.IDNotFoundException;
+
 import java.util.stream.Collectors;
 
 import logica.grafo.Grafo;
@@ -93,7 +95,7 @@ public final class GestorSucursal {
 		
 	}
 	
-	public Sucursal getByID(Integer id) throws ClassNotFoundException, SQLException {
+	public Sucursal getByID(Integer id) throws ClassNotFoundException, SQLException, IDNotFoundException {
 		return FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getByID(id);
 	}
 	public void eliminar(Sucursal s) throws ClassNotFoundException, SQLException {
