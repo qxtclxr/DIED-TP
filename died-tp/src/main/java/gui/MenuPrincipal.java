@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import dal.postgre.Conexion;
+import dal.general.Conexion;
 import gui.orden.*;
 import gui.producto.*;
 import gui.sucursal.*;

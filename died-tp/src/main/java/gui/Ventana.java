@@ -2,7 +2,9 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import dal.postgre.Conexion;
+
+import dal.general.Conexion;
+
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

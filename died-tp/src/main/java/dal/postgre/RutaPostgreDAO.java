@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+import dal.general.Conexion;
 import dal.general.FactoryDAO;
 import dal.general.RutaDAO;
 import datos.Operatividad;

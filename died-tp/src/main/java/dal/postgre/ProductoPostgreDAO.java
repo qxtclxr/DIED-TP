@@ -8,6 +8,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import dal.general.Conexion;
 import dal.general.ProductoDAO;
 import datos.Operatividad;
 import datos.Producto;
