@@ -20,15 +20,15 @@ public class CaminoGrafoPanel extends JPanel {
 	
 	private GrafoGUI grafo;
 	private List<Ruta> camino;
-	private Integer longitud;
-	private JPanel contenedor;
+	private Integer duracion;
+	private SeleccionarCaminoOrden contenedor;
 	
-	public CaminoGrafoPanel(JPanel contenedor, GrafoGUI grafo, List<Ruta> camino, Integer longitud) {
+	public CaminoGrafoPanel(SeleccionarCaminoOrden contenedor, GrafoGUI grafo, List<Ruta> camino, Integer longitud) {
 		super();
 		this.contenedor = contenedor;
 		this.grafo = grafo;
 		this.camino = camino;
-		this.longitud = longitud;
+		this.duracion = longitud;
 		this.inicializarComponentes();
 	}
 
@@ -39,19 +39,21 @@ public class CaminoGrafoPanel extends JPanel {
 		graphComponent.setBounds(10, 11, 760, 211);
 		add(graphComponent);
 		
-		JLabel lblLongitud = new JLabel("Longitud total:");
-		lblLongitud.setFont(new Font("Tahoma", Font.BOLD, 13));
+		JLabel lblLongitud = new JLabel("Duracion total:");
+		lblLongitud.setFont(new Font("Tahoma", Font.PLAIN,13));
 		lblLongitud.setBounds(10, 233, 96, 25);
 		add(lblLongitud);
 		
-		JLabel longitudText = new JLabel(longitud + "mins");
+		JLabel longitudText = new JLabel(duracion + "mins");
 		longitudText.setForeground(new Color(64, 128, 128));
-		longitudText.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		longitudText.setBounds(112, 233, 70, 25);
+		longitudText.setFont(new Font("Tahoma", Font.BOLD, 13));
+		longitudText.setBounds(98, 233, 70, 25);
 		add(longitudText);
 		
 		JButton elegirCamino = new JButton("Elegir camino");
-		elegirCamino.setBounds(681, 235, 89, 23);
+		elegirCamino.addActionListener(act -> contenedor.actionElegirCamino());
+		elegirCamino.setFont(new Font("Tahoma", Font.BOLD, 11));
+		elegirCamino.setBounds(658, 235, 112, 23);
 		add(elegirCamino);
 	}
 	

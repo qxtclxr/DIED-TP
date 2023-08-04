@@ -30,9 +30,12 @@ public class SeleccionarCaminoOrden extends Pantalla {
 	private JComboBox<Sucursal> cmbSucursales;
 	
 	public SeleccionarCaminoOrden(JFrame frame, JPanel pantallaAnterior, OrdenDeProvision orden, List<Sucursal> sucursales) {
-		super(frame, pantallaAnterior);
+		super();
+		this.frame = frame;
+		this.pantallaAnterior = pantallaAnterior;
 		this.orden = orden;
 		this.sucursales = sucursales;
+		this.inicializarComponentes();
 	}
 	
 	@Override
@@ -61,11 +64,11 @@ public class SeleccionarCaminoOrden extends Pantalla {
 		}
 		add(cmbSucursales);
 		
-		JLabel lblSucursalDeDestino = new JLabel("Sucursal de destino");
-		lblSucursalDeDestino.setVerticalAlignment(SwingConstants.TOP);
-		lblSucursalDeDestino.setBounds(10, 90, 250, 20);
-		lblSucursalDeDestino.setFont(new Font("Tahoma", Font.BOLD, 14));
-		add(lblSucursalDeDestino);
+		JLabel lblSucursalDeOrigen = new JLabel("Sucursal de origen");
+		lblSucursalDeOrigen.setVerticalAlignment(SwingConstants.TOP);
+		lblSucursalDeOrigen.setBounds(10, 92, 250, 16);
+		lblSucursalDeOrigen.setFont(new Font("Tahoma", Font.BOLD, 13));
+		add(lblSucursalDeOrigen);
 
 		JButton btnBuscarCaminos = new JButton("Buscar caminos");
 		btnBuscarCaminos.addActionListener(act -> actionBuscarCaminos());
@@ -85,7 +88,7 @@ public class SeleccionarCaminoOrden extends Pantalla {
 		add(btnCancelar);
 		
 		selectorCaminos = new JTabbedPane(JTabbedPane.TOP);
-		selectorCaminos.setBounds(10, 187, 780, 269);
+		selectorCaminos.setBounds(10, 163, 780, 293);
 		add(selectorCaminos);
 		
 	}
@@ -99,6 +102,7 @@ public class SeleccionarCaminoOrden extends Pantalla {
 			Map<List<Ruta>,Integer> caminos = grafo.caminosEntreDosNodos(sucursalElegida, orden.getSucursalDestino());
 			Set<Entry<List<Ruta>, Integer>> caminosEntrySet = caminos.entrySet();
 			
+			selectorCaminos.removeAll();
 			int panelIndex = 1;
 			for(Entry<List<Ruta>, Integer> camino : caminosEntrySet) {
 				CaminoGrafoPanel nuevoPanel = new CaminoGrafoPanel(this,grafoGUI,camino.getKey(),camino.getValue());

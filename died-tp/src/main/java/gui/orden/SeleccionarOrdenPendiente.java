@@ -105,6 +105,8 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 		tabla.getColumnModel().getColumn(tabla.getColumnCount()-2).setCellRenderer(confirmarRenderer);
 		tabla.getColumnModel().getColumn(tabla.getColumnCount()-2).setCellEditor(confirmarEditor);
 		
+		generarData();
+		
 		panelContenedorTabla = new JScrollPane(tabla);
 		panelContenedorTabla.setBounds(10, 90, 780, 361);
 		add(panelContenedorTabla);
@@ -121,6 +123,7 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 						orden.getFecha(),
 						orden.getSucursalDestino(),
 						orden.getTiempoMaximo(),
+						orden.getEstado(),
 						orden.getProductos().size()
 				};
 				model.addRow(fila);
@@ -136,7 +139,7 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 		Integer id = (Integer) tabla.getModel().getValueAt(row,0);
 		int result = JOptionPane.showConfirmDialog(
 				frame,
-				"¿Seguro que quieres eliminar el producto?",
+				"¿Seguro que quieres eliminar la orden de provision?",
 				"Pedido de confirmacion",JOptionPane.OK_CANCEL_OPTION);
 		
 		if(result == JOptionPane.OK_OPTION) {
@@ -146,7 +149,7 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 				gestor.eliminar(target);
 				JOptionPane.showMessageDialog(
 						frame,
-						"El producto ha sido eliminado correctamente.",
+						"La orden de provision ha sido eliminado correctamente.",
 						"Datos guardados",
 						JOptionPane.INFORMATION_MESSAGE);
 			}catch(ClassNotFoundException | SQLException ex) {
@@ -167,7 +170,7 @@ public class SeleccionarOrdenPendiente extends Pantalla {
 			Integer id = (Integer) tabla.getModel().getValueAt(row,0);
 			GestorOrden gestor = GestorOrden.getInstance();
 			OrdenDeProvision target = gestor.getByID(id);
-			List<Sucursal> tienenStock = GestorSucursal.getInstance().hasStock(target.getProductos());
+			List<Sucursal> tienenStock = GestorSucursal.getInstance().hasStock(target);
 			if(!tienenStock.isEmpty()) {
 				SeleccionarCaminoOrden selectCamino = new SeleccionarCaminoOrden(frame,this,target,tienenStock);
 				this.setVisible(false);

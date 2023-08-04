@@ -216,8 +216,7 @@ public class RutaPostgreDAO implements RutaDAO{
 		
 		return result;
 	}
-
-
+	
 	private PreparedStatement getAllStatement() throws SQLException {
 		String statement =
 				"SELECT o.idsucursal,o.nombre,o.horarioapertura,o.horariocierre,o.estado,o.tipo," +
@@ -232,4 +231,5 @@ public class RutaPostgreDAO implements RutaDAO{
 		
 		return pstm;
 	}
+	
 }

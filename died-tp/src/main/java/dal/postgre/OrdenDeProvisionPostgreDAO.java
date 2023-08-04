@@ -52,7 +52,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	public List<OrdenDeProvision> getPendientes() throws SQLException {
 		List<OrdenDeProvision> ordenes = new ArrayList<>();
 		String statement =
-				"SELECT s.idsucurusal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
+				"SELECT s.idsucursal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
 				"o.idorden,o.fecha,o.tiempomaximo,o.estadoorden "+
 				"FROM ordendeprovision o, Sucursal s "+ 
 				"WHERE o.sucursaldestino = s.idsucursal AND o.estadoorden = 'PENDIENTE'";
@@ -71,6 +71,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 				orden.setFecha(rs.getDate(8));
 				orden.setTiempoMaximo(rs.getInt(9));
 				orden.setEstado(EstadoOrden.valueOf(rs.getString(10)));
+				orden.setSucursalDestino(suc);
 				ordenes.add(orden);
 			}
 		}
@@ -142,7 +143,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 	public OrdenDeProvision getByID(Integer id) throws SQLException,IDNotFoundException {
 		OrdenDeProvision orden = null;
 		String statement =
-				"SELECT s.idsucurusal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
+				"SELECT s.idsucursal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
 				"o.idorden,o.fecha,o.tiempomaximo,o.estadoorden "+
 				"FROM ordendeprovision o, Sucursal s "+ 
 				"WHERE o.sucursaldestino = s.idsucursal";
@@ -161,6 +162,7 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 					orden.setFecha(rs.getDate(8));
 					orden.setTiempoMaximo(rs.getInt(9));
 					orden.setEstado(EstadoOrden.valueOf(rs.getString(10)));
+					orden.setSucursalDestino(suc);
 				}
 			}
 			if(orden!=null) {

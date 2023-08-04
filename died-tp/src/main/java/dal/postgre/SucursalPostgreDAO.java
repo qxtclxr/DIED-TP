@@ -302,9 +302,10 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return pstm;
 	}
 	
-	public List<Sucursal> hasStock(Map<Integer,Integer> stockRequired) throws SQLException{
+	public List<Sucursal> hasStock(OrdenDeProvision ord) throws SQLException{
+		Map<Integer,Integer> stockRequired = ord.getProductos();
 		List<Sucursal> sucursales = new ArrayList<>();
-		try(PreparedStatement pstm = hasStockStatement(stockRequired);
+		try(PreparedStatement pstm = hasStockStatement(ord);
 			ResultSet rs = pstm.executeQuery()){
 			while(rs.next()) {
 				sucursales.add(new Sucursal(
@@ -322,12 +323,12 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		return sucursales;
 	}
 	
-	private PreparedStatement hasStockStatement(Map<Integer,Integer> stockRequired) throws SQLException {
-		Set<Entry<Integer,Integer>> stockEntry = stockRequired.entrySet();
+	private PreparedStatement hasStockStatement(OrdenDeProvision ord) throws SQLException {
+		Set<Entry<Integer,Integer>> stockEntry = ord.getProductos().entrySet();
 		String statement =
 				"SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo "
 				+ "FROM Sucursal s "
-				+ "WHERE (SELECT COUNT(DISTINCT idproducto) FROM Stock st WHERE s.idsucursal = st.idsucursal AND (0=1";
+				+ "WHERE s.idsucursal <> ? AND (SELECT COUNT(DISTINCT idproducto) FROM Stock st WHERE s.idsucursal = st.idsucursal AND (0=1";
 		for(Entry<Integer,Integer> entry : stockEntry) {
 			statement += " OR (idproducto = ? AND cantidad >= ?)";
 		}
@@ -337,15 +338,42 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		
 		int paramIndex = 1;
 		
+		pstm.setInt(paramIndex++,ord.getSucursalDestino().getID());
+		
 		for(Entry<Integer,Integer> entry : stockEntry) {
 			pstm.setInt(paramIndex++,entry.getKey());
 			pstm.setInt(paramIndex++,entry.getValue());
 		}
 		
 		//El ultimo ? es la cantidad de productos distintos que tiene que haber en stock
-		pstm.setInt(paramIndex,stockRequired.size());
+		pstm.setInt(paramIndex,ord.getProductos().size());
 		
 		return pstm;
+	}
+	
+	public boolean esFuente(Sucursal suc) throws SQLException {
+		boolean esfuente;
+		String statement = "SELECT * FROM Ruta WHERE destino = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setInt(1,suc.getID());
+			try(ResultSet rs = pstm.executeQuery()){
+				esfuente = !rs.next();
+			}
+		}
+		return esfuente;
+				
+	}
+	
+	public boolean esSumidero(Sucursal suc) throws SQLException {
+		boolean essumidero;
+		String statement = "SELECT * FROM Ruta WHERE origen = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setInt(1,suc.getID());
+			try(ResultSet rs = pstm.executeQuery()){
+				essumidero = !rs.next();
+			}
+		}
+		return essumidero;
 	}
 
 }

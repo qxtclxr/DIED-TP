@@ -17,11 +17,6 @@ import com.mxgraph.view.mxGraph;
 
 public class GrafoGUI {
 	
-	private class LabeledRuta{
-		private Ruta ruta;
-		public LabeledRuta(Ruta ruta) {this.ruta = ruta;}
-		public String toString() {return ruta.getDuracion() + "mins";}
-	}
 	private Grafo grafo;
 	private DirectedMultigraph<Sucursal,LabeledRuta> jgraphtGrafo;
 	public static final String FILL_NO_OPERATIVA = "#878787";
@@ -106,7 +101,7 @@ public class GrafoGUI {
 		
 		for (Object cell : graph.getChildEdges(graph.getDefaultParent())) {
 			LabeledRuta edge = (LabeledRuta) graph.getModel().getValue(cell);
-			if (edge.ruta.getEstado().equals(Operatividad.NO_OPERATIVA)) {
+			if (edge.getRuta().getEstado().equals(Operatividad.NO_OPERATIVA)) {
 					graph.setCellStyle(edgeStyle, new Object[]{cell});
 			}
 		}
@@ -138,7 +133,7 @@ public class GrafoGUI {
 			if (!rutaInPath.contains(edge)) {
 					graph.setCellStyle(edgeStyle, new Object[]{cell});
 			}
-		}		
+		}	
 	}
 	
 }

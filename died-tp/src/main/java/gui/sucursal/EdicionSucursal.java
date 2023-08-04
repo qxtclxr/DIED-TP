@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 import datos.*;
+import excepciones.InvalidTipoSucursalException;
 import gui.DatabaseErrorMessage;
 import gui.InvalidInputMessage;
 import logica.GestorSucursal;
@@ -73,6 +74,8 @@ public class EdicionSucursal extends FormularioSucursal {
 			}catch (SQLException | ClassNotFoundException ex) {
 				ex.printStackTrace();
 				DatabaseErrorMessage.showMessageDialog(frame);
+			} catch (InvalidTipoSucursalException ex) {
+				ex.getMessage();
 			}finally {
 				this.setVisible(false);
 				pantallaAnterior.setVisible(true);

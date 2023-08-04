@@ -1,6 +1,9 @@
 package datos;
 
+import java.util.Objects;
+
 public class Ruta implements Entidad{
+
 	private Integer idRuta;
 	private Sucursal origen;
 	private Sucursal destino;
@@ -38,7 +41,6 @@ public class Ruta implements Entidad{
 		this.duracion = duracion;
 		this.capacidadMaxima = capacidadMaxima;
 	}
-	
 	
 	
 	public Integer getID(){
@@ -100,5 +102,21 @@ public class Ruta implements Entidad{
 		return this.origen.getNombre() + " -> " + this.destino.getNombre() + " (" + this.getID() + ", " + this.getDuracion() + "mins)";
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(idRuta);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ruta other = (Ruta) obj;
+		return Objects.equals(idRuta, other.idRuta);
+	}
 	
 }

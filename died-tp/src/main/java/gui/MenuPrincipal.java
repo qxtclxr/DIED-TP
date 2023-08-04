@@ -205,7 +205,7 @@ public class MenuPrincipal extends JPanel {
 		menuOrdenesDeProvision.add(lblGenerarUnaOrden);
 		
 		JButton btnConfirmarUnaOrden = new JButton("Confirmar una orden de produccion");
-		btnGenerarUnaOrden.addActionListener(act -> actionConfirmarOrden());
+		btnConfirmarUnaOrden.addActionListener(act -> actionConfirmarOrden());
 		btnConfirmarUnaOrden.setHorizontalAlignment(SwingConstants.LEFT);
 		btnConfirmarUnaOrden.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnConfirmarUnaOrden.setBounds(10, 79, 755, 23);
