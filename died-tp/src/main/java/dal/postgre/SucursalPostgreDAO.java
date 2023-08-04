@@ -301,5 +301,39 @@ public class SucursalPostgreDAO implements SucursalDAO{
 		
 		return pstm;
 	}
+	
+	public List<Sucursal> hasStock(Map<Integer,Integer> stockRequired){
+		List<Sucursal> sucursales = new ArrayList<>();
+		
+		
+		
+		return null;
+	}
+	
+	private PreparedStatement hasStockStatement(Map<Integer,Integer> stockRequired) throws SQLException {
+		Set<Entry<Integer,Integer>> stockEntry = stockRequired.entrySet();
+		String statement =
+				"SELECT idsucursal,nombre,horarioapertura,horariocierre,estado,tipo "
+				+ "FROM Sucursal s "
+				+ "WHERE (SELECT COUNT(DISTINCT idproducto) FROM Stock st WHERE s.idsucursal = st.idsucursal AND (0=1";
+		for(Entry<Integer,Integer> entry : stockEntry) {
+			statement += " OR (idproducto = ? AND cantidad >= ?)";
+		}
+		statement += ")) = ?";
+		
+		PreparedStatement pstm = conn.prepareStatement(statement);
+		
+		int paramIndex = 1;
+		
+		for(Entry<Integer,Integer> entry : stockEntry) {
+			pstm.setInt(paramIndex++,entry.getKey());
+			pstm.setInt(paramIndex++,entry.getValue());
+		}
+		
+		//El ultimo ? es la cantidad de productos distintos que tiene que haber en stock
+		pstm.setInt(paramIndex,stockRequired.size());
+		
+		return pstm;
+	}
 
 }

@@ -76,6 +76,7 @@ public class GrafoGUI {
 		jgxAdapter.setCellsSelectable(false);
 		
 		mxHierarchicalLayout layout = new mxHierarchicalLayout(jgxAdapter);
+		System.out.println(layout.getOrientation());
 		layout.execute(jgxAdapter.getDefaultParent());
 			
 		mxGraphComponent graphComponent = new mxGraphComponent(jgxAdapter);
