@@ -6,21 +6,16 @@ import gui.InvalidInputMessage;
 import gui.Pantalla;
 import gui.SyntaxValidator;
 import gui.tabla.TablaDeDatos;
-import logica.GestorRuta;
 import logica.GestorSucursal;
-
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.ParseException;
 
 public class ConsultaSucursal extends Pantalla {
 	

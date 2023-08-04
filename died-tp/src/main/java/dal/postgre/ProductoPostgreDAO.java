@@ -4,22 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-
 import dal.general.Conexion;
 import dal.general.ProductoDAO;
-import datos.Operatividad;
 import datos.Producto;
-import datos.Sucursal;
-import datos.TipoSucursal;
 import excepciones.IDNotFoundException;
 
 public class ProductoPostgreDAO implements ProductoDAO{
 
 	private Connection conn;
-	private static int BATCH_LIMIT = 1000;
 	
 	public ProductoPostgreDAO() throws ClassNotFoundException, SQLException {
 		super();

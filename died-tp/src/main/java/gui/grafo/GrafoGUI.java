@@ -10,8 +10,6 @@ import org.jgrapht.ext.JGraphXAdapter;
 import com.mxgraph.layout.hierarchical.*;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
-import com.mxgraph.util.mxPoint;
-import com.mxgraph.util.mxRectangle;
 import com.mxgraph.view.mxGraph;
 
 

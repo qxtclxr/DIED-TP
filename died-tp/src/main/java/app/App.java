@@ -1,15 +1,7 @@
 package app;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
-
-import datos.Operatividad;
-import datos.Ruta;
-import datos.Sucursal;
-import datos.TipoSucursal;
 import gui.*;
-import logica.grafo.Grafo;
+
 
 public class App {
 

@@ -3,14 +3,11 @@ package gui.sucursal;
 import datos.*;
 import gui.Pantalla;
 import gui.SyntaxValidator;
-import logica.*;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
-
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 
 public abstract class FormularioSucursal extends Pantalla {
 	protected JTextField txtNombre;

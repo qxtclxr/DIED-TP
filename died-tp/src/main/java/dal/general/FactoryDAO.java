@@ -1,6 +1,5 @@
 package dal.general;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import dal.postgre.PostgreFactoryDAO;

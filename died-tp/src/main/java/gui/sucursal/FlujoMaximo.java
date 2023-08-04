@@ -4,24 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.Set;
 import datos.*;
 import gui.*;
-import gui.grafo.*;
 import logica.*;
-import logica.grafo.*;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import javax.swing.JTabbedPane;
 
 public class FlujoMaximo extends Pantalla {
 	

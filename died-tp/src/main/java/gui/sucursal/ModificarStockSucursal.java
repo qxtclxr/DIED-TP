@@ -1,18 +1,12 @@
 package gui.sucursal;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.table.*;
-
 import datos.Producto;
 import datos.Sucursal;
 import excepciones.IDNotFoundException;
@@ -24,7 +18,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Font;
-
 
 
 public class ModificarStockSucursal extends Pantalla {

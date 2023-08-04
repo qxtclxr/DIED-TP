@@ -1,7 +1,6 @@
 package gui.tabla;
 
 import javax.swing.*;
-import datos.Entidad;
 
 public abstract class OpcionesPopup extends JPopupMenu{
 	

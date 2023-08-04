@@ -3,15 +3,10 @@ package gui;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
-import dal.general.Conexion;
 import gui.orden.*;
 import gui.producto.*;
 import gui.sucursal.*;
 import gui.ruta.*;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MenuPrincipal extends JPanel {
 	

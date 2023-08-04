@@ -3,7 +3,6 @@ package dal.postgre;
 import java.sql.*;
 import java.util.*;
 import java.util.Map.Entry;
-
 import dal.general.Conexion;
 import dal.general.SucursalDAO;
 import datos.*;
@@ -304,7 +303,6 @@ public class SucursalPostgreDAO implements SucursalDAO{
 	}
 	
 	public List<Sucursal> hasStock(OrdenDeProvision ord) throws SQLException{
-		Map<Integer,Integer> stockRequired = ord.getProductos();
 		List<Sucursal> sucursales = new ArrayList<>();
 		try(PreparedStatement pstm = hasStockStatement(ord);
 			ResultSet rs = pstm.executeQuery()){

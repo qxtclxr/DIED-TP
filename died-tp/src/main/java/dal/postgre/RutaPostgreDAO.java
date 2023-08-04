@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-
 import dal.general.Conexion;
-import dal.general.FactoryDAO;
 import dal.general.RutaDAO;
 import datos.Operatividad;
 import datos.Ruta;
@@ -19,7 +17,6 @@ import excepciones.IDNotFoundException;
 public class RutaPostgreDAO implements RutaDAO{
 
 	private Connection conn;
-	private static int BATCH_LIMIT = 1000;
 	
 	public RutaPostgreDAO() throws ClassNotFoundException, SQLException {
 		super();

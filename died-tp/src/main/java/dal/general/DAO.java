@@ -1,7 +1,6 @@
 package dal.general;
 
 import java.sql.*;
-import java.util.List;
 
 import excepciones.IDNotFoundException;
 

@@ -3,7 +3,6 @@ package gui.tabla;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.table.*;
 
 public class SpinnerCellEditor extends DefaultCellEditor
     {
