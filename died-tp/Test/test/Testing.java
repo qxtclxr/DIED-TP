@@ -45,17 +45,45 @@ public class Testing{
 	     g.addVertice(centro);
 	     g.addVertice(puerto);
 	     
-	   //  System.out.println(g.flujoMaximo(puerto,centro));
-	
+	     //System.out.println(g.flujoMaximo(puerto,centro));
+	     
+	     Grafo g2 = new Grafo();
+	     Sucursal puerto2 = new Sucursal(1, "Puerto", null, null, Operatividad.OPERATIVA, TipoSucursal.FUENTE);
+	     Sucursal centro2 = new Sucursal(5, "Centro", null, null, Operatividad.OPERATIVA, TipoSucursal.SUMIDERO);
+		 Sucursal sucursal12 = new Sucursal(3, "Esperanza", null, null, Operatividad.OPERATIVA, TipoSucursal.COMERCIAL);
+	     Sucursal sucursal22 = new Sucursal(4, "Rafaela", null, null, Operatividad.OPERATIVA, TipoSucursal.COMERCIAL);
+		 Sucursal sucursal32 = new Sucursal(2, "Parana", null, null, Operatividad.OPERATIVA, TipoSucursal.COMERCIAL);
+		 Sucursal sucursal42 = new Sucursal(6, "Santa Fe", null, null, Operatividad.OPERATIVA, TipoSucursal.COMERCIAL);
+		 
+	     Ruta ruta12 = new Ruta(1, puerto2, sucursal22, Operatividad.OPERATIVA, 120, 500.0f);
+	     Ruta ruta22 = new Ruta(2, sucursal12, sucursal32, Operatividad.OPERATIVA, 120, 250.0f);
+	     Ruta ruta32 = new Ruta(3, sucursal22, sucursal32, Operatividad.OPERATIVA, 120, 300.0f);
+	     Ruta ruta42 = new Ruta(4, sucursal22, sucursal42, Operatividad.OPERATIVA, 120, 100.0f);
+	     Ruta ruta52 = new Ruta(5, sucursal32, sucursal42, Operatividad.OPERATIVA, 120, 300.0f);
+	     Ruta ruta62 = new Ruta(6, sucursal42, centro2, Operatividad.OPERATIVA, 120, 250.0f);
+	     g2.addArista(ruta12);
+	     g2.addArista(ruta22);
+	     g2.addArista(ruta32);
+	     g2.addArista(ruta42);
+	     g2.addArista(ruta52);
+	     g2.addArista(ruta62);
+	     
+	     g2.addVertice(sucursal12);
+	     g2.addVertice(sucursal22);
+	     g2.addVertice(sucursal32);
+	     g2.addVertice(sucursal42);	
+	     g2.addVertice(centro2);
+	     g2.addVertice(puerto2);
+	   
 	     Assertions.assertEquals(250f, g.flujoMaximo(puerto,centro));
 	     
 	     //Se deshabilitan rutas
 	     
-	     ruta2.setEstado(Operatividad.NO_OPERATIVA);
-	     ruta5.setEstado(Operatividad.NO_OPERATIVA);
-	     
-	     
-	     Assertions.assertEquals(100f, g.flujoMaximo(centro, puerto));
+	     ruta22.setEstado(Operatividad.NO_OPERATIVA);
+	     ruta52.setEstado(Operatividad.NO_OPERATIVA);
+	     // System.out.println(g2.flujoMaximo(puerto2,centro2));
+	    // System.out.println(g.flujoMaximo(puerto, centro));
+	     Assertions.assertEquals(100f, g2.flujoMaximo(puerto,centro));
 	}
 	
 	
@@ -88,20 +116,29 @@ public class Testing{
 	     g.addVertice(sucursal4);	
 
 	     
-	     ArrayList<Ruta> r1 = new ArrayList<>(Arrays.asList(ruta1,ruta2,ruta3));
-	     Map<List<Ruta>,Integer> esperado1 = new HashMap<>();
+	     List<Ruta> r1 = new ArrayList<Ruta>(Arrays.asList(ruta1,ruta2,ruta3));
+	     Map<List<Ruta>,Integer> esperado1 = new HashMap<List<Ruta>,Integer>();
 	     
 	     esperado1.put(r1, 30);
+	     /*
 	     
+	     for(List<Ruta> r:esperado1.keySet()) {
+	    	 System.out.println("Camino:"+r+" duracion:"+esperado1.get(r));
+	     }
+	     for(List<Ruta> r:g.caminosEntreDosNodos(sucursal1, sucursal4).keySet()) {
+	    	 System.out.println("Camino:"+r+" duracion:"+g.caminosEntreDosNodos(sucursal1, sucursal4).get(r));
+	     }
+	     
+	     */
 	     
 	     Assertions.assertEquals(esperado1 , g.caminosEntreDosNodos(sucursal1, sucursal4) );
 	     
 	     ruta2.setEstado(Operatividad.NO_OPERATIVA);
 	     
-	     ArrayList<Ruta> r2 = new ArrayList<>();
+	     
 	     Map<List<Ruta>,Integer> esperado2 = new HashMap<>();
 	     
-	     esperado2.put(r2, 0);
+	     
 	     Assertions.assertEquals(esperado2 , g.caminosEntreDosNodos(sucursal1, sucursal4) );
 	     
 		
