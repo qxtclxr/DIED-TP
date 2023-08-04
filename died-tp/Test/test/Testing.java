@@ -45,8 +45,9 @@ public class Testing{
 	     g.addVertice(centro);
 	     g.addVertice(puerto);
 	     
+	   //  System.out.println(g.flujoMaximo(puerto,centro));
 	
-	     Assertions.assertEquals(250f, g.flujoMaximo(centro, puerto));
+	     Assertions.assertEquals(250f, g.flujoMaximo(puerto,centro));
 	     
 	     //Se deshabilitan rutas
 	     

@@ -142,7 +142,7 @@ public final class GestorSucursal {
 		Grafo g=new Grafo();
 		g.addArista(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getRutaDAO().getAll());
 		g.addVertice(FactoryDAO.getFactory(FactoryDAO.POSTGRE_FACTORY).getSucursalDAO().getAll());
-		return g.flujoMaximo1(origen, destino);
+		return g.flujoMaximo(origen, destino);
 	}
 	public Map<Sucursal,Double> pageRank() throws ClassNotFoundException, SQLException{
 		Grafo g=new Grafo();

@@ -116,7 +116,7 @@ public class Grafo {
 		return;
 	}
 	
-	public Float flujoMaximo1(Sucursal inicio, Sucursal fin) {
+	public Float flujoMaximo(Sucursal inicio, Sucursal fin) {
 		ArrayList<Ruta> copiaAristas = new ArrayList<>();
 		Collections.copy(aristas,copiaAristas);
 		
@@ -124,20 +124,20 @@ public class Grafo {
 		
 		HashSet<Sucursal> visitados = new HashSet<>();
 		visitados.add(inicio);
-		Float flujoEnCamino = flujoMaximo1(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
+		Float flujoEnCamino = flujoMaximo(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
 		
 		while(flujoEnCamino != null){
 			flujoMax += flujoEnCamino;
 			visitados = new HashSet<>();
 			visitados.add(inicio);
 			flujoEnCamino = Float.MAX_VALUE;
-			flujoEnCamino = flujoMaximo1(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
+			flujoEnCamino = flujoMaximo(inicio,fin,new ArrayList<Ruta>(),visitados,Float.MAX_VALUE);
 		}
 		
 		return flujoMax;
 	}
 	
-	public Float flujoMaximo1(Sucursal actual, Sucursal fin, List<Ruta> caminoActual, HashSet<Sucursal> visitados, float flujoEnCamino) {
+	public Float flujoMaximo(Sucursal actual, Sucursal fin, List<Ruta> caminoActual, HashSet<Sucursal> visitados, float flujoEnCamino) {
 		
 		if(actual.equals(fin)) {
 			for (Ruta ruta : caminoActual) {
@@ -160,7 +160,7 @@ public class Grafo {
 				//Copia del set visitados
 				HashSet<Sucursal> visitadosNuevo = (HashSet<Sucursal>) visitados.stream().collect(Collectors.toSet());
 				visitadosNuevo.add(nodoNuevo);
-				Float result = flujoMaximo1(nodoNuevo,fin,caminoNuevo,visitadosNuevo,Float.min(flujoEnCamino,rut.getCapacidadMaxima()));
+				Float result = flujoMaximo(nodoNuevo,fin,caminoNuevo,visitadosNuevo,Float.min(flujoEnCamino,rut.getCapacidadMaxima()));
 				if(result != null) return result;
 			}
 		}
@@ -168,6 +168,7 @@ public class Grafo {
 		return null;
 	}
 	
+	/*
 	public float flujoMaximo(Sucursal origen, Sucursal destino) {
 		float flujoMaximo= 0;
 		List<Sucursal> copiaNodos =this.vertices.stream().collect(Collectors.toList());
@@ -199,6 +200,7 @@ public class Grafo {
 		}
 		return flujoMax;
 	}
+	*/
 	
 	
 	public List<Sucursal> augmentingBFS(Sucursal inicio,Sucursal fin){
