@@ -8,8 +8,7 @@ import org.apache.commons.math3.linear.*;
 public class Grafo {
 	private List<Sucursal> vertices;
 	private List<Ruta> aristas;
-	private static final int ITERACIONES_PAGERANK = 100;
-	private static final Double ERROR_CUADRATICO=1*Math.pow(10, -6);
+	private static final int ITERACIONES_PAGERANK = 2500;
 	
 	public Grafo() {
 		this.vertices = new ArrayList<Sucursal>();
@@ -202,8 +201,22 @@ public class Grafo {
 		}
 		return flujoMax;
 	}
-	*/
 	
+	private List<Ruta> reconstruirCaminoNoNulo(List<Sucursal> listaNodos){
+		List<Ruta> result=new ArrayList<Ruta>();
+		int i=0; 
+		int max=listaNodos.size();
+		for(i=0;i<max-1;i++) {
+			Sucursal actual=listaNodos.get(i);
+			List<Ruta> salientes=this.rutasSalientes(actual);
+			int m=0;
+			while(!(salientes.get(m).getDestino().equals(listaNodos.get(i+1)) && salientes.get(m).getCapacidadMaxima()>0) &&  m<salientes.size())
+				m++;
+			result.add(salientes.get(m));
+			
+		}
+		return result;
+	}
 	
 	public List<Sucursal> augmentingBFS(Sucursal inicio,Sucursal fin){
 		List<Sucursal> resultado = new ArrayList<Sucursal>();
@@ -231,6 +244,8 @@ public class Grafo {
 		//System.out.println(resultado);
 		return null;
  	}
+	*/
+	
 	private List<Sucursal> getNeighbourhood(Sucursal unNodo){
 		List<Sucursal> salida = new ArrayList<Sucursal>();
 		for(Ruta enlace : this.aristas){
@@ -239,22 +254,6 @@ public class Grafo {
 			}
 		}
 		return salida;
-	}
-	
-	private List<Ruta> reconstruirCaminoNoNulo(List<Sucursal> listaNodos){
-		List<Ruta> result=new ArrayList<Ruta>();
-		int i=0; 
-		int max=listaNodos.size();
-		for(i=0;i<max-1;i++) {
-			Sucursal actual=listaNodos.get(i);
-			List<Ruta> salientes=this.rutasSalientes(actual);
-			int m=0;
-			while(!(salientes.get(m).getDestino().equals(listaNodos.get(i+1)) && salientes.get(m).getCapacidadMaxima()>0) &&  m<salientes.size())
-				m++;
-			result.add(salientes.get(m));
-			
-		}
-		return result;
 	}
 	
 	public Map<Sucursal,Double> pageRank(){

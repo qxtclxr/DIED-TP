@@ -176,10 +176,11 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 				"SELECT s.idsucursal,s.nombre,s.horarioapertura,s.horariocierre,s.estado,s.tipo,"+
 				"o.idorden,o.fecha,o.tiempomaximo,o.estadoorden "+
 				"FROM ordendeprovision o, Sucursal s "+ 
-				"WHERE o.sucursaldestino = s.idsucursal";
-		try(PreparedStatement pstm = conn.prepareStatement(statement);
-				ResultSet rs = pstm.executeQuery();){
-				while(rs.next()) {
+				"WHERE o.sucursaldestino = s.idsucursal AND o.idorden = ?";
+		try(PreparedStatement pstm = conn.prepareStatement(statement);){
+			pstm.setInt(1,id);
+			try(ResultSet rs = pstm.executeQuery();){
+				if(rs.next()) {
 					Sucursal suc = new Sucursal();
 					suc.setID(rs.getInt(1));
 					suc.setNombre(rs.getString(2));
@@ -195,13 +196,14 @@ public class OrdenDeProvisionPostgreDAO implements OrdenDeProvisionDAO  {
 					orden.setSucursalDestino(suc);
 				}
 			}
-			if(orden!=null) {
-				orden.setProductos(this.getProductos(orden));
-				return orden;
-			}
-			else{
-				throw new IDNotFoundException();
-			}
+		}
+		if(orden!=null) {
+			orden.setProductos(this.getProductos(orden));
+			return orden;
+		}
+		else{
+			throw new IDNotFoundException();
+		}
 	}
 	
 	
