@@ -177,7 +177,7 @@ public class RutaPostgreDAO implements RutaDAO{
 			if(capacMaxDesde != null) pstm.setFloat(paramIndex++,capacMaxDesde);
 			else pstm.setFloat(paramIndex++,-1);
 			if(capacMaxHasta != null) pstm.setFloat(paramIndex++,capacMaxHasta);
-			else pstm.setString(paramIndex++,"inf");
+			else pstm.setFloat(paramIndex++,Float.MAX_VALUE);
 		}
 		return pstm;
 	}
