@@ -130,13 +130,13 @@ public class ProductoPostgreDAO implements ProductoDAO{
 			if(precioUDesdeF != null) pstm.setFloat(paramIndex++,precioUDesdeF);
 			else pstm.setFloat(paramIndex++,-1);
 			if(precioUHastaF != null) pstm.setFloat(paramIndex++,precioUHastaF);
-			else pstm.setString(paramIndex++,"inf");
+			else pstm.setFloat(paramIndex++,Float.MAX_VALUE);
 		}
 		if(pesoDesdeF != null || pesoHastaF != null) {
 			if(pesoDesdeF != null) pstm.setFloat(paramIndex++,pesoDesdeF);
 			else pstm.setFloat(paramIndex++,-1);
 			if(pesoHastaF != null) pstm.setFloat(paramIndex++,pesoHastaF);
-			else pstm.setString(paramIndex++,"inf");
+			else pstm.setFloat(paramIndex++,Float.MAX_VALUE);
 		}
 			
 			
